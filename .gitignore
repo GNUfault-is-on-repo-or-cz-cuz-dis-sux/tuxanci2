@@ -1,17 +1,1 @@
-# build directories
 build/
-build_client/
-build_server/
-
-# documentation build
-doc/
-
-# temporary folder
-tmp/
-
-# core dumps
-core
-core.*
-
-# backup files
-*~
