@@ -7,8 +7,8 @@ void windowInit(int w, int h, int fps, const char* title) {
     InitWindow(w, h, title);
     SetTargetFPS(fps);
 
-    if (FileExists("fonts/font.ttf")) {
-        gFont = LoadFont("fonts/font.ttf");
+    if (FileExists("common/fonts/font.ttf")) {
+        gFont = LoadFont("common/fonts/font.ttf");
     }
 }
 

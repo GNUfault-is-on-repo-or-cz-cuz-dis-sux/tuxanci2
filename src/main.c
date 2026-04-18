@@ -16,6 +16,7 @@ int main(void) {
     
     windowInit(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_FPS, WINDOW_TITLE);
 
+    SetAudioStreamBufferSizeDefault(8192);
     InitAudioDevice();
 
     // Main loop

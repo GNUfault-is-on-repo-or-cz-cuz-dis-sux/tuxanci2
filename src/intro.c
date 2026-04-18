@@ -1,15 +1,15 @@
 #include "window.h"
 #include "screen.h"
 
-Sound noise;
+Music noise;
 double introStartTime = 0;
 
 void setupIntro(void) {
-    noise = LoadSound("intro/sounds/noise.wav");
+    noise = LoadMusicStream("intro/sounds/noise.ogg");
 }
 
 void enterIntro(void) {
-    PlaySound(noise);
+    PlayMusicStream(noise);
     introStartTime = GetTime();
 }
 
@@ -18,11 +18,13 @@ void drawIntro(void) {
 }
 
 void updateIntro(void) {
-    if (GetTime() - introStartTime >= 2.0) {
+    UpdateMusicStream(noise);
+    
+    if (GetTime() - introStartTime >= GetMusicTimeLength(noise)) {
         currentScreen = MAINMENU;
     }
 }
 
 void destroyIntro(void) {
-    UnloadSound(noise);
+    UnloadMusicStream(noise);
 }

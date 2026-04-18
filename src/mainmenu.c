@@ -1,21 +1,27 @@
 #include "window.h"
 
+Music bgm;
+Texture2D bg;
+
 void setupMainmenu(void) {
-    // Code here
+    bgm = LoadMusicStream("menu/music/menu.ogg");
+    bg = LoadTexture("menu/images/menu.png");
 }
 
 void drawMainmenu(void) {
-    // Code here
+    float scale = (float)GetScreenWidth() / bg.width;
+    DrawTextureEx(bg, (Vector2){ 0, 0 }, 0.0f, scale, WHITE);
 }
 
 void enterMainmenu(void) {
-    // Code here
+    PlayMusicStream(bgm);
 }
 
 void updateMainmenu(void) {
-    // Code here
+    UpdateMusicStream(bgm);
 }
 
 void destroyMainmenu(void) {
-    // Code here
+    UnloadMusicStream(bgm);
+    UnloadTexture(bg);
 }
