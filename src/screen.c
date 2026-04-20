@@ -3,6 +3,9 @@
 #include "intro.h"
 #include "mainmenu.h"
 
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+
 GameScreen currentScreen = INTRO;
 
 void screenDraw(void) {
