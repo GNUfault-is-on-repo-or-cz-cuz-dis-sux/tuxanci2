@@ -13,7 +13,7 @@ file(GLOB_RECURSE SOURCES "src/*.c" "src/*.cpp")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE include ../raygui/src)
+target_include_directories(${PROJECT_NAME} PRIVATE include raygui/src)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib m)
 
