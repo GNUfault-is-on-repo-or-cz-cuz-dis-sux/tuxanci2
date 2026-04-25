@@ -13,7 +13,7 @@ void screenDraw(void) {
         case INTRO: {
             static bool introRan = false;
             
-            windowClear();
+            ClearBackground(BLACK);
 
             if (!introRan) {
                 setupIntro();
@@ -27,7 +27,7 @@ void screenDraw(void) {
         case MAINMENU: {
             static bool mainmenuRan = false;
             
-            windowClear();
+            ClearBackground(BLACK);
             
             if (!mainmenuRan) {
                 setupMainmenu();

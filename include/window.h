@@ -1,16 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "raylib.h"
-
-#define WINDOW_WIDTH          1024
-#define WINDOW_HEIGHT         768
-#define WINDOW_FPS            60
-#define WINDOW_TITLE          "Tuxanci 2"
-
-void windowInit(int w, int h, int fps, const char* title);
-void windowDestroy(void);
-void windowClear(void);
-void DrawTextCentered(const char *text, int fontSize, Color color);
+typedef struct Font Font;
+extern Font gFont;
 
 #endif // WINDOW_H

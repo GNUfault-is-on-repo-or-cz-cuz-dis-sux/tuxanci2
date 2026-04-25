@@ -1,3 +1,4 @@
+#include "raylib.h"
 #include "window.h"
 
 Music bgm;

@@ -1,20 +1,29 @@
-#include <stdio.h>
-#include <unistd.h>
+#include "raylib.h"
 #include "window.h"
 #include "error.h"
 #include "screen.h"
 #include "intro.h"
 
-void cleanup(void) {
-    windowDestroy();
-    destroyIntro();
-}
+#define WINDOW_WIDTH          1024
+#define WINDOW_HEIGHT         768
+#define WINDOW_FPS            60
+#define WINDOW_TITLE          "Tuxanci 2"
+
+Font gFont;
 
 int main(void) {
     // temporary fix
-    chdir("data");
+    ChangeDirectory("data");
     
-    windowInit(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_FPS, WINDOW_TITLE);
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
+    SetTargetFPS(WINDOW_FPS);
+
+    if (FileExists("common/fonts/font.ttf")) {
+        gFont = LoadFont("common/fonts/font.ttf");
+    } else {
+        TraceLog(LOG_ERROR, "common/fonts/font.ttf not found!\n");
+        return 1;
+    }
 
     SetAudioStreamBufferSizeDefault(8192);
     InitAudioDevice();
@@ -24,12 +33,14 @@ int main(void) {
         screenUpdate();
         
         BeginDrawing();
-            windowClear();
+            ClearBackground(BLACK);
             screenDraw();
         EndDrawing();
     }
 
-    cleanup();
+    UnloadFont(gFont);
+    CloseWindow();
+    destroyIntro();
 
     return 0;
 }
