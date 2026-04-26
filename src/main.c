@@ -11,6 +11,10 @@
 
 Font gFont;
 
+Camera3D camera = {
+    0
+};
+
 int main(void) {
     // temporary fix
     ChangeDirectory("data");
@@ -30,11 +34,16 @@ int main(void) {
 
     // Main loop
     while(!WindowShouldClose()) {
+        UpdateCamera(&camera, CAMERA_CUSTOM);
         screenUpdate();
         
         BeginDrawing();
             ClearBackground(BLACK);
+            
             screenDraw();
+            BeginMode3D(camera);
+                screenDraw3D();
+            EndMode3D();
         EndDrawing();
     }
 

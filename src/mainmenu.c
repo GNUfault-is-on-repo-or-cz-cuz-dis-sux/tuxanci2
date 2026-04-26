@@ -11,28 +11,30 @@ static void onQuit(void) {
     CloseWindow();
 }
 
-void setupMainmenu(void) {
+void setupMainMenu(void) {
     bgm = LoadMusicStream("menu/music/menu.ogg");
     bg = LoadTexture("menu/images/menu.png");
     btnQuit = buttonCreate(400, 300, 32, "Quit", onQuit);
 }
 
-void drawMainmenu(void) {
+void drawMainMenu(void) {
     float scale = (float)GetScreenWidth() / bg.width;
     DrawTextureEx(bg, (Vector2){ 0, 0 }, 0.0f, scale, WHITE);
     buttonDraw(&btnQuit);
 }
 
-void enterMainmenu(void) {
+void drawMainMenu3D(void) {}
+
+void enterMainMenu(void) {
     PlayMusicStream(bgm);
 }
 
-void updateMainmenu(void) {
+void updateMainMenu(void) {
     UpdateMusicStream(bgm);
     buttonUpdate(&btnQuit);
 }
 
-void destroyMainmenu(void) {
+void destroyMainMenu(void) {
     UnloadMusicStream(bgm);
     UnloadTexture(bg);
 }

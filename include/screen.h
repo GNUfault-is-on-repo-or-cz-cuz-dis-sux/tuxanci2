@@ -10,5 +10,6 @@ extern GameScreen currentScreen;
 
 void screenUpdate(void);
 void screenDraw(void);
+void screenDraw3D(void);
 
 #endif // SCREEN_H

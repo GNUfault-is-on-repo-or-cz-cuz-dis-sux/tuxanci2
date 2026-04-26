@@ -1,6 +1,21 @@
 #include "raylib.h"
 #include "window.h"
 #include "screen.h"
+#include "main.h"
+
+static Vector3 position = {
+    0.0f,
+    0.0f,
+    0.0f
+};
+
+static Model modelA;
+static Model modelF;
+static Model modelG;
+static Model modelL;
+static Model modelN;
+static Model modelT;
+static Model modelU;
 
 static int framesCounter = 0;
 static int lettersCount = 0;
@@ -26,6 +41,36 @@ void enterIntro(void) {
     state = 0;
     alpha = 1.0f;
     poweredAlpha = 1.0f;
+
+    camera.position = (Vector3){
+        10.0f,
+        10.0f,
+        10.0f
+    };
+
+    camera.target = (Vector3){
+        0.0f,
+        0.0f,
+        0.0f
+    };
+
+    camera.up = (Vector3){
+        0.0f,
+        1.0f,
+        0.0f
+    };
+
+    camera.fovy = 45.0f;
+
+    camera.projection = CAMERA_PERSPECTIVE;
+
+    modelA = LoadModel("menu/models/gnufault-letters/A.glb");
+    modelF = LoadModel("menu/models/gnufault-letters/F.glb");
+    modelG = LoadModel("menu/models/gnufault-letters/G.glb");
+    modelL = LoadModel("menu/models/gnufault-letters/L.glb");
+    modelN = LoadModel("menu/models/gnufault-letters/N.glb");
+    modelT = LoadModel("menu/models/gnufault-letters/T.glb");
+    modelU = LoadModel("menu/models/gnufault-letters/U.glb");
 }
 
 void updateIntro(void) {
@@ -114,4 +159,18 @@ void drawIntro(void) {
     }
 }
 
-void destroyIntro(void) {}
+void drawIntro3D(void) {
+//    if (state >= 3) {
+//        DrawModel(modelA, position, 1.0f, Fade(BLACK, alpha));
+//    }
+}
+
+void destroyIntro(void) {
+    UnloadModel(modelA);
+    UnloadModel(modelF);
+    UnloadModel(modelG);
+    UnloadModel(modelL);
+    UnloadModel(modelN);
+    UnloadModel(modelT);
+    UnloadModel(modelU);
+}

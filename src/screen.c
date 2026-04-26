@@ -28,11 +28,24 @@ void screenDraw(void) {
             ClearBackground(BLACK);
             
             if (!mainmenuRan) {
-                setupMainmenu();
-                enterMainmenu();
+                setupMainMenu();
+                enterMainMenu();
                 mainmenuRan = true;
             }
-            drawMainmenu();
+            drawMainMenu();
+            break;
+        }
+    }
+}
+
+void screenDraw3D(void) {
+    switch(currentScreen) {
+        case INTRO: {
+            drawIntro3D();
+            break;
+        }
+        case MAINMENU: {
+            drawMainMenu3D();
             break;
         }
     }
@@ -45,7 +58,7 @@ void screenUpdate(void) {
             break;
 
         case MAINMENU:
-            updateMainmenu();
+            updateMainMenu();
             break;
     }
 }
