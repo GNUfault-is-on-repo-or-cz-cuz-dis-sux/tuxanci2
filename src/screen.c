@@ -8,33 +8,14 @@ GameScreen currentScreen = INTRO;
 
 void screenDraw(void) {
     switch(currentScreen) {
-        case INTRO: {
-            static bool introRan = false;
-            
+        case INTRO:
             ClearBackground(BLACK);
-
-            if (!introRan) {
-                setupIntro();
-                enterIntro();
-                introRan = true;
-            }
             drawIntro();
-
             break;
-        }
-        case MAINMENU: {
-            static bool mainmenuRan = false;
-            
+        case MAINMENU:
             ClearBackground(BLACK);
-            
-            if (!mainmenuRan) {
-                setupMainMenu();
-                enterMainMenu();
-                mainmenuRan = true;
-            }
             drawMainMenu();
             break;
-        }
     }
 }
 
@@ -53,12 +34,25 @@ void screenDraw3D(void) {
 
 void screenUpdate(void) {
     switch (currentScreen) {
-        case INTRO:
+        case INTRO: {
+            static bool introRan = false;
+            if (!introRan) {
+                setupIntro();
+                enterIntro();
+                introRan = true;
+            }
             updateIntro();
             break;
-
-        case MAINMENU:
+        }
+        case MAINMENU: {
+            static bool mainmenuRan = false;
+            if (!mainmenuRan) {
+                setupMainMenu();
+                enterMainMenu();
+                mainmenuRan = true;
+            }
             updateMainMenu();
             break;
+        }
     }
 }
