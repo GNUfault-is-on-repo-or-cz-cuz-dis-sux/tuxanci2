@@ -2,10 +2,15 @@
 #include "window.h"
 #include "button.h"
 
+static Button btnPlay;
 static Button btnQuit;
 
 Music bgm;
 Texture2D bg;
+
+static void onPlay(void) {
+    
+}
 
 static void onQuit(void) {
     CloseWindow();
@@ -14,12 +19,14 @@ static void onQuit(void) {
 void setupMainMenu(void) {
     bgm = LoadMusicStream("menu/music/menu.ogg");
     bg = LoadTexture("menu/images/menu.png");
-    btnQuit = buttonCreate(400, 300, 32, "Quit", onQuit);
+    btnPlay = buttonCreate(250, 300, 32, "Play", onPlay);
+    btnQuit = buttonCreate(250, 340, 32, "Quit", onQuit);
 }
 
 void drawMainMenu(void) {
     float scale = (float)GetScreenWidth() / bg.width;
     DrawTextureEx(bg, (Vector2){ 0, 0 }, 0.0f, scale, WHITE);
+    buttonDraw(&btnPlay);
     buttonDraw(&btnQuit);
 }
 
@@ -31,6 +38,7 @@ void enterMainMenu(void) {
 
 void updateMainMenu(void) {
     UpdateMusicStream(bgm);
+    buttonUpdate(&btnPlay);
     buttonUpdate(&btnQuit);
 }
 
