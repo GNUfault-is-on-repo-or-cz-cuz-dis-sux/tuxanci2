@@ -1,39 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(tuxanci2 LANGUAGES C)
-
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+
+project(tuxanci2 LANGUAGES C)
 
 include(ExternalProject)
 
 find_program(OBJCOPY_TOOL NAMES objcopy)
 
 file(GLOB_RECURSE SOURCES "src/*.c" "src/*.cpp")
-
-# alsa-lib
-ExternalProject_Add(alsa-lib
-    SOURCE_DIR ${CMAKE_SOURCE_DIR}/alsa-lib
-    BINARY_DIR ${CMAKE_BINARY_DIR}/alsa-lib-build
-
-    CONFIGURE_COMMAND cd ${CMAKE_SOURCE_DIR}/alsa-lib 
-                      && autoreconf -fi
-                      && ${CMAKE_SOURCE_DIR}/alsa-lib/configure
-                         --enable-static
-                         --disable-shared
-                         --disable-python
-                         --disable-mixer-pymods
-                         --disable-mixer-modules
-                         --disable-resmgr
-                         --disable-ucm
-                         --disable-topology
-                         --disable-old-symbols
-                         --disable-maintainer-mode
-                         CFLAGS=-O2
-
-    BUILD_COMMAND make -C ${CMAKE_SOURCE_DIR}/alsa-lib ${MAKEFLAGS}
-    INSTALL_COMMAND ""
-)
 
 # raylib
 set(CMAKE_BUILD_TYPE Release)
@@ -110,15 +86,17 @@ set(SUPPORT_SAVE_BMP OFF)
 set(SUPPORT_TRACELOG ON)
 set(SUPPORT_SCREEN_CAPTURE OFF)
 
+add_compile_options(-Oz -Wall -Wextra -pedantic -pipe)
+
 add_subdirectory(raylib)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-add_dependencies(${PROJECT_NAME} alsa-lib raylib)
+add_dependencies(${PROJECT_NAME} raylib)
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib m)
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} --strip-all $<TARGET_FILE:${PROJECT_NAME}>
