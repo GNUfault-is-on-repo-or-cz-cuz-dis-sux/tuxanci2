@@ -18,25 +18,21 @@ static Sound boom[NUM_BOOM_VOICES];
 static int boomVoice = 0;
 
 static int framesCounter = 0;
-static int lettersCount = 0;
-static int topSideRecWidth = 16;
-static int leftSideRecHeight = 16;
-static int bottomSideRecWidth = 16;
-static int rightSideRecHeight = 16;
 static int state = 0;
 static float alpha = 1.0f;
-static float poweredAlpha = 1.0f;
 
 static float spinTimer = 0.0f;
 static float spinAlpha = 1.0f;
-#define SPIN_DURATION 3.0f
+#define SPIN_DURATION 5.0f
 #define NUM_LETTERS 8
 #define DROP_INTERVAL 0.25f
 #define LAND_Y 0.0f
 
 #define MAX_PARTICLES 1000
-#define SHAKE_DURATION 0.35f
-#define SHAKE_MAGNITUDE 0.6f
+#define SHAKE_DURATION 0.5f
+#define SHAKE_MAGNITUDE 1.0f
+
+#define LOGO_HOLD_DURATION 1.0f
 
 typedef struct {
     Vector3 pos;
@@ -53,21 +49,38 @@ static DustParticle particles[NUM_LETTERS][MAX_PARTICLES];
 static float shakeTimer[NUM_LETTERS];
 static Vector2 shakeOffset;
 
+static float logoHoldTimer = 0.0f;
+
 void setupIntro(void) {
-    camera.position = (Vector3){ 0.0f, 4.0f, 20.0f };
-    camera.target   = (Vector3){ 0.0f, 0.0f,  0.0f };
-    camera.up       = (Vector3){ 0.0f, 1.0f,  0.0f };
+    camera.position = (Vector3){
+        0.0f,
+        4.0f, 
+        20.0f
+    };
+   
+    camera.target = (Vector3){
+        0.0f,
+        0.0f,
+        0.0f
+    };
+    
+    camera.up = (Vector3){
+        0.0f,
+        1.0f,
+        0.0f
+    };
+    
     camera.fovy = 25.0f;
     camera.projection = CAMERA_PERSPECTIVE;
 
-    modelG  = LoadModel("intro/models/gnufault-letters/G.glb");
-    modelN  = LoadModel("intro/models/gnufault-letters/N.glb");
-    modelU  = LoadModel("intro/models/gnufault-letters/U.glb");
-    modelF  = LoadModel("intro/models/gnufault-letters/F.glb");
-    modelA  = LoadModel("intro/models/gnufault-letters/A.glb");
+    modelG = LoadModel("intro/models/gnufault-letters/G.glb");
+    modelN = LoadModel("intro/models/gnufault-letters/N.glb");
+    modelU = LoadModel("intro/models/gnufault-letters/U.glb");
+    modelF = LoadModel("intro/models/gnufault-letters/F.glb");
+    modelA = LoadModel("intro/models/gnufault-letters/A.glb");
     modelU2 = LoadModel("intro/models/gnufault-letters/U.glb");
-    modelL  = LoadModel("intro/models/gnufault-letters/L.glb");
-    modelT  = LoadModel("intro/models/gnufault-letters/T.glb");
+    modelL = LoadModel("intro/models/gnufault-letters/L.glb");
+    modelT = LoadModel("intro/models/gnufault-letters/T.glb");
 
     for (int v = 0; v < NUM_BOOM_VOICES; v++) {
         boom[v] = LoadSound("intro/sounds/boom.ogg");
@@ -76,18 +89,17 @@ void setupIntro(void) {
 
 void enterIntro(void) {
     framesCounter = 0;
-    lettersCount = 0;
-    topSideRecWidth = 16;
-    leftSideRecHeight = 16;
-    bottomSideRecWidth = 16;
-    rightSideRecHeight = 16;
     state = 0;
     alpha = 1.0f;
-    poweredAlpha = 1.0f;
     spinTimer = 0.0f;
     spinAlpha = 1.0f;
     boomVoice = 0;
-    shakeOffset = (Vector2){ 0.0f, 0.0f };
+    logoHoldTimer = 0.0f;
+    
+    shakeOffset = (Vector2){
+        0.0f,
+        0.0f
+    };
 
     for (int i = 0; i < NUM_LETTERS; i++) {
         letterY[i] = 8.0f;
@@ -110,11 +122,11 @@ static void spawnDust(int idx, float worldX) {
         };
         dp->vel = (Vector3){
             ((float)GetRandomValue(-200, 200) / 100.0f) * 1.8f,
-            ((float)GetRandomValue(30, 300)   / 100.0f) * 1.4f,
-            ((float)GetRandomValue(-80, 80)   / 100.0f) * 0.5f
+            ((float)GetRandomValue(30, 300) / 100.0f) * 1.4f,
+            ((float)GetRandomValue(-80, 80) / 100.0f) * 0.5f
         };
         dp->maxLife = (float)GetRandomValue(35, 100) / 100.0f;
-        dp->life    = dp->maxLife;
+        dp->life = dp->maxLife;
     }
 }
 
@@ -127,39 +139,16 @@ void updateIntro(void) {
     }
 
     if (state == 0) {
-        framesCounter++;
-        if (framesCounter == 120) {
-            state = 1;
-            framesCounter = 0;
-        }
-    }
-    else if (state == 1) {
-        topSideRecWidth += 4;
-        leftSideRecHeight += 4;
-        if (topSideRecWidth == 256) state = 2;
-    }
-    else if (state == 2) {
-        bottomSideRecWidth += 4;
-        rightSideRecHeight += 4;
-        if (bottomSideRecWidth == 256) state = 3;
-    }
-    else if (state == 3) {
-        framesCounter++;
-        if (framesCounter / 12) {
-            lettersCount++;
-            framesCounter = 0;
-        }
-        if (lettersCount >= 10) {
-            alpha -= 0.02f;
-            poweredAlpha -= 0.02f;
+        logoHoldTimer += dt;
+        if (logoHoldTimer >= LOGO_HOLD_DURATION) {
+            alpha -= dt * 3.0f;
             if (alpha <= 0.0f) {
                 alpha = 0.0f;
-                poweredAlpha = 0.0f;
-                state = 4;
+                state = 1;
             }
         }
     }
-    else if (state == 4) {
+    else if (state == 1) {
         spinTimer += dt;
 
         Model *letters[NUM_LETTERS] = {
@@ -173,7 +162,10 @@ void updateIntro(void) {
         float totalWidth = (NUM_LETTERS - 1) * spacing;
         float startX = -totalWidth / 2.0f;
 
-        shakeOffset = (Vector2){ 0.0f, 0.0f };
+        shakeOffset = (Vector2){
+            0.0f,
+            0.0f
+        };
 
         for (int i = 0; i < NUM_LETTERS; i++) {
             if (!letterDropped[i] && spinTimer >= i * DROP_INTERVAL) {
@@ -232,46 +224,31 @@ void updateIntro(void) {
 }
 
 void drawIntro(void) {
-    int width  = GetScreenWidth();
+    int width = GetScreenWidth();
     int height = GetScreenHeight();
-    int logoPositionX = width  / 2 - 128;
-    int logoPositionY = height / 2 - 128;
-
-    ClearBackground(RAYWHITE);
 
     if (state == 0) {
-        if ((framesCounter / 15) % 2)
-            DrawRectangle(logoPositionX, logoPositionY, 16, 16, BLACK);
+        ClearBackground(RAYWHITE);
+
+        Color c = Fade(BLACK, alpha);
+
+        DrawRectangle(width / 2 - 128, height / 2 - 128, 256, 16, c);
+        DrawRectangle(width / 2 - 128, height / 2 - 128, 16, 256, c);
+        DrawRectangle(width / 2 + 112, height / 2 - 128, 16, 256, c);
+        DrawRectangle(width / 2 - 128, height / 2 + 112, 256, 16, c);
+
+        DrawText("raylib", width / 2 - 44, height / 2 + 48, 50, c);
+
+        int poweredWidth = MeasureText("powered", 30);
+        DrawText("powered", width / 2 - poweredWidth / 2, height / 2 + 160, 30, c);
     }
     else if (state == 1) {
-        DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16, BLACK);
-        DrawRectangle(logoPositionX, logoPositionY, 16, leftSideRecHeight, BLACK);
-    }
-    else if (state == 2) {
-        DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16, BLACK);
-        DrawRectangle(logoPositionX, logoPositionY, 16, leftSideRecHeight, BLACK);
-        DrawRectangle(logoPositionX + 240, logoPositionY, 16, rightSideRecHeight, BLACK);
-        DrawRectangle(logoPositionX, logoPositionY + 240, bottomSideRecWidth, 16, BLACK);
-    }
-    else if (state == 3) {
-        DrawRectangle(logoPositionX, logoPositionY, topSideRecWidth, 16, Fade(BLACK, alpha));
-        DrawRectangle(logoPositionX, logoPositionY + 16, 16, leftSideRecHeight - 32, Fade(BLACK, alpha));
-        DrawRectangle(logoPositionX + 240, logoPositionY + 16, 16, rightSideRecHeight - 32, Fade(BLACK, alpha));
-        DrawRectangle(logoPositionX, logoPositionY + 240, bottomSideRecWidth, 16, Fade(BLACK, alpha));
-        DrawRectangle(width / 2 - 112, height / 2 - 112, 224, 224, Fade(RAYWHITE, alpha));
-        DrawText(TextSubtext("raylib", 0, lettersCount), width / 2 - 44, height / 2 + 48, 50, Fade(BLACK, alpha));
-        if (lettersCount >= 6) {
-            int poweredWidth = MeasureText("powered", 30);
-            DrawText("powered", width / 2 - poweredWidth / 2, height / 2 + 160, 30, Fade(BLACK, poweredAlpha));
-        }
-    }
-    else if (state == 4) {
         ClearBackground(BLACK);
     }
 }
 
 void drawIntro3D(void) {
-    if (state != 4) return;
+    if (state != 1) return;
 
     Model *letters[NUM_LETTERS] = {
         &modelG, &modelN, &modelU, &modelF,
@@ -310,7 +287,14 @@ void drawIntro3D(void) {
             if (dp->life <= 0.0f) continue;
             float t = dp->life / dp->maxLife;
             unsigned char a = (unsigned char)(t * 255.0f * spinAlpha);
-            Color dustColor = (Color){ 255, 255, 255, a };
+            
+            Color dustColor = (Color){
+                255,
+                255,
+                255,
+                a
+            };
+            
             DrawPoint3D(dp->pos, dustColor);
         }
     }
@@ -325,6 +309,7 @@ void destroyIntro(void) {
     UnloadModel(modelU2);
     UnloadModel(modelL);
     UnloadModel(modelT);
+    
     for (int v = 0; v < NUM_BOOM_VOICES; v++) {
         UnloadSound(boom[v]);
     }
