@@ -11,7 +11,7 @@ static float xHoverT = 0.0f;
 #define X_BTN_Y 16
 
 void setupMenu(void) {
-    x = LoadTexture("common/images/x.png");
+    x = LoadTexture("common/images/x.gif");
 }
 
 void drawMenu(void) {
