@@ -20,7 +20,7 @@ static void onQuit(void) {
 
 void setupMainMenu(void) {
     musicLoad();
-    bg = LoadTexture("common/images/main.png");
+    bg = LoadTexture("common/images/main.jpg");
     btnPlay = buttonCreate(250, 300, 32, "Play", onPlay);
     btnQuit = buttonCreate(250, 340, 32, "Quit", onQuit);
 }
