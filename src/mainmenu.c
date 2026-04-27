@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "window.h"
 #include "button.h"
+#include "screen.h"
+#include "music.h"
 
 static Button btnPlay;
 static Button btnQuit;
@@ -9,7 +11,7 @@ Music bgm;
 Texture2D bg;
 
 static void onPlay(void) {
-    
+    currentScreen = MENU;
 }
 
 static void onQuit(void) {
@@ -17,8 +19,8 @@ static void onQuit(void) {
 }
 
 void setupMainMenu(void) {
-    bgm = LoadMusicStream("menu/music/menu.ogg");
-    bg = LoadTexture("menu/images/menu.png");
+    musicLoad();
+    bg = LoadTexture("common/images/main.png");
     btnPlay = buttonCreate(250, 300, 32, "Play", onPlay);
     btnQuit = buttonCreate(250, 340, 32, "Quit", onQuit);
 }
@@ -33,16 +35,16 @@ void drawMainMenu(void) {
 void drawMainMenu3D(void) {}
 
 void enterMainMenu(void) {
-    PlayMusicStream(bgm);
+    musicPlay();
 }
 
 void updateMainMenu(void) {
-    UpdateMusicStream(bgm);
+    musicUpdate();
     buttonUpdate(&btnPlay);
     buttonUpdate(&btnQuit);
 }
 
 void destroyMainMenu(void) {
-    UnloadMusicStream(bgm);
+    musicDestroy();
     UnloadTexture(bg);
 }

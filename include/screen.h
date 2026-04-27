@@ -3,7 +3,8 @@
 
 typedef enum {
     INTRO,
-    MAINMENU
+    MAINMENU,
+    MENU
 } GameScreen;
 
 extern GameScreen currentScreen;

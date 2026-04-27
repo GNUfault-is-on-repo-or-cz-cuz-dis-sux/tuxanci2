@@ -3,6 +3,7 @@
 #include "screen.h"
 #include "intro.h"
 #include "mainmenu.h"
+#include "menu.h"
 
 GameScreen currentScreen = INTRO;
 
@@ -16,6 +17,9 @@ void screenDraw(void) {
             ClearBackground(BLACK);
             drawMainMenu();
             break;
+        case MENU:
+            ClearBackground(BLACK);
+            drawMenu();
     }
 }
 
@@ -27,6 +31,10 @@ void screenDraw3D(void) {
         }
         case MAINMENU: {
             drawMainMenu3D();
+            break;
+        }
+        case MENU: {
+            drawMenu();
             break;
         }
     }
@@ -52,6 +60,16 @@ void screenUpdate(void) {
                 mainmenuRan = true;
             }
             updateMainMenu();
+            break;
+        }
+        case MENU: {
+            static bool menuRan = false;
+            if(!menuRan) {
+                setupMenu();
+                enterMenu();
+                menuRan = true;
+            }
+            updateMenu();
             break;
         }
     }
