@@ -17,6 +17,8 @@ static Model modelT;
 static Sound boom[NUM_BOOM_VOICES];
 static int boomVoice = 0;
 
+static Sound coin;
+
 static int framesCounter = 0;
 static int state = 0;
 static float alpha = 1.0f;
@@ -85,6 +87,8 @@ void setupIntro(void) {
     for (int v = 0; v < NUM_BOOM_VOICES; v++) {
         boom[v] = LoadSound("intro/sounds/boom.ogg");
     }
+
+    coin = LoadSound("intro/sounds/coin.ogg");
 }
 
 void enterIntro(void) {
@@ -100,6 +104,8 @@ void enterIntro(void) {
         0.0f,
         0.0f
     };
+
+    PlaySound(coin);
 
     for (int i = 0; i < NUM_LETTERS; i++) {
         letterY[i] = 8.0f;
@@ -313,4 +319,6 @@ void destroyIntro(void) {
     for (int v = 0; v < NUM_BOOM_VOICES; v++) {
         UnloadSound(boom[v]);
     }
+
+    UnloadSound(coin);
 }
