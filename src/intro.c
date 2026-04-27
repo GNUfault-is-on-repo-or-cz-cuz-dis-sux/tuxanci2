@@ -34,7 +34,7 @@ static float spinAlpha = 1.0f;
 #define SHAKE_DURATION 0.5f
 #define SHAKE_MAGNITUDE 1.0f
 
-#define LOGO_HOLD_DURATION 1.0f
+#define LOGO_HOLD_DURATION 0.5f
 
 typedef struct {
     Vector3 pos;
