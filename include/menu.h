@@ -3,8 +3,6 @@
 
 #include "raylib.h"
 
-extern Texture2D x;
-
 void setupMenu(void);
 void drawMenu(void);
 void drawMenu3D(void);
