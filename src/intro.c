@@ -7,7 +7,6 @@
 
 #include "raylib.h"
 #include "raymath.h"
-#include "window.h"
 #include "screen.h"
 #include "files.h"
 #include "camera.h"
