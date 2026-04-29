@@ -1,23 +1,16 @@
+/*
+ * TODO:
+ * I need to add back the boom sound when the letters drop.
+ * I removed them as they used up a ton of memory.
+ * Add them back before first alpha.
+ */
+
 #include "raylib.h"
 #include "raymath.h"
 #include "window.h"
 #include "screen.h"
-#include "main.h"
-
-static Model modelG;
-static Model modelN;
-static Model modelU;
-static Model modelF;
-static Model modelA;
-static Model modelU2;
-static Model modelL;
-static Model modelT;
-
-#define NUM_BOOM_VOICES 8
-static Sound boom[NUM_BOOM_VOICES];
-static int boomVoice = 0;
-
-static Sound coin;
+#include "files.h"
+#include "camera.h"
 
 static int framesCounter = 0;
 static int state = 0;
@@ -74,21 +67,6 @@ void setupIntro(void) {
     
     camera.fovy = 25.0f;
     camera.projection = CAMERA_PERSPECTIVE;
-
-    modelG = LoadModel("intro/models/gnufault-letters/G.glb");
-    modelN = LoadModel("intro/models/gnufault-letters/N.glb");
-    modelU = LoadModel("intro/models/gnufault-letters/U.glb");
-    modelF = LoadModel("intro/models/gnufault-letters/F.glb");
-    modelA = LoadModel("intro/models/gnufault-letters/A.glb");
-    modelU2 = LoadModel("intro/models/gnufault-letters/U.glb");
-    modelL = LoadModel("intro/models/gnufault-letters/L.glb");
-    modelT = LoadModel("intro/models/gnufault-letters/T.glb");
-
-    for (int v = 0; v < NUM_BOOM_VOICES; v++) {
-        boom[v] = LoadSound("intro/sounds/boom.ogg");
-    }
-
-    coin = LoadSound("intro/sounds/coin.ogg");
 }
 
 void enterIntro(void) {
@@ -97,7 +75,6 @@ void enterIntro(void) {
     alpha = 1.0f;
     spinTimer = 0.0f;
     spinAlpha = 1.0f;
-    boomVoice = 0;
     logoHoldTimer = 0.0f;
     
     shakeOffset = (Vector2){
@@ -184,9 +161,6 @@ void updateIntro(void) {
                 if (letterY[i] <= LAND_Y) {
                     letterY[i] = LAND_Y;
                     letterLanded[i] = true;
-
-                    PlaySound(boom[boomVoice % NUM_BOOM_VOICES]);
-                    boomVoice++;
 
                     shakeTimer[i] = SHAKE_DURATION;
 
@@ -304,21 +278,4 @@ void drawIntro3D(void) {
             DrawPoint3D(dp->pos, dustColor);
         }
     }
-}
-
-void destroyIntro(void) {
-    UnloadModel(modelG);
-    UnloadModel(modelN);
-    UnloadModel(modelU);
-    UnloadModel(modelF);
-    UnloadModel(modelA);
-    UnloadModel(modelU2);
-    UnloadModel(modelL);
-    UnloadModel(modelT);
-    
-    for (int v = 0; v < NUM_BOOM_VOICES; v++) {
-        UnloadSound(boom[v]);
-    }
-
-    UnloadSound(coin);
 }

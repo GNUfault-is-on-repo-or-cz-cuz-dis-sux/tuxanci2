@@ -1,6 +1,7 @@
 #include "button.h"
 #include "window.h"
 #include "raylib.h"
+#include "files.h"
 #include <stdbool.h>
 
 static const Color BTN_WHITE = {
@@ -34,7 +35,7 @@ static Color lerpColor(Color a, Color b, float t) {
 }
 
 static Rectangle textBounds(const Button *btn) {
-    Vector2 size = MeasureTextEx(gFont, btn->label, btn->fontSize, 0);
+    Vector2 size = MeasureTextEx(font, btn->label, btn->fontSize, 0);
     return (Rectangle){
         btn->x,
         btn->y,
@@ -63,14 +64,14 @@ void buttonDraw(const Button *btn) {
         btn->y + 2
     };
 
-    DrawTextEx(gFont, btn->label, shadowPos, btn->fontSize, 0, BTN_SHADOW);
+    DrawTextEx(font, btn->label, shadowPos, btn->fontSize, 0, BTN_SHADOW);
 
     Vector2 pos = {
         btn->x,
         btn->y
     };
 
-    DrawTextEx(gFont, btn->label, pos, btn->fontSize, 0, color);
+    DrawTextEx(font, btn->label, pos, btn->fontSize, 0, color);
 }
 
 bool buttonUpdate(Button *btn) {

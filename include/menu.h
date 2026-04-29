@@ -10,6 +10,5 @@ void drawMenu(void);
 void drawMenu3D(void);
 void enterMenu(void);
 void updateMenu(void);
-void destroyMenu(void);
 
 #endif // MENU_H

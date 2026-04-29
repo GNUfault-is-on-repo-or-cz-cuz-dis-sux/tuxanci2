@@ -1,18 +1,14 @@
 #include "raylib.h"
-#include "music.h"
 #include "mainmenu.h"
 #include "screen.h"
-
-Texture2D x;
+#include "files.h"
 
 static float xHoverT = 0.0f;
 
 #define X_BTN_MARGIN 16
 #define X_BTN_Y 16
 
-void setupMenu(void) {
-    x = LoadTexture("common/images/x.gif");
-}
+void setupMenu(void) {}
 
 void drawMenu(void) {
     int width = GetScreenWidth();
@@ -43,7 +39,7 @@ void enterMenu(void) {
 }
 
 void updateMenu(void) {
-    musicUpdate();
+    UpdateMusicStream(bgm);
 
     int btnX = GetScreenWidth() - x.width - X_BTN_MARGIN;
     Rectangle xRect = {
@@ -65,8 +61,4 @@ void updateMenu(void) {
     if (hovered && IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
         currentScreen = MAINMENU;
     }
-}
-
-void destroyMenu(void) {
-    UnloadTexture(x);
 }

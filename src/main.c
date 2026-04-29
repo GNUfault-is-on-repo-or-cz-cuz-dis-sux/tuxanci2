@@ -3,17 +3,13 @@
 #include "error.h"
 #include "screen.h"
 #include "intro.h"
+#include "files.h"
+#include "camera.h"
 
 #define WINDOW_WIDTH          1024
 #define WINDOW_HEIGHT         768
 #define WINDOW_FPS            60
 #define WINDOW_TITLE          "Tuxanci 2"
-
-Font gFont;
-
-Camera3D camera = {
-    0
-};
 
 int main(void) {
     // temporary fix
@@ -22,15 +18,10 @@ int main(void) {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(WINDOW_FPS);
 
-    if (FileExists("common/fonts/font.ttf")) {
-        gFont = LoadFont("common/fonts/font.ttf");
-    } else {
-        TraceLog(LOG_ERROR, "common/fonts/font.ttf not found!\n");
-        return 1;
-    }
-
     SetAudioStreamBufferSizeDefault(8192);
     InitAudioDevice();
+
+    commonLoad();
 
     // Main loop
     while(!WindowShouldClose()) {
@@ -47,9 +38,8 @@ int main(void) {
         EndDrawing();
     }
 
-    UnloadFont(gFont);
+    commonDestroy();
     CloseWindow();
-    destroyIntro();
 
     return 0;
 }

@@ -2,13 +2,10 @@
 #include "window.h"
 #include "button.h"
 #include "screen.h"
-#include "music.h"
+#include "files.h"
 
 static Button btnPlay;
 static Button btnQuit;
-
-Music bgm;
-Texture2D bg;
 
 static void onPlay(void) {
     currentScreen = MENU;
@@ -19,8 +16,6 @@ static void onQuit(void) {
 }
 
 void setupMainMenu(void) {
-    musicLoad();
-    bg = LoadTexture("common/images/main.jpg");
     btnPlay = buttonCreate(250, 300, 32, "Play", onPlay);
     btnQuit = buttonCreate(250, 340, 32, "Quit", onQuit);
 }
@@ -35,16 +30,11 @@ void drawMainMenu(void) {
 void drawMainMenu3D(void) {}
 
 void enterMainMenu(void) {
-    musicPlay();
+    PlayMusicStream(bgm);
 }
 
 void updateMainMenu(void) {
-    musicUpdate();
+    UpdateMusicStream(bgm);
     buttonUpdate(&btnPlay);
     buttonUpdate(&btnQuit);
-}
-
-void destroyMainMenu(void) {
-    musicDestroy();
-    UnloadTexture(bg);
 }
