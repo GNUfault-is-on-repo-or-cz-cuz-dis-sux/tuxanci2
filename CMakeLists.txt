@@ -16,7 +16,7 @@ set(CMAKE_BUILD_TYPE Release)
 set(CUSTOMIZE_BUILD ON)
 set(USE_EXTERNAL_GLFW OFF)
 set(PLATFORM Desktop)
-set(OPENGL_VERSION OFF)
+set(OPENGL_VERSION 1.1)
 set(BUILD_EXAMPLES OFF)
 set(GLFW_BUILD_WAYLAND ON)
 set(GLFW_BUILD_X11 ON)
@@ -89,6 +89,7 @@ set(SUPPORT_SCREEN_CAPTURE OFF)
 add_compile_options(-Oz -Wall -Wextra -pedantic -pipe)
 
 find_package(PkgConfig REQUIRED)
+find_package(Gettext REQUIRED)
 pkg_check_modules(LUA REQUIRED lua5.4)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 
@@ -105,6 +106,38 @@ target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LUA_LIBRARIES} ${GTK3_LIBRARIES} raylib)
 
+set(POT_FILE ${CMAKE_SOURCE_DIR}/po/tuxanci2.pot)
+set(PO_DIR ${CMAKE_SOURCE_DIR}/po)
+set(LOCALE_DIR ${CMAKE_SOURCE_DIR}/locale)
+
+add_custom_target(update-pot
+    COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE}
+        --keyword=_ --language=C
+        --output=${POT_FILE}
+        ${CMAKE_SOURCE_DIR}/src/*.c
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMENT "Extracting translatable strings into tuxanci2.pot"
+)
+
+set(LANGUAGES cs)
+
+foreach(LANG ${LANGUAGES})
+    set(PO_FILE ${PO_DIR}/${LANG}.po)
+
+    set(MO_DIR ${CMAKE_BINARY_DIR}/locale/${LANG}/LC_MESSAGES)
+    set(MO_FILE ${MO_DIR}/tuxanci2.mo)
+
+    add_custom_command(
+        OUTPUT ${MO_FILE}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${MO_DIR}
+        COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${MO_FILE} ${PO_FILE}
+        DEPENDS ${PO_FILE}
+        COMMENT "Compiling ${LANG}.po to build/locale/${LANG}/LC_MESSAGES/tuxanci2.mo"
+    )
+
+    add_custom_target(mo-${LANG} ALL DEPENDS ${MO_FILE})
+endforeach()
+
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} --strip-all $<TARGET_FILE:${PROJECT_NAME}>
     COMMENT "Stripping ${PROJECT_NAME}..."
@@ -120,3 +153,4 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         "${DATA_DEST_DIR}"
     COMMENT "Copying data directory to build directory..."
 )
+

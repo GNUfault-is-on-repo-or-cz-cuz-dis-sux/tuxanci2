@@ -30,6 +30,7 @@
 #include "files.h"
 #include "menu.h"
 #include "addon.h"
+#include "i18n.h"
 
 #define WINDOW_WIDTH  1024        ///< Window width
 #define WINDOW_HEIGHT 768         ///< Window height
@@ -37,11 +38,13 @@
 #define WINDOW_TITLE  "Tuxánci 2" ///< Window title
 
 int main(void) {
+    // Internationalization setup
+    setlocale(LC_ALL, "");
+    bindtextdomain("tuxanci2", "locale");
+    textdomain("tuxanci2");
+    
     SetTraceLogLevel(LOG_WARNING);
-    
-    // temporary fix
-    ChangeDirectory("data");
-    
+
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(WINDOW_FPS);
 

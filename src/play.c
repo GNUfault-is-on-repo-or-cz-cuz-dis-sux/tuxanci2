@@ -26,19 +26,20 @@
 #include "screen.h"
 #include "files.h"
 #include "menu.h"
+#include "i18n.h"
 
 /** @brief Back Button */
 static Button backBtn;
 
 /** @brief Setup Button and play music (use in screen.c only)*/
 void menuSetupPlay(void) {
-    backBtn = buttonCreate("Back", 140, 650, 150, 50);
+    backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
     PlayMusicStream(bgm);
 }
 
 /** @brief Draw Button (use in screen.c only) */
 void menuDrawPlay(void) {
-    menuDraw("Play");
+    menuDraw(_("Play"));
     buttonDraw(&backBtn);
 }
 

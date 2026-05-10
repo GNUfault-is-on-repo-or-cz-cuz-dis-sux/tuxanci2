@@ -43,10 +43,10 @@ Texture2D explosions;
 
 /** @brief Load files into RAM */
 void commonLoad(void) {    
-    bg         = LoadTexture("common/images/main.jpg");
-    font       = LoadFont("common/fonts/font.ttf");
-    bgm        = LoadMusicStream("common/music/menu.ogg");
-    explosions = LoadTexture("menu/images/explosions.jpg");
+    bg         = LoadTexture("data/common/images/main.jpg");
+    font       = LoadFont("data/common/fonts/font.ttf");
+    bgm        = LoadMusicStream("data/common/music/menu.ogg");
+    explosions = LoadTexture("data/menu/images/explosions.jpg");
 }
 
 /** @brief Free files in RAM */

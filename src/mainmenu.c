@@ -31,6 +31,7 @@
 #include "menu.h"
 #include "screen.h"
 #include "addon.h"
+#include "i18n.h"
 
 /** @brief Play Button */
 static Button playBtn;
@@ -43,9 +44,9 @@ static Button quitBtn;
 
 /** @brief Setup Buttons and play music (use in screen.c only) */
 void setupMainMenu(void) {
-    playBtn  = buttonCreate("Play", 200, 300, 150, 50);
-    addonBtn = buttonCreate("Add-ons", 200, 360, 150, 50);
-    quitBtn  = buttonCreate("Quit", 200, 420, 150, 50);
+    playBtn  = buttonCreate(_("Play"), 200, 300, 150, 50);
+    addonBtn = buttonCreate(_("Add-ons"), 200, 360, 150, 50);
+    quitBtn  = buttonCreate(_("Quit"), 200, 420, 150, 50);
 
     PlayMusicStream(bgm);
 }
