@@ -53,3 +53,9 @@ NOTE: Replace my name (Connor Thomson) with yours if you created the file, and r
 
 ## Final notes
 Run the `scripts/fixfiles.sh` script to fix some of the things you might miss.
+
+If you get a `bash: ./scripts/fixfiles.sh: Permission denied` error, run
+```
+chmod +x cripts/fixfiles.sh
+```
+and run the script again.
