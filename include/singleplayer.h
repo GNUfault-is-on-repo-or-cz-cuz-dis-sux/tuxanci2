@@ -17,30 +17,15 @@
  */
 
 /**
- * @file menu.h
- * @brief Menu system
+ * @file singleplayer.h
+ * @brief File containing the stuff for the singleplayer menu
  */
 
-#ifndef MENU_SCREEN_H
-#define MENU_SCREEN_H
+#ifndef SINGLEPLAYER_H
+#define SINGLEPLAYER_H
 
-#include "raylib.h"
+void menuSetupSingleplayer(void);
+void menuDrawSingleplayer(void);
+void menuUpdateSingleplayer(void);
 
-typedef enum {
-    NO_MENU,      ///< No menu
-    PLAY,         ///< Play menu
-    SINGLEPLAYER  ///< Singleplayer menu
-} GameMenu;
-
-extern GameMenu currentMenu;
-
-void menuUpdate(void);
-void menuDraw(const char* title);
-
-void setupMenuScreen(void);
-void drawMenuScreen(void);
-void drawMenuScreen3D(void);
-void enterMenuScreen(void);
-void updateMenuScreen(void);
-
-#endif // MENU_SCREEN_H
+#endif // SINGLEPLAYER_H

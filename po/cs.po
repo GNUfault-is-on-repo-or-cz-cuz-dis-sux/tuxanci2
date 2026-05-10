@@ -32,3 +32,11 @@ msgstr "Ukončit"
 #: src/play.c:35
 msgid "Back"
 msgstr "Zpět"
+
+#: src/play.c:50
+msgid "Select the the mode you want to play:"
+msgstr "Vyberte režim, který chcete hrát:"
+
+#: src/play.c:40
+msgid "Singleplayer"
+msgstr "Hra pro jednoho hráče"

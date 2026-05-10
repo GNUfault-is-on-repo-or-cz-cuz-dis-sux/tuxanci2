@@ -31,16 +31,26 @@
 /** @brief Back Button */
 static Button backBtn;
 
+/** @brief Singleplayer Button */
+static Button singleplayerBtn;
+
 /** @brief Setup Button and play music (use in screen.c only) */
 void menuSetupPlay(void) {
     backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
+    singleplayerBtn = buttonCreate(_("Singleplayer"), 400, 250, 200, 200);
+    
     PlayMusicStream(bgm);
 }
 
 /** @brief Draw Button (use in screen.c only) */
 void menuDrawPlay(void) {
     menuDraw(_("Play"));
+    
+    Vector2 pos = (Vector2){130, 100};
+    DrawTextEx(font, _("Select the the mode you want to play:"), pos, 24, 0, BLACK);
+
     buttonDraw(&backBtn);
+    buttonDraw(&singleplayerBtn);
 }
 
 /** @brief Update music and update Buttons */
@@ -50,5 +60,8 @@ void menuUpdatePlay(void) {
     if (buttonPressed(&backBtn)) {
         currentMenu = NO_MENU;
         currentScreen = MAINMENU;
+    }
+    if (buttonPressed(&singleplayerBtn)) {
+        currentMenu = SINGLEPLAYER;
     }
 }

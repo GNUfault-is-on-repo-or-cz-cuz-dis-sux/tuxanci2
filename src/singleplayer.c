@@ -17,30 +17,37 @@
  */
 
 /**
- * @file menu.h
- * @brief Menu system
+ * @file singleplayer.c
+ * @brief File containing the stuff for the singleplayer menu
  */
 
-#ifndef MENU_SCREEN_H
-#define MENU_SCREEN_H
-
+#include "button.h"
+#include "files.h"
+#include "i18n.h"
+#include "menu.h"
 #include "raylib.h"
+#include "screen.h"
 
-typedef enum {
-    NO_MENU,      ///< No menu
-    PLAY,         ///< Play menu
-    SINGLEPLAYER  ///< Singleplayer menu
-} GameMenu;
+/** @brief Back Button */
+static Button backBtn;
 
-extern GameMenu currentMenu;
+/** @brief Setup Button and play music (use in screen.c only) */
+void menuSetupSingleplayer(void) {
+    backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
+    PlayMusicStream(bgm);
+}
 
-void menuUpdate(void);
-void menuDraw(const char* title);
+/** @brief Draw Button (use in screen.c only) */
+void menuDrawSingleplayer(void) {
+    menuDraw(_("Signleplayer"));
+    buttonDraw(&backBtn);
+}
 
-void setupMenuScreen(void);
-void drawMenuScreen(void);
-void drawMenuScreen3D(void);
-void enterMenuScreen(void);
-void updateMenuScreen(void);
+/** @brief Update music and update Buttons */
+void menuUpdateSingleplayer(void) {
+    UpdateMusicStream(bgm);
 
-#endif // MENU_SCREEN_H
+    if (buttonPressed(&backBtn)) {
+        currentMenu = PLAY;
+    }
+}

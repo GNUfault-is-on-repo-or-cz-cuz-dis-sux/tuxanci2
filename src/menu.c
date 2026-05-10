@@ -29,18 +29,21 @@
 #include "play.h"
 #include "raylib.h"
 #include "screen.h"
+#include "singleplayer.h"
 
 /** @brief Set the starting menu */
 GameMenu currentMenu = NO_MENU;
 
 /** @brief Setup menu screen (only use in screen.h) */
-void setupMenuScreen(void) { menuSetupPlay(); }
+void setupMenuScreen(void) {
+    menuSetupPlay();
+    menuSetupSingleplayer();
+}
 
 /** @brief Update/Tick menu */
 void menuUpdate(void) {
-    if (currentMenu != NO_MENU) {
+    if (currentMenu != NO_MENU)
         currentScreen = MENU;
-    }
 }
 
 /**
@@ -86,6 +89,10 @@ void drawMenuScreen(void) {
             menuDrawPlay();
             break;
         }
+        case SINGLEPLAYER: {
+            menuDrawSingleplayer();
+            break;
+        }
         case NO_MENU:
             break;
     }
@@ -104,6 +111,10 @@ void updateMenuScreen(void) {
     switch (currentMenu) {
         case PLAY: {
             menuUpdatePlay();
+            break;
+        }
+        case SINGLEPLAYER: {
+            menuUpdateSingleplayer();
             break;
         }
         case NO_MENU:
