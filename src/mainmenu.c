@@ -71,16 +71,13 @@ void enterMainMenu(void) {}
 void updateMainMenu(void) {
     UpdateMusicStream(bgm);
 
-    if (buttonPressed(&playBtn)) {
+    if (buttonPressed(&playBtn))
         currentMenu = PLAY;
-    }
 
-    if (buttonPressed(&addonBtn)) {
+    if (buttonPressed(&addonBtn))
         addonPick();
-    }
 
-    if (buttonPressed(&quitBtn)) {
-        // FIXME: This just does a segfault for some reason.
+    // FIXME: This just does a segfault for some reason.
+    if (buttonPressed(&quitBtn))
         CloseWindow();
-    }
 }

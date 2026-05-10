@@ -34,6 +34,11 @@ void addonInit(void) {
     gtk_init_check(NULL, NULL);
 }
 
+/*
+ * For some reason this just locks up
+ * if you exit the file picker
+ * without picking a file.
+ */
 /** @brief Open add-on picker */
 void addonPick(void) {
     // Lua init

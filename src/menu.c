@@ -82,8 +82,10 @@ void drawMenuScreen(void) {
                            Fade(BLACK, 1.0f));
 
     switch (currentMenu) {
-        case PLAY:
+        case PLAY: {
             menuDrawPlay();
+            break;
+        }
         case NO_MENU:
             break;
     }
@@ -100,8 +102,10 @@ void updateMenuScreen(void) {
     UpdateMusicStream(bgm);
 
     switch (currentMenu) {
-        case PLAY:
+        case PLAY: {
             menuUpdatePlay();
+            break;
+        }
         case NO_MENU:
             break;
     }

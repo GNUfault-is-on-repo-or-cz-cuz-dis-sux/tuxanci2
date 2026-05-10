@@ -43,6 +43,7 @@ void screenDraw(void) {
         case MENU: {
             ClearBackground(BLACK);
             drawMenuScreen();
+            break;
         }
     }
 }
