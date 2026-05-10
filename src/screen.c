@@ -20,67 +20,67 @@
  * @file screen.c
  * @brief Screen system
  *
- * This file contains the stuff for 
- * switching between screens. 
+ * This file contains the stuff for
+ * switching between screens.
  */
 
-#include "raylib.h"
 #include "screen.h"
 #include "mainmenu.h"
 #include "menu.h"
+#include "raylib.h"
 
 /** @brief Set starting currentScreen */
 GameScreen currentScreen = MAINMENU;
 
 /** @brief Draw the selected currentScreen */
 void screenDraw(void) {
-    switch(currentScreen) {
-        case MAINMENU:
-            ClearBackground(BLACK);
-            drawMainMenu();
-            break;
-        case MENU:
-            ClearBackground(BLACK);
-            drawMenuScreen();
+    switch (currentScreen) {
+    case MAINMENU:
+        ClearBackground(BLACK);
+        drawMainMenu();
+        break;
+    case MENU:
+        ClearBackground(BLACK);
+        drawMenuScreen();
     }
 }
 
 /** @brief Draw the 3D scene of the selected currentScreen */
 void screenDraw3D(void) {
-    switch(currentScreen) {
-        case MAINMENU: {
-            drawMainMenu3D();
-            break;
-        }
-        case MENU: {
-            drawMenuScreen();
-            break;
-        }
+    switch (currentScreen) {
+    case MAINMENU: {
+        drawMainMenu3D();
+        break;
+    }
+    case MENU: {
+        drawMenuScreen();
+        break;
+    }
     }
 }
 
 /** @brief Update the selected currentScreen */
 void screenUpdate(void) {
     switch (currentScreen) {
-        case MAINMENU: {
-            static bool mainmenuRan = false;
-            if (!mainmenuRan) {
-                setupMainMenu();
-                enterMainMenu();
-                mainmenuRan = true;
-            }
-            updateMainMenu();
-            break;
+    case MAINMENU: {
+        static bool mainmenuRan = false;
+        if (!mainmenuRan) {
+            setupMainMenu();
+            enterMainMenu();
+            mainmenuRan = true;
         }
-        case MENU: {
-            static bool menuRan = false;
-            if(!menuRan) {
-                setupMenuScreen();
-                enterMenuScreen();
-                menuRan = true;
-            }
-            updateMenuScreen();
-            break;
+        updateMainMenu();
+        break;
+    }
+    case MENU: {
+        static bool menuRan = false;
+        if (!menuRan) {
+            setupMenuScreen();
+            enterMenuScreen();
+            menuRan = true;
         }
+        updateMenuScreen();
+        break;
+    }
     }
 }

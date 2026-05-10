@@ -21,17 +21,17 @@
  * @brief File containing the stuff for the play menu
  */
 
-#include "raylib.h"
 #include "button.h"
-#include "screen.h"
 #include "files.h"
-#include "menu.h"
 #include "i18n.h"
+#include "menu.h"
+#include "raylib.h"
+#include "screen.h"
 
 /** @brief Back Button */
 static Button backBtn;
 
-/** @brief Setup Button and play music (use in screen.c only)*/
+/** @brief Setup Button and play music (use in screen.c only) */
 void menuSetupPlay(void) {
     backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
     PlayMusicStream(bgm);
@@ -43,11 +43,11 @@ void menuDrawPlay(void) {
     buttonDraw(&backBtn);
 }
 
-/** @brief Update music and check if Button is pressed/hovered (use in screen.c only) */
+/** @brief Update music and update Buttons */
 void menuUpdatePlay(void) {
     UpdateMusicStream(bgm);
 
-    if(buttonPressed(&backBtn)) {
+    if (buttonPressed(&backBtn)) {
         currentMenu = NO_MENU;
         currentScreen = MAINMENU;
     }

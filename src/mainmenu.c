@@ -20,18 +20,18 @@
  * @file mainmenu.c
  * @brief Main menu
  *
- * This file contains the stuff for 
+ * This file contains the stuff for
  * the main menu, like the buttons,
  * music, background, etc.
  */
 
-#include "raylib.h"
+#include "addon.h"
 #include "button.h"
 #include "files.h"
-#include "menu.h"
-#include "screen.h"
-#include "addon.h"
 #include "i18n.h"
+#include "menu.h"
+#include "raylib.h"
+#include "screen.h"
 
 /** @brief Play Button */
 static Button playBtn;
@@ -44,9 +44,9 @@ static Button quitBtn;
 
 /** @brief Setup Buttons and play music (use in screen.c only) */
 void setupMainMenu(void) {
-    playBtn  = buttonCreate(_("Play"), 200, 300, 150, 50);
+    playBtn = buttonCreate(_("Play"), 200, 300, 150, 50);
     addonBtn = buttonCreate(_("Add-ons"), 200, 360, 150, 50);
-    quitBtn  = buttonCreate(_("Quit"), 200, 420, 150, 50);
+    quitBtn = buttonCreate(_("Quit"), 200, 420, 150, 50);
 
     PlayMusicStream(bgm);
 }
@@ -54,7 +54,7 @@ void setupMainMenu(void) {
 /** @brief Draw background and Buttons (use in screen.c only) */
 void drawMainMenu(void) {
     float scale = (float)GetScreenWidth() / bg.width;
-    DrawTextureEx(bg, (Vector2){ 0, 0 }, 0.0f, scale, WHITE);
+    DrawTextureEx(bg, (Vector2){0, 0}, 0.0f, scale, WHITE);
 
     buttonDraw(&playBtn);
     buttonDraw(&addonBtn);
@@ -67,20 +67,20 @@ void drawMainMenu3D(void) {}
 /** @brief Unused */
 void enterMainMenu(void) {}
 
-/** @brief Update music and check if buttons are pressed/hovered (use in screen.c only) */
+/** @brief Update music and update Buttons (use in screen.c only) */
 void updateMainMenu(void) {
     UpdateMusicStream(bgm);
 
-    if(buttonPressed(&playBtn)) {
+    if (buttonPressed(&playBtn)) {
         currentMenu = PLAY;
     }
 
-    if(buttonPressed(&addonBtn)) {
+    if (buttonPressed(&addonBtn)) {
         addonPick();
-    } 
+    }
 
-    if(buttonPressed(&quitBtn)) {
-        // FIXME: This just does a segfault for some reason, prob a memory leak or whatever
+    if (buttonPressed(&quitBtn)) {
+        // FIXME: This just does a segfault for some reason.
         CloseWindow();
     }
 }

@@ -20,29 +20,29 @@
  * @file main.c
  * @brief Main file
  *
- * This file sets up the window, audio, 
- * and it includes the main loop and 
+ * This file sets up the window, audio,
+ * and it includes the main loop and
  * some other random stuff.
  */
 
+#include "addon.h"
+#include "files.h"
+#include "i18n.h"
+#include "menu.h"
 #include "raylib.h"
 #include "screen.h"
-#include "files.h"
-#include "menu.h"
-#include "addon.h"
-#include "i18n.h"
 
-#define WINDOW_WIDTH  1024        ///< Window width
-#define WINDOW_HEIGHT 768         ///< Window height
-#define WINDOW_FPS    60          ///< Window FPS
-#define WINDOW_TITLE  "Tuxánci 2" ///< Window title
+#define WINDOW_WIDTH 1024        ///< Window width
+#define WINDOW_HEIGHT 768        ///< Window height
+#define WINDOW_FPS 60            ///< Window FPS
+#define WINDOW_TITLE "Tuxánci 2" ///< Window title
 
 int main(void) {
     // Internationalization setup
     setlocale(LC_ALL, "");
     bindtextdomain("tuxanci2", "locale");
     textdomain("tuxanci2");
-    
+
     SetTraceLogLevel(LOG_WARNING);
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
@@ -56,15 +56,15 @@ int main(void) {
     addonInit();
 
     // Main loop
-    while(!WindowShouldClose()) {
+    while (!WindowShouldClose()) {
         screenUpdate();
         menuUpdate();
-        
+
         BeginDrawing();
-            ClearBackground(BLACK);
-            screenDraw();
-                screenDraw3D();
-            EndMode3D();
+        ClearBackground(BLACK);
+        screenDraw();
+        screenDraw3D();
+        EndMode3D();
         EndDrawing();
     }
 

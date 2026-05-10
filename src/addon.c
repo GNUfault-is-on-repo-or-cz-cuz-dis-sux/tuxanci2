@@ -21,12 +21,12 @@
  * @brief Add-on system
  */
 
-#include "raylib.h"
 #include "files.h"
+#include "raylib.h"
+#include <gtk/gtk.h>
+#include <lauxlib.h>
 #include <lua.h>
 #include <lualib.h>
-#include <lauxlib.h>
-#include <gtk/gtk.h>
 
 /** @brief Init addon system */
 void addonInit(void) {
@@ -37,24 +37,21 @@ void addonInit(void) {
 /** @brief Open add-on picker */
 void addonPick(void) {
     // Lua init
-    lua_State *L = luaL_newstate();
+    lua_State* L = luaL_newstate();
     luaL_openlibs(L);
-    
-    //lua_register(L, "functioninlua", functioninc);
 
-    GtkWidget *dialog;
+    // lua_register(L, "functioninlua", functioninc);
+
+    GtkWidget* dialog;
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
-    char *filename = NULL;
+    char* filename = NULL;
 
-    dialog = gtk_file_chooser_dialog_new("Open Add-on",
-                                         NULL,
-                                         action,
-                                         "_Cancel", GTK_RESPONSE_CANCEL,
-                                         "_Open", GTK_RESPONSE_ACCEPT,
-                                         NULL);
+    dialog = gtk_file_chooser_dialog_new("Open Add-on", NULL, action, "_Cancel",
+                                         GTK_RESPONSE_CANCEL, "_Open",
+                                         GTK_RESPONSE_ACCEPT, NULL);
 
     // Filter
-    GtkFileFilter *filter = gtk_file_filter_new();
+    GtkFileFilter* filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, "Lua scripts");
     gtk_file_filter_add_pattern(filter, "*.lua");
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);

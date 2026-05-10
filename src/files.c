@@ -20,7 +20,7 @@
  * @file files.c
  * @brief Loads and stores data in RAM from files.
  *
- * I perfer to load everything into 
+ * I perfer to load everything into
  * RAM at once as they are fairly small
  * and makes it more fast once its done
  * loading.
@@ -42,10 +42,10 @@ Music bgm;
 Texture2D explosions;
 
 /** @brief Load files into RAM */
-void commonLoad(void) {    
-    bg         = LoadTexture("data/common/images/main.jpg");
-    font       = LoadFont("data/common/fonts/font.ttf");
-    bgm        = LoadMusicStream("data/common/music/menu.ogg");
+void commonLoad(void) {
+    bg = LoadTexture("data/common/images/main.jpg");
+    font = LoadFont("data/common/fonts/font.ttf");
+    bgm = LoadMusicStream("data/common/music/menu.ogg");
     explosions = LoadTexture("data/menu/images/explosions.jpg");
 }
 

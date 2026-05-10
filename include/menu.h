@@ -28,7 +28,7 @@
 
 typedef enum {
     NO_MENU, ///< No menu
-    PLAY     ///< Play menu (The menu when you press the Play button on the main menu)
+    PLAY     ///< Play menu
 } GameMenu;
 
 extern GameMenu currentMenu;

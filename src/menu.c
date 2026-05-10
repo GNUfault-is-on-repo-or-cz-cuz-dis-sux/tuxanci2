@@ -23,44 +23,42 @@
  * This file contains the stuff for menus.
  */
 
-#include "raylib.h"
-#include "mainmenu.h"
-#include "screen.h"
-#include "files.h"
 #include "menu.h"
+#include "files.h"
+#include "mainmenu.h"
 #include "play.h"
+#include "raylib.h"
+#include "screen.h"
 
 /** @brief Set the starting menu */
 GameMenu currentMenu = NO_MENU;
 
 /** @brief Setup menu screen (only use in screen.h) */
-void setupMenuScreen(void) {
-    menuSetupPlay();
-}
+void setupMenuScreen(void) { menuSetupPlay(); }
 
 /** @brief Update/Tick menu */
 void menuUpdate(void) {
-    if(currentMenu != NO_MENU) {
+    if (currentMenu != NO_MENU) {
         currentScreen = MENU;
     }
 }
 
-/** 
+/**
  * @brief Draw menu window
  * @param title Title of the menu window
  */
 void menuDraw(const char* title) {
-    int screenWidth  = GetScreenWidth();
+    int screenWidth = GetScreenWidth();
     int screenHeight = GetScreenHeight();
-    
-    int rectWidth  = 800;
+
+    int rectWidth = 800;
     int rectHeight = 600;
-    
+
     Color color = WHITE;
 
-    int posX = (screenWidth  - rectWidth)  / 2;
+    int posX = (screenWidth - rectWidth) / 2;
     int posY = (screenHeight - rectHeight) / 2;
-    
+
     int size = 40;
     int spacing = 5;
 
@@ -68,32 +66,27 @@ void menuDraw(const char* title) {
 
     DrawTexture(explosions, posX, posY - size - spacing, WHITE);
 
-    Vector2 pos = (Vector2){
-        posX + spacing,
-        posY - size - spacing
-    };
+    Vector2 pos = (Vector2){posX + spacing, posY - size - spacing};
 
     DrawTextEx(font, title, pos, size, 0, color);
 }
 
 /** @brief Draw menu screen (use only in screen.c) */
 void drawMenuScreen(void) {
-    int width  = GetScreenWidth();
+    int width = GetScreenWidth();
     int height = GetScreenHeight();
 
     DrawTexture(bg, 0, 0, WHITE);
 
-    DrawRectangleGradientV(
-        0, 0, width, height,
-        Fade(BLACK, 0.5f),
-        Fade(BLACK, 1.0f)
-    );
+    DrawRectangleGradientV(0, 0, width, height, Fade(BLACK, 0.5f),
+                           Fade(BLACK, 1.0f));
 
-    switch(currentMenu) {
-        case PLAY: {
-            menuDrawPlay();
-        }
-        case NO_MENU: break;
+    switch (currentMenu) {
+    case PLAY: {
+        menuDrawPlay();
+    }
+    case NO_MENU:
+        break;
     }
 }
 
@@ -107,11 +100,11 @@ void enterMenuScreen(void) {}
 void updateMenuScreen(void) {
     UpdateMusicStream(bgm);
 
-    switch(currentMenu) {
-        case PLAY: {
-            menuUpdatePlay();
-        }
-        case NO_MENU: break;
+    switch (currentMenu) {
+    case PLAY: {
+        menuUpdatePlay();
+    }
+    case NO_MENU:
+        break;
     }
 }
-
