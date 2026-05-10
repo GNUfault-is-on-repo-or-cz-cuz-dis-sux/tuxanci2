@@ -20,7 +20,7 @@ void menuUpdatePlay(void) {
     UpdateMusicStream(bgm);
 
     if(buttonPressed(&backBtn)) {
-        // FIXME: for some reason this does nothing...
+        currentMenu = NO_MENU;
         currentScreen = MAINMENU;
     }
 }
