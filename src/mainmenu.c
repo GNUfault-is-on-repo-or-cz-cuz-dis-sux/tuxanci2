@@ -1,29 +1,23 @@
 #include "raylib.h"
 #include "button.h"
-#include "screen.h"
 #include "files.h"
+#include "menu.h"
+#include "screen.h"
 
-static Button btnPlay;
-static Button btnQuit;
-
-static void onPlay(void) {
-    currentScreen = MENU;
-}
-
-static void onQuit(void) {
-    CloseWindow();
-}
+static Button playBtn;
+static Button quitBtn;
 
 void setupMainMenu(void) {
-    btnPlay = buttonCreate(250, 300, 32, "Play", onPlay);
-    btnQuit = buttonCreate(250, 340, 32, "Quit", onQuit);
+    playBtn = buttonCreate("Play", 200, 300, 150, 50);
+    quitBtn = buttonCreate("Quit", 200, 360, 150, 50);
 }
 
 void drawMainMenu(void) {
     float scale = (float)GetScreenWidth() / bg.width;
     DrawTextureEx(bg, (Vector2){ 0, 0 }, 0.0f, scale, WHITE);
-    buttonDraw(&btnPlay);
-    buttonDraw(&btnQuit);
+
+    buttonDraw(&playBtn);
+    buttonDraw(&quitBtn);
 }
 
 void drawMainMenu3D(void) {}
@@ -34,6 +28,13 @@ void enterMainMenu(void) {
 
 void updateMainMenu(void) {
     UpdateMusicStream(bgm);
-    buttonUpdate(&btnPlay);
-    buttonUpdate(&btnQuit);
+
+    if (buttonPressed(&playBtn)) {
+        currentMenu = PLAY;
+    }
+
+    if (buttonPressed(&quitBtn)) {
+        // FIXME: This just does a segfault for some reason, prob a memory leak or whatever
+        CloseWindow();
+    }
 }

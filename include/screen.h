@@ -2,7 +2,6 @@
 #define SCREEN_H
 
 typedef enum {
-    INTRO,
     MAINMENU,
     MENU
 } GameScreen;

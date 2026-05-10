@@ -1,9 +1,9 @@
 #include "raylib.h"
 #include "error.h"
 #include "screen.h"
-#include "intro.h"
 #include "files.h"
 #include "camera.h"
+#include "menu.h"
 
 #define WINDOW_WIDTH          1024
 #define WINDOW_HEIGHT         768
@@ -26,12 +26,11 @@ int main(void) {
     while(!WindowShouldClose()) {
         UpdateCamera(&camera, CAMERA_CUSTOM);
         screenUpdate();
+        menuUpdate();
         
         BeginDrawing();
             ClearBackground(BLACK);
-            
             screenDraw();
-            BeginMode3D(camera);
                 screenDraw3D();
             EndMode3D();
         EndDrawing();

@@ -1,12 +1,9 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "raylib.h"
+#include "menu_screen.h"
 
-void setupMenu(void);
-void drawMenu(void);
-void drawMenu3D(void);
-void enterMenu(void);
-void updateMenu(void);
+void menuUpdate(void);
+void menuDraw(const char* title);
 
 #endif // MENU_H

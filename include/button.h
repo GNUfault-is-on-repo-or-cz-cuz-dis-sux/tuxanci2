@@ -4,21 +4,17 @@
 #include "raylib.h"
 #include <stdbool.h>
 
-typedef void (*ButtonCallback)(void);
-
-typedef struct {
-    float x, y;
-    float fontSize;
-    const char *label;
-    ButtonCallback onClick;
-    bool enabled;
-    float hoverT;
+typedef struct Button {
+    Rectangle rect;
+    const char* text;
+    int fontSize;
+    Color baseColor;
+    Color hoverColor;
+    bool hovered;
 } Button;
 
-Button buttonCreate(float x, float y, float fontSize, const char *label, ButtonCallback onClick);
-
-void buttonDraw(const Button *btn);
-bool buttonUpdate(Button *btn);
-bool buttonTick(Button *btn);
+Button buttonCreate(const char* text, int x, int y, int w, int h);
+void buttonDraw(Button* b);
+bool buttonPressed(Button* b);
 
 #endif // BUTTON_H
