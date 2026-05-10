@@ -27,6 +27,16 @@ done
 # Fix indentation
 for f in $TARGETS; do
     [ -f "$f" ] || continue
-    clang-format -i --style="{BasedOnStyle: llvm, IndentWidth: 4, ColumnLimit: 80, PointerAlignment: Left}" "$f"
+    
+    clang-format -i --style="{ \
+        BasedOnStyle: llvm, \
+        IndentWidth: 4, \
+        ColumnLimit: 80, \
+        PointerAlignment: Left, \
+        IndentCaseLabels: true, \
+        ReflowComments: true, \
+        BreakBeforeBraces: Attach \
+    }" "$f"
+    
     echo "Fixed indentation in $f"
 done
