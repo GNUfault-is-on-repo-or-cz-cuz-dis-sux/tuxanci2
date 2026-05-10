@@ -88,6 +88,13 @@ set(SUPPORT_SCREEN_CAPTURE OFF)
 
 add_compile_options(-Oz -Wall -Wextra -pedantic -pipe)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LUA REQUIRED lua5.4)
+pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+
+include_directories(${LUA_INCLUDE_DIRS})
+include_directories(${GTK3_INCLUDE_DIRS})
+
 add_subdirectory(raylib)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -96,7 +103,7 @@ add_dependencies(${PROJECT_NAME} raylib)
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LUA_LIBRARIES} ${GTK3_LIBRARIES} raylib)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} --strip-all $<TARGET_FILE:${PROJECT_NAME}>

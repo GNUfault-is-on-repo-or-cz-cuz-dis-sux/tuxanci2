@@ -29,6 +29,7 @@
 #include "screen.h"
 #include "files.h"
 #include "menu.h"
+#include "addon.h"
 
 #define WINDOW_WIDTH  1024        ///< Window width
 #define WINDOW_HEIGHT 768         ///< Window height
@@ -36,6 +37,8 @@
 #define WINDOW_TITLE  "Tuxánci 2" ///< Window title
 
 int main(void) {
+    SetTraceLogLevel(LOG_WARNING);
+    
     // temporary fix
     ChangeDirectory("data");
     
@@ -46,6 +49,8 @@ int main(void) {
     InitAudioDevice();
 
     commonLoad();
+
+    addonInit();
 
     // Main loop
     while(!WindowShouldClose()) {

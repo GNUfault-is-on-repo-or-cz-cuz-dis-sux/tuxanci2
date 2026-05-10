@@ -30,17 +30,22 @@
 #include "files.h"
 #include "menu.h"
 #include "screen.h"
+#include "addon.h"
 
 /** @brief Play Button */
 static Button playBtn;
+
+/** @brief Add-on Button */
+static Button addonBtn;
 
 /** @brief Quit Button */
 static Button quitBtn;
 
 /** @brief Setup Buttons and play music (use in screen.c only) */
 void setupMainMenu(void) {
-    playBtn = buttonCreate("Play", 200, 300, 150, 50);
-    quitBtn = buttonCreate("Quit", 200, 360, 150, 50);
+    playBtn  = buttonCreate("Play", 200, 300, 150, 50);
+    addonBtn = buttonCreate("Add-ons", 200, 360, 150, 50);
+    quitBtn  = buttonCreate("Quit", 200, 420, 150, 50);
 
     PlayMusicStream(bgm);
 }
@@ -51,6 +56,7 @@ void drawMainMenu(void) {
     DrawTextureEx(bg, (Vector2){ 0, 0 }, 0.0f, scale, WHITE);
 
     buttonDraw(&playBtn);
+    buttonDraw(&addonBtn);
     buttonDraw(&quitBtn);
 }
 
@@ -64,11 +70,15 @@ void enterMainMenu(void) {}
 void updateMainMenu(void) {
     UpdateMusicStream(bgm);
 
-    if (buttonPressed(&playBtn)) {
+    if(buttonPressed(&playBtn)) {
         currentMenu = PLAY;
     }
 
-    if (buttonPressed(&quitBtn)) {
+    if(buttonPressed(&addonBtn)) {
+        addonPick();
+    } 
+
+    if(buttonPressed(&quitBtn)) {
         // FIXME: This just does a segfault for some reason, prob a memory leak or whatever
         CloseWindow();
     }
