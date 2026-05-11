@@ -21,62 +21,80 @@
  * @brief Add-on system
  */
 
-#include "files.h"
-#include "raylib.h"
 #include <gtk/gtk.h>
 #include <lauxlib.h>
 #include <lua.h>
 #include <lualib.h>
+#include <threads.h>
+#include <stdlib.h>
+#include <string.h>
 
-/** @brief Init addon system */
-void addonInit(void) {
-    // GTK init
-    gtk_init_check(NULL, NULL);
-}
+/** @brief Structure to pass data to our Lua thread */ 
+typedef struct {
+    char* filename;
+} LuaThreadArgs;
 
-/*
- * For some reason this just locks up
- * if you exit the file picker
- * without picking a file.
- */
-/** @brief Open add-on picker */
-void addonPick(void) {
-    // Lua init
+/** @brief Worker function for the Lua thread */
+int run_lua_script(void* data) {
+    LuaThreadArgs* args = (LuaThreadArgs*)data;
+    
+    if (args->filename == NULL) {
+        free(args);
+        return -1;
+    }
+
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
 
-    // lua_register(L, "functioninlua", functioninc);
+    if (luaL_dofile(L, args->filename) != LUA_OK) {
+        const char* error = lua_tostring(L, -1);
+        fprintf(stderr, "Lua Error: %s\n", error);
+    }
 
+    lua_close(L);
+    
+    g_free(args->filename);
+    free(args);
+    return 0;
+}
+
+/** @brief Init addon system */
+void addonInit(void) {
+    gtk_init_check(NULL, NULL);
+}
+
+/** @brief Open add-on picker */
+void addonPick(void) {
     GtkWidget* dialog;
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
-    char* filename = NULL;
 
-    dialog = gtk_file_chooser_dialog_new("Open Add-on", NULL, action, "_Cancel",
-                                         GTK_RESPONSE_CANCEL, "_Open",
-                                         GTK_RESPONSE_ACCEPT, NULL);
+    dialog = gtk_file_chooser_dialog_new("Open Add-on", NULL, action, 
+                                         "_Cancel", GTK_RESPONSE_CANCEL, 
+                                         "_Open", GTK_RESPONSE_ACCEPT, NULL);
 
-    // Filter
     GtkFileFilter* filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, "Lua scripts");
     gtk_file_filter_add_pattern(filter, "*.lua");
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
-    // Open the window
     if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
-        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+        char* filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+
+        LuaThreadArgs* args = malloc(sizeof(LuaThreadArgs));
+        args->filename = filename;
+
+        thrd_t thread_id;
+        if (thrd_create(&thread_id, run_lua_script, args) == thrd_success) {
+            thrd_detach(thread_id);
+        } else {
+            g_free(filename);
+            free(args);
+        }
     }
 
-    // Destroy it
     gtk_widget_destroy(dialog);
 
-    // Flush events
     while (gtk_events_pending()) {
         gtk_main_iteration();
     }
-
-    // Run it
-    luaL_dofile(L, filename);
-
-    // Close it
-    lua_close(L);
 }
