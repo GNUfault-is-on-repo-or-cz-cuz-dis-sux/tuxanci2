@@ -24,28 +24,49 @@
 #include "button.h"
 #include "files.h"
 #include "i18n.h"
+#include "list.h"
 #include "menu.h"
+#include "old-arena-ldr.h"
 #include "raylib.h"
 #include "screen.h"
 
 /** @brief Back Button */
 static Button backBtn;
 
-/** @brief Setup Button and play music (use in screen.c only) */
+/** @brief Legacy map list */
+static List mapList;
+
+/** @brief Setup Button, list, and play music (use in screen.c only) */
 void menuSetupSingleplayer(void) {
     backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
+
+    mapList = listCreate(160, 100, 300, 520);
+
+    for (int i = 0; i < legacyMaps.count; i++)
+        listAdd(&mapList, legacyMaps.arenas[i].name);
+
     PlayMusicStream(bgm);
 }
 
-/** @brief Draw Button (use in screen.c only) */
+/** @brief Draw Button, map list, and preview image (use in screen.c only) */
 void menuDrawSingleplayer(void) {
-    menuDraw(_("Signleplayer"));
+    menuDraw(_("Singleplayer"));
     buttonDraw(&backBtn);
+    listDraw(&mapList);
+
+    if (mapList.selectedIndex >= 0 && mapList.selectedIndex < legacyMaps.count) {
+        Texture2D preview = legacyMaps.arenas[mapList.selectedIndex].screen;
+        int previewX = 520;
+        int previewY = 100;
+        DrawTexture(preview, previewX, previewY, WHITE);
+    }
 }
 
-/** @brief Update music and update Buttons */
+/** @brief Update music, list, and Buttons */
 void menuUpdateSingleplayer(void) {
     UpdateMusicStream(bgm);
+
+    listCheck(&mapList);
 
     if (buttonPressed(&backBtn)) {
         currentMenu = PLAY;

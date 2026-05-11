@@ -31,6 +31,7 @@
 #include "menu.h"
 #include "raylib.h"
 #include "screen.h"
+#include "old-arena-ldr.h"
 
 #define WINDOW_WIDTH 1024        ///< Window width
 #define WINDOW_HEIGHT 768        ///< Window height
@@ -54,6 +55,8 @@ int main(void) {
     commonLoad();
 
     addonInit();
+
+    oldarenaldrInit();
 
     // Main loop
     while (!WindowShouldClose()) {
