@@ -160,7 +160,6 @@ static legacyMapList oldarenaldrLoadAllMetadata(void) {
 
         struct stat st;
         if (stat(folder_path, &st) == 0 && S_ISDIR(st.st_mode)) {
-            char folder_path[PATH_MAX];
             snprintf(folder_path, sizeof(folder_path), "%s/%s", dst_root, entry->d_name);
 
             list.arenas[list.count] = oldarenaldrGetArenaMetadata(folder_path);
