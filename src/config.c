@@ -21,7 +21,6 @@
  * @brief Writing and reading config files
  */
 
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -111,7 +110,10 @@ void configWrite(const char* entry, const char* data) {
             if (!found && strncmp(current_line, entry, strlen(entry)) == 0 && 
                (current_line[strlen(entry)] == ' ' || current_line[strlen(entry)] == '=')) {
                 
-                asprintf(&lines[line_count], "%s = %s\n", entry, data);
+                char buf[256];
+                snprintf(buf, sizeof(buf), "%s = %s\n", entry, data);
+                lines[line_count] = strdup(buf);
+
                 found = 1;
                 free(current_line);
                 current_line = NULL;

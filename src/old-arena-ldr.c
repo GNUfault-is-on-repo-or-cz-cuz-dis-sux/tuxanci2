@@ -23,7 +23,6 @@
  * This file contains stuff for loading legacy arenas.
  */ 
 
-#define _DEFAULT_SOURCE
 #include <zip.h>
 #include <string.h>
 #include <sys/types.h>
@@ -32,6 +31,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "raylib.h"
 #include "old-arena-ldr.h"
 
@@ -53,14 +53,14 @@ static void extract_zip(const char *zip_path, const char *dest_root) {
     struct zip *z = zip_open(zip_path, 0, &err);
     if (!z) return;
 
-    char folder_name[256];
+    char folder_name[NAME_MAX + 1];
     const char *last_slash = strrchr(zip_path, '/');
     const char *base = last_slash ? last_slash + 1 : zip_path;
     strncpy(folder_name, base, sizeof(folder_name));
     char *dot = strrchr(folder_name, '.');
     if (dot) *dot = '\0';
 
-    char target_path[512];
+    char target_path[PATH_MAX];
     snprintf(target_path, sizeof(target_path), "%s/%s", dest_root, folder_name);
     mkdir(target_path, 0755);
 
@@ -69,7 +69,7 @@ static void extract_zip(const char *zip_path, const char *dest_root) {
         struct zip_stat st;
         zip_stat_index(z, i, 0, &st);
 
-        char out_file_path[1024];
+        char out_file_path[PATH_MAX];
         snprintf(out_file_path, sizeof(out_file_path), "%s/%s", target_path, st.name);
 
         struct zip_file *f = zip_fopen_index(z, i, 0);
@@ -95,8 +95,8 @@ static void extract_zip(const char *zip_path, const char *dest_root) {
  */
 static legacyMapMetadata oldarenaldrGetArenaMetadata(const char* folder_path) {
     legacyMapMetadata meta = {0};
-    char map_path[512];
-    char screen_filename[256] = {0};
+    char map_path[PATH_MAX];
+    char screen_filename[NAME_MAX + 1] = {0};
     
     snprintf(map_path, sizeof(map_path), "%s/arena.map", folder_path);
 
@@ -118,7 +118,7 @@ static legacyMapMetadata oldarenaldrGetArenaMetadata(const char* folder_path) {
     fclose(f);
 
     if (strlen(screen_filename) > 0) {
-        char img_path[512];
+        char img_path[PATH_MAX];
         snprintf(img_path, sizeof(img_path), "%s/%s", folder_path, screen_filename);
 
         Image fullImg = LoadImage(img_path);
@@ -155,8 +155,12 @@ static legacyMapList oldarenaldrLoadAllMetadata(void) {
     while ((entry = readdir(dir)) != NULL && list.count < 64) {
         if (entry->d_name[0] == '.') continue;
 
-        if (entry->d_type == DT_DIR) {
-            char folder_path[512];
+        char folder_path[PATH_MAX];
+        snprintf(folder_path, sizeof(folder_path), "%s/%s", dst_root, entry->d_name);
+
+        struct stat st;
+        if (stat(folder_path, &st) == 0 && S_ISDIR(st.st_mode)) {
+            char folder_path[PATH_MAX];
             snprintf(folder_path, sizeof(folder_path), "%s/%s", dst_root, entry->d_name);
 
             list.arenas[list.count] = oldarenaldrGetArenaMetadata(folder_path);
@@ -181,7 +185,7 @@ void oldarenaldrInit(void) {
     struct dirent *entry;
     while ((entry = readdir(dir)) != NULL) {
         if (strstr(entry->d_name, ".zip")) {
-            char full_path[512];
+            char full_path[PATH_MAX];
             snprintf(full_path, sizeof(full_path), "%s/%s", src_dir, entry->d_name);
             extract_zip(full_path, dst_root);
         }

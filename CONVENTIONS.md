@@ -8,7 +8,7 @@ This is mainly for C and C header files.
 - Files should end with a `\n`.
 
 ## C standard
-Always use strict C11 without POSIX or GNU extensions.
+Always use strict C99 with POSIX extensions are allowed but no GNU extensions.
 
 ## File naming
 Use "snake_case" for filenames.
