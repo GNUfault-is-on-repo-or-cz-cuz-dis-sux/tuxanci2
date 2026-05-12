@@ -48,10 +48,10 @@ Button buttonCreate(const char* text, int x, int y, int w, int h) {
     b.fontSize = 20;
 
     // Normal color
-    b.baseColor = (Color){200, 200, 200, 200};
+    b.baseColor = (Color){230, 230, 230, 200};
 
     // Color when hovered
-    b.hoverColor = (Color){200, 200, 200, 255};
+    b.hoverColor = (Color){230, 230, 230, 255};
 
     b.hovered = false;
     return b;

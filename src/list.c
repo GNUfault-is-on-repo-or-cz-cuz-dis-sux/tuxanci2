@@ -49,9 +49,9 @@ List listCreate(int x, int y, int w, int h) {
     l.hoveredIndex = -1;
     l.fontSize = 20;
 
-    l.baseColor = (Color){200, 200, 200, 255};
+    l.baseColor = (Color){230, 230, 230, 255};
 
-    l.selectedColor = (Color){100, 149, 237, 255};
+    l.selectedColor = (Color){253, 170, 72, 255};
     
     return l;
 }
