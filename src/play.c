@@ -47,7 +47,7 @@ void menuDrawPlay(void) {
     menuDraw(_("Play"));
     
     Vector2 pos = (Vector2){130, 100};
-    DrawTextEx(font, _("Select the the mode you want to play:"), pos, 24, 0, BLACK);
+    DrawTextEx(fontSubheader, _("Select the the mode you want to play:"), pos, 24, 0, BLACK);
 
     buttonDraw(&backBtn);
     buttonDraw(&singleplayerBtn);

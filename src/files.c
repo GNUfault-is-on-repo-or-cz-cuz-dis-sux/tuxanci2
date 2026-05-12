@@ -32,8 +32,10 @@
 /// @brief The background
 Texture2D bg;
 
-/// @brief The main font
+/// @brief The fonts
 Font font;
+Font fontHeader;
+Font fontSubheader;
 
 /// @brief The background music
 Music bgm;
@@ -44,7 +46,9 @@ Texture2D explosions;
 /// @brief Load files into RAM
 void commonLoad(void) {
     bg = LoadTexture("data/common/images/main.jpg");
-    font = LoadFont("/usr/share/fonts/dejavu/DejaVuSans.ttf");
+    font = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 20, 0, 0);
+    fontHeader = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 40, 0, 0);
+    fontSubheader = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 24, 0, 0);
     bgm = LoadMusicStream("data/common/music/menu.ogg");
     explosions = LoadTexture("data/menu/images/explosions.jpg");
 }
@@ -53,6 +57,8 @@ void commonLoad(void) {
 void commonDestroy(void) {
     UnloadTexture(bg);
     UnloadFont(font);
+    UnloadFont(fontHeader);
+    UnloadFont(fontSubheader);
     UnloadMusicStream(bgm);
     UnloadTexture(explosions);
 }

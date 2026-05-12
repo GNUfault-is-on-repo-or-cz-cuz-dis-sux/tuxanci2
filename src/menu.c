@@ -71,7 +71,7 @@ void menuDraw(const char* title) {
 
     Vector2 pos = (Vector2){posX + spacing, posY - size - spacing};
 
-    DrawTextEx(font, title, pos, size, 0, color);
+    DrawTextEx(fontHeader, title, pos, size, 0, color);
 }
 
 /// @brief Draw menu screen (use only in screen.c)

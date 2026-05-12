@@ -28,6 +28,8 @@
 
 extern Texture2D bg;
 extern Font font;
+extern Font fontHeader;
+extern Font fontSubheader;
 extern Music bgm;
 extern Texture2D explosions;
 
