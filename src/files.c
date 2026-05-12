@@ -29,19 +29,19 @@
 #include "raylib.h"
 #include "screen.h"
 
-/** @brief The background */
+/// @brief The background
 Texture2D bg;
 
-/** @brief The main font */
+/// @brief The main font
 Font font;
 
-/** @brief The background music */
+/// @brief The background music
 Music bgm;
 
-/** @brief The image used on the header bar on the menus */
+/// @brief The image used on the header bar on the menus
 Texture2D explosions;
 
-/** @brief Load files into RAM */
+/// @brief Load files into RAM
 void commonLoad(void) {
     bg = LoadTexture("data/common/images/main.jpg");
     font = LoadFont("data/common/fonts/font.ttf");
@@ -49,7 +49,7 @@ void commonLoad(void) {
     explosions = LoadTexture("data/menu/images/explosions.jpg");
 }
 
-/** @brief Free files in RAM */
+/// @brief Free files in RAM
 void commonDestroy(void) {
     UnloadTexture(bg);
     UnloadFont(font);

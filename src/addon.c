@@ -29,12 +29,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-/** @brief Structure to pass data to our Lua thread */ 
+/// @brief Structure to pass data to our Lua thread
 typedef struct {
     char* filename;
 } LuaThreadArgs;
 
-/** @brief Worker function for the Lua thread */
+/// @brief Worker function for the Lua thread
 int run_lua_script(void* data) {
     LuaThreadArgs* args = (LuaThreadArgs*)data;
     
@@ -58,12 +58,12 @@ int run_lua_script(void* data) {
     return 0;
 }
 
-/** @brief Init addon system */
+/// @brief Init addon system
 void addonInit(void) {
     gtk_init_check(NULL, NULL);
 }
 
-/** @brief Open add-on picker */
+/// @brief Open add-on picker
 void addonPick(void) {
     GtkWidget* dialog;
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;

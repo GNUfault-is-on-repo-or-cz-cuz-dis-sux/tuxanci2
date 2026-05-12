@@ -145,7 +145,7 @@ static legacyMapMetadata oldarenaldrGetArenaMetadata(const char* folder_path) {
     return meta;
 }
 
-/** @brief Load all legacy arenas metadata and preview images */
+/// @brief Load all legacy arenas metadata and preview images
 static legacyMapList oldarenaldrLoadAllMetadata(void) {
     legacyMapList list = {0};
 
@@ -171,7 +171,7 @@ static legacyMapList oldarenaldrLoadAllMetadata(void) {
     return list;
 }
 
-/** @brief Extract the legacy maps */
+/// @brief Extract the legacy maps
 void oldarenaldrInit(void) {
     mkdir(dst_root, 0755);
 

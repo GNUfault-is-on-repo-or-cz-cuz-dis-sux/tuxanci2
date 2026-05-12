@@ -33,16 +33,16 @@
 #include "raylib.h"
 #include "screen.h"
 
-/** @brief Play Button */
+/// @brief Play Button
 static Button playBtn;
 
-/** @brief Add-on Button */
+/// @brief Add-on Button
 static Button addonBtn;
 
-/** @brief Quit Button */
+/// @brief Quit Button
 static Button quitBtn;
 
-/** @brief Setup Buttons and play music (use in screen.c only) */
+/// @brief Setup Buttons and play music (use in screen.c only)
 void setupMainMenu(void) {
     playBtn = buttonCreate(_("Play"), 200, 300, 150, 50);
     addonBtn = buttonCreate(_("Add-ons"), 200, 360, 150, 50);
@@ -51,7 +51,7 @@ void setupMainMenu(void) {
     PlayMusicStream(bgm);
 }
 
-/** @brief Draw background and Buttons (use in screen.c only) */
+/// @brief Draw background and Buttons (use in screen.c only)
 void drawMainMenu(void) {
     float scale = (float)GetScreenWidth() / bg.width;
     DrawTextureEx(bg, (Vector2){0, 0}, 0.0f, scale, WHITE);
@@ -61,13 +61,13 @@ void drawMainMenu(void) {
     buttonDraw(&quitBtn);
 }
 
-/** @brief Unused */
+/// @brief Unused
 void drawMainMenu3D(void) {}
 
-/** @brief Unused */
+/// @brief Unused
 void enterMainMenu(void) {}
 
-/** @brief Update music and update Buttons (use in screen.c only) */
+/// @brief Update music and update Buttons (use in screen.c only)
 void updateMainMenu(void) {
     UpdateMusicStream(bgm);
 

@@ -31,16 +31,16 @@
 #include "screen.h"
 #include "singleplayer.h"
 
-/** @brief Set the starting menu */
+/// @brief Set the starting menu
 GameMenu currentMenu = NO_MENU;
 
-/** @brief Setup menu screen (only use in screen.h) */
+/// @brief Setup menu screen (only use in screen.h)
 void setupMenuScreen(void) {
     menuSetupPlay();
     menuSetupSingleplayer();
 }
 
-/** @brief Update/Tick menu */
+/// @brief Update/Tick menu
 void menuUpdate(void) {
     if (currentMenu != NO_MENU)
         currentScreen = MENU;
@@ -74,7 +74,7 @@ void menuDraw(const char* title) {
     DrawTextEx(font, title, pos, size, 0, color);
 }
 
-/** @brief Draw menu screen (use only in screen.c) */
+/// @brief Draw menu screen (use only in screen.c)
 void drawMenuScreen(void) {
     int width = GetScreenWidth();
     int height = GetScreenHeight();
@@ -98,13 +98,13 @@ void drawMenuScreen(void) {
     }
 }
 
-/** @brief Unused */
+/// @brief Unused
 void drawMenuScreen3D(void) {}
 
-/** @brief Unused */
+/// @brief Unused
 void enterMenuScreen(void) {}
 
-/** @brief Update menu screen (use only in screen.c) */
+/// @brief Update menu screen (use only in screen.c)
 void updateMenuScreen(void) {
     UpdateMusicStream(bgm);
 

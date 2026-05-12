@@ -28,13 +28,13 @@
 #include "raylib.h"
 #include "screen.h"
 
-/** @brief Back Button */
+/// @brief Back Button
 static Button backBtn;
 
-/** @brief Singleplayer Button */
+/// @brief Singleplayer Button
 static Button singleplayerBtn;
 
-/** @brief Setup Button and play music (use in screen.c only) */
+/// @brief Setup Button and play music (use in screen.c only)
 void menuSetupPlay(void) {
     backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
     singleplayerBtn = buttonCreate(_("Singleplayer"), 400, 250, 200, 200);
@@ -42,7 +42,7 @@ void menuSetupPlay(void) {
     PlayMusicStream(bgm);
 }
 
-/** @brief Draw Button (use in screen.c only) */
+/// @brief Draw Button (use in screen.c only)
 void menuDrawPlay(void) {
     menuDraw(_("Play"));
     
@@ -53,7 +53,7 @@ void menuDrawPlay(void) {
     buttonDraw(&singleplayerBtn);
 }
 
-/** @brief Update music and update Buttons */
+/// @brief Update music and update Buttons
 void menuUpdatePlay(void) {
     UpdateMusicStream(bgm);
 

@@ -25,6 +25,7 @@
  * some other random stuff.
  */
 
+#include <unistd.h>
 #include "addon.h"
 #include "files.h"
 #include "i18n.h"
@@ -32,12 +33,14 @@
 #include "raylib.h"
 #include "screen.h"
 #include "old-arena-ldr.h"
+#include "config.h"
 
 #define WINDOW_WIDTH 1024        ///< Window width
 #define WINDOW_HEIGHT 768        ///< Window height
 #define WINDOW_FPS 60            ///< Window FPS
 #define WINDOW_TITLE "Tuxánci 2" ///< Window title
 
+/// @brief Program entry
 int main(void) {
     // Internationalization setup
     setlocale(LC_ALL, "");
@@ -51,6 +54,10 @@ int main(void) {
 
     SetAudioStreamBufferSizeDefault(8192);
     InitAudioDevice();
+    
+    if (access(configFile, F_OK) != 0) {
+        configDefaults();
+    }
 
     commonLoad();
 
@@ -71,6 +78,7 @@ int main(void) {
         EndDrawing();
     }
 
+    configDestroy();
     commonDestroy();
     CloseWindow();
 

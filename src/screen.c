@@ -29,10 +29,10 @@
 #include "menu.h"
 #include "raylib.h"
 
-/** @brief Set starting currentScreen */
+/// @brief Set starting currentScreen
 GameScreen currentScreen = MAINMENU;
 
-/** @brief Draw the selected currentScreen */
+/// @brief Draw the selected currentScreen
 void screenDraw(void) {
     switch (currentScreen) {
         case MAINMENU: {
@@ -48,7 +48,7 @@ void screenDraw(void) {
     }
 }
 
-/** @brief Draw the 3D scene of the selected currentScreen */
+/// @brief Draw the 3D scene of the selected currentScreen
 void screenDraw3D(void) {
     switch (currentScreen) {
         case MAINMENU: {
@@ -62,7 +62,7 @@ void screenDraw3D(void) {
     }
 }
 
-/** @brief Update the selected currentScreen */
+/// @brief Update the selected currentScreen
 void screenUpdate(void) {
     switch (currentScreen) {
         case MAINMENU: {

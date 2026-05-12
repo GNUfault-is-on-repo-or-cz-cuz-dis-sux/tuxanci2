@@ -24,7 +24,7 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-/** @brief Diffrent screens you can go to */
+/// @brief Diffrent screens you can go to
 typedef enum {
     MAINMENU, ///< Main menu (the inital screen)
     MENU      ///< Menu (used when a menu window is on the screen)

@@ -17,30 +17,30 @@
  */
 
 /**
- * @file old-arena-ldr.h
- * @brief Legacy arena loader
+ * @file checkbox.c
+ * @brief Checkbox system
  *
- * This file contains stuff for loading legacy arenas.
+ * This file contains functions for
+ * creating, drawing, and checking
+ * if a checkbox has been pressed.
  */
 
-#ifndef OLD_ARENA_LDR_H
-#define OLD_ARENA_LDR_H
+#ifndef CHECKBOX_H
+#define CHECKBOX_H
 
-/// @brief Legacy map metadata and preview image
-typedef struct legacyMapMetadata {
-    char name[256];
-    Texture2D screen;
-} legacyMapMetadata;
+#include "raylib.h"
+#include <stdbool.h>
 
-/// @brief List of legacy arenas
-typedef struct legacyMapList {
-    legacyMapMetadata arenas[64];
-    int count;
-} legacyMapList;
+typedef struct Checkbox {
+    Rectangle rect;     ///< Checkbox size
+    bool state;         ///< Checkbox state
+    bool hovered;       ///< Is mouse over Button?
+    Color baseColor;    ///< Button color
+    Color checkedColor; ///< Button color (checked)
+} Checkbox;
 
-/// @brief The legacy arenas metedata and preview images are stored here
-extern legacyMapList legacyMaps;
+Checkbox checkboxCreate(int x, int y);
+void checkboxDraw(Checkbox* b);
+bool checkboxPressed(Checkbox* b);
 
-void oldarenaldrInit(void);
-
-#endif // OLD_ARENA_LDR_H
+#endif // CHECKBOX_H

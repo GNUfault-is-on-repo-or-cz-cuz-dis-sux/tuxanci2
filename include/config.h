@@ -17,30 +17,19 @@
  */
 
 /**
- * @file old-arena-ldr.h
- * @brief Legacy arena loader
- *
- * This file contains stuff for loading legacy arenas.
+ * @file config.c
+ * @brief Writing and reading config files
  */
 
-#ifndef OLD_ARENA_LDR_H
-#define OLD_ARENA_LDR_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
-/// @brief Legacy map metadata and preview image
-typedef struct legacyMapMetadata {
-    char name[256];
-    Texture2D screen;
-} legacyMapMetadata;
+extern char* configFile;
 
-/// @brief List of legacy arenas
-typedef struct legacyMapList {
-    legacyMapMetadata arenas[64];
-    int count;
-} legacyMapList;
+char* configRead(const char* entry);
+void configWrite(const char* entry, const char* data);
+void configDefaults(void);
+void configInit(void);
+void configDestroy(void);
 
-/// @brief The legacy arenas metedata and preview images are stored here
-extern legacyMapList legacyMaps;
-
-void oldarenaldrInit(void);
-
-#endif // OLD_ARENA_LDR_H
+#endif // CONFIG_H

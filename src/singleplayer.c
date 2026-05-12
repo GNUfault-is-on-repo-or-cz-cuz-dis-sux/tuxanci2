@@ -30,13 +30,13 @@
 #include "raylib.h"
 #include "screen.h"
 
-/** @brief Back Button */
+/// @brief Back Button
 static Button backBtn;
 
-/** @brief Legacy map list */
+/// @brief Legacy map list
 static List mapList;
 
-/** @brief Setup Button, list, and play music (use in screen.c only) */
+/// @brief Setup Button, list, and play music (use in screen.c only)
 void menuSetupSingleplayer(void) {
     backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
 
@@ -48,7 +48,7 @@ void menuSetupSingleplayer(void) {
     PlayMusicStream(bgm);
 }
 
-/** @brief Draw Button, map list, and preview image (use in screen.c only) */
+/// @brief Draw Button, map list, and preview image (use in screen.c only)
 void menuDrawSingleplayer(void) {
     menuDraw(_("Singleplayer"));
     buttonDraw(&backBtn);
@@ -62,7 +62,7 @@ void menuDrawSingleplayer(void) {
     }
 }
 
-/** @brief Update music, list, and Buttons */
+/// @brief Update music, list, and Buttons
 void menuUpdateSingleplayer(void) {
     UpdateMusicStream(bgm);
 
