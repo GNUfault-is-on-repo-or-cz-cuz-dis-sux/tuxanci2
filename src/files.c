@@ -44,7 +44,7 @@ Texture2D explosions;
 /// @brief Load files into RAM
 void commonLoad(void) {
     bg = LoadTexture("data/common/images/main.jpg");
-    font = LoadFont("data/common/fonts/font.ttf");
+    font = LoadFont("/usr/share/fonts/dejavu/DejaVuSans.ttf");
     bgm = LoadMusicStream("data/common/music/menu.ogg");
     explosions = LoadTexture("data/menu/images/explosions.jpg");
 }
