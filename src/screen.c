@@ -27,10 +27,11 @@
 #include "screen.h"
 #include "mainmenu.h"
 #include "menu.h"
+#include "files.h"
 #include "raylib.h"
 
 /// @brief Set starting currentScreen
-GameScreen currentScreen = MAINMENU;
+GameScreen currentScreen = NO_SCREEN;
 
 /// @brief Draw the selected currentScreen
 void screenDraw(void) {
@@ -45,6 +46,8 @@ void screenDraw(void) {
             drawMenuScreen();
             break;
         }
+        case NO_SCREEN:
+            break;
     }
 }
 
@@ -59,6 +62,8 @@ void screenDraw3D(void) {
             drawMenuScreen();
             break;
         }
+        case NO_SCREEN:
+            break;
     }
 }
 
@@ -66,24 +71,37 @@ void screenDraw3D(void) {
 void screenUpdate(void) {
     switch (currentScreen) {
         case MAINMENU: {
-            static bool mainmenuRan = false;
-            if (!mainmenuRan) {
-                setupMainMenu();
-                enterMainMenu();
-                mainmenuRan = true;
-            }
             updateMainMenu();
             break;
         }
         case MENU: {
-            static bool menuRan = false;
-            if (!menuRan) {
-                setupMenuScreen();
-                enterMenuScreen();
-                menuRan = true;
-            }
             updateMenuScreen();
             break;
+        case NO_SCREEN:
+            break;
         }
+    }
+}
+
+/// @brief Change screens
+/// @param s The screen you want to change to
+void screenEnter(GameScreen s) {
+    // Switch to the new screen
+    currentScreen = s;
+
+    // Run the selected screens init code
+    switch (s) {
+        case MAINMENU:
+            setupMainMenu();
+            enterMainMenu();
+            break;
+
+        case MENU:
+            setupMenuScreen();
+            enterMenuScreen();
+            break;
+
+        case NO_SCREEN:
+            break;
     }
 }

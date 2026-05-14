@@ -17,29 +17,17 @@
  */
 
 /**
- * @file menu.h
- * @brief Menu system
+ * @file bgm.c
+ * @brief Plays the background music on the mainmenu and menus
  */
 
-#ifndef MENU_SCREEN_H
-#define MENU_SCREEN_H
-
 #include "raylib.h"
+#include "files.h"
 
-typedef enum {
-    NO_MENU,      ///< No menu
-    PLAY,         ///< Play menu
-    SINGLEPLAYER  ///< Singleplayer menu
-} GameMenu;
+void bgmPlay(void) {
+    PlayMusicStream(bgm);
+}
 
-void menuUpdate(void);
-void menuDraw(const char* title);
-void menuEnter(GameMenu m);
-
-void setupMenuScreen(void);
-void drawMenuScreen(void);
-void drawMenuScreen3D(void);
-void enterMenuScreen(void);
-void updateMenuScreen(void);
-
-#endif // MENU_SCREEN_H
+void bgmUpdate(void) {
+    UpdateMusicStream(bgm);
+}

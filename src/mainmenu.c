@@ -32,6 +32,7 @@
 #include "menu.h"
 #include "raylib.h"
 #include "screen.h"
+#include "bgm.h"
 
 /// @brief Play Button
 static Button playBtn;
@@ -47,8 +48,6 @@ void setupMainMenu(void) {
     playBtn = buttonCreate(_("Play"), 200, 300, 150, 50);
     addonBtn = buttonCreate(_("Add-ons"), 200, 360, 150, 50);
     quitBtn = buttonCreate(_("Quit"), 200, 420, 150, 50);
-
-    PlayMusicStream(bgm);
 }
 
 /// @brief Draw background and Buttons (use in screen.c only)
@@ -64,15 +63,15 @@ void drawMainMenu(void) {
 /// @brief Unused
 void drawMainMenu3D(void) {}
 
-/// @brief Unused
-void enterMainMenu(void) {}
+/// @brief Play background music
+void enterMainMenu(void) {
+    bgmPlay();
+}
 
 /// @brief Update music and update Buttons (use in screen.c only)
 void updateMainMenu(void) {
-    UpdateMusicStream(bgm);
-
     if (buttonPressed(&playBtn))
-        currentMenu = PLAY;
+        menuEnter(PLAY);
 
     if (buttonPressed(&addonBtn))
         addonPick();

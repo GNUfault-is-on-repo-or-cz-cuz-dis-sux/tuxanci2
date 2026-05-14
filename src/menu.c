@@ -42,8 +42,14 @@ void setupMenuScreen(void) {
 
 /// @brief Update/Tick menu
 void menuUpdate(void) {
-    if (currentMenu != NO_MENU)
-        currentScreen = MENU;
+    static GameMenu oldMenu = NO_MENU;
+
+    if (currentMenu != oldMenu) {
+        if (currentMenu != NO_MENU)
+            screenEnter(MENU);
+
+        oldMenu = currentMenu;
+    }
 }
 
 /**
@@ -72,6 +78,14 @@ void menuDraw(const char* title) {
     Vector2 pos = (Vector2){posX + spacing, posY - size - spacing};
 
     DrawTextEx(fontHeader, title, pos, size, 0, color);
+}
+
+/** 
+ * @brief Change menu
+ * @param m The menu you want to change to
+ */
+void menuEnter(GameMenu m) {
+    currentMenu = m;
 }
 
 /// @brief Draw menu screen (use only in screen.c)
@@ -106,8 +120,6 @@ void enterMenuScreen(void) {}
 
 /// @brief Update menu screen (use only in screen.c)
 void updateMenuScreen(void) {
-    UpdateMusicStream(bgm);
-
     switch (currentMenu) {
         case PLAY: {
             menuUpdatePlay();

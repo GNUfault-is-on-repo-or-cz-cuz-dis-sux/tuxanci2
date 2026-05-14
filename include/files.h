@@ -31,6 +31,11 @@ extern Font font;
 extern Font fontHeader;
 extern Font fontSubheader;
 extern Music bgm;
+extern Sound hover;
+extern Sound back;
+extern Sound menuopen;
+extern Sound menuclose;
+extern Sound select;
 extern Texture2D explosions;
 
 void commonLoad(void);

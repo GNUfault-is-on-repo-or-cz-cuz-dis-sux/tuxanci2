@@ -38,8 +38,6 @@ static Button singleplayerBtn;
 void menuSetupPlay(void) {
     backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
     singleplayerBtn = buttonCreate(_("Singleplayer"), 400, 250, 200, 200);
-    
-    PlayMusicStream(bgm);
 }
 
 /// @brief Draw Button (use in screen.c only)
@@ -55,13 +53,11 @@ void menuDrawPlay(void) {
 
 /// @brief Update music and update Buttons
 void menuUpdatePlay(void) {
-    UpdateMusicStream(bgm);
-
     if (buttonPressed(&backBtn)) {
-        currentMenu = NO_MENU;
-        currentScreen = MAINMENU;
+        menuEnter(NO_MENU);
+        screenEnter(MAINMENU);
     }
     if (buttonPressed(&singleplayerBtn)) {
-        currentMenu = SINGLEPLAYER;
+        menuEnter(SINGLEPLAYER);
     }
 }

@@ -26,14 +26,14 @@
 
 /// @brief Diffrent screens you can go to
 typedef enum {
-    MAINMENU, ///< Main menu (the inital screen)
-    MENU      ///< Menu (used when a menu window is on the screen)
+    NO_SCREEN, ///< Blank screen
+    MAINMENU,  ///< Main menu (the inital screen)
+    MENU       ///< Menu (used when a menu window is on the screen)
 } GameScreen;
-
-extern GameScreen currentScreen;
 
 void screenUpdate(void);
 void screenDraw(void);
 void screenDraw3D(void);
+void screenEnter(GameScreen s);
 
 #endif // SCREEN_H

@@ -81,7 +81,13 @@ void buttonDraw(Button* b) {
  */
 bool buttonPressed(Button* b) {
     Vector2 mouse = GetMousePosition();
+
+    //bool oldHover = b->hovered;
     b->hovered = CheckCollisionPointRec(mouse, b->rect);
+
+    //if (b->hovered && !oldHover) {
+    //    PlaySound(hover);
+    //}
 
     bool clicked = b->hovered && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     return clicked;

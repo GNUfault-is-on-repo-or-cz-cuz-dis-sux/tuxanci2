@@ -34,6 +34,7 @@
 #include "screen.h"
 #include "old-arena-ldr.h"
 #include "config.h"
+#include "bgm.h"
 
 #define WINDOW_WIDTH 1024        ///< Window width
 #define WINDOW_HEIGHT 768        ///< Window height
@@ -52,7 +53,6 @@ int main(void) {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(WINDOW_FPS);
 
-    SetAudioStreamBufferSizeDefault(8192);
     InitAudioDevice();
     
     if (access(configFile, F_OK) != 0) {
@@ -65,10 +65,13 @@ int main(void) {
 
     oldarenaldrInit();
 
+    screenEnter(MAINMENU);
+
     // Main loop
     while (!WindowShouldClose()) {
         screenUpdate();
         menuUpdate();
+        bgmUpdate();
 
         BeginDrawing();
         ClearBackground(BLACK);

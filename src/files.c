@@ -40,17 +40,33 @@ Font fontSubheader;
 /// @brief The background music
 Music bgm;
 
+/// @brief Menu sounds
+Sound hover;
+Sound back;
+Sound menuopen;
+Sound menuclose;
+Sound select;
+
 /// @brief The image used on the header bar on the menus
 Texture2D explosions;
 
 /// @brief Load files into RAM
 void commonLoad(void) {
-    bg = LoadTexture("data/common/images/main.jpg");
-    font = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 20, 0, 0);
-    fontHeader = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 40, 0, 0);
+    /* 
+     * I know it doesn’t adhear to the conventions to
+     * do this but just look at how clean it looks!!!
+     */
+    bg            = LoadTexture("data/common/images/main.jpg");
+    font          = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 20, 0, 0);
+    fontHeader    = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 40, 0, 0);
     fontSubheader = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 24, 0, 0);
-    bgm = LoadMusicStream("data/common/music/menu.ogg");
-    explosions = LoadTexture("data/menu/images/explosions.jpg");
+    bgm           = LoadMusicStream("data/common/music/menu.ogg");
+    hover         = LoadSound("data/common/sounds/hover.wav");
+    back          = LoadSound("data/common/sounds/back.wav");
+    menuopen      = LoadSound("data/common/sounds/open.wav");
+    menuclose     = LoadSound("data/common/sounds/close.wav");
+    select        = LoadSound("data/common/sounds/select.wav");
+    explosions    = LoadTexture("data/menu/images/explosions.jpg");
 }
 
 /// @brief Free files in RAM
@@ -60,5 +76,10 @@ void commonDestroy(void) {
     UnloadFont(fontHeader);
     UnloadFont(fontSubheader);
     UnloadMusicStream(bgm);
+    UnloadSound(hover);
+    UnloadSound(back);
+    UnloadSound(menuopen);
+    UnloadSound(menuclose);
+    UnloadSound(select);
     UnloadTexture(explosions);
 }

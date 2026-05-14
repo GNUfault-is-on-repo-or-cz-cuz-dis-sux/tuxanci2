@@ -1,0 +1,44 @@
+# The Tuxánci 2 Contributers
+Big thanks to everybody in this list:
+
+## Current developers
+
+### Main developer
+Connor "GNUfault" Thomson <bluMATRIKZ@gmail.com>
+
+## Minor contributers
+### Color palette
+Marcel "PenguinByte" Boyen <kauriboyen@gmail.com>
+
+## Orignal Tuxánci Contributers
+### Contact information removed as they have not been updated since 2011
+
+### Main developer
+Dušan "Oroborus" Ďurech
+
+### Project coordinator & website maintainer
+Michal "xHire" Zima
+
+### Graphic & arenas designer 
+Jiří "helb" Helebrant 
+
+### Server maintainer & game optimizations
+Tomáš "ZeXx86" Jedrzejek
+
+### CMake and Gentoo Ebuild
+Tomáš "scarabeus" Chvátal
+
+### OpenGL
+Petr "Glubo" Sýkora
+
+### Input improvements
+Karel "kapo" Podvolecký
+
+### Porting
+Petr "Timoo" L.
+
+### Music
+Roman "CJ Neti" Kabelka
+
+## Powered By
+raylib, Lua, libzip, GTK3, CMake and the GNU toolchain.

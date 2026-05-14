@@ -44,8 +44,6 @@ void menuSetupSingleplayer(void) {
 
     for (int i = 0; i < legacyMaps.count; i++)
         listAdd(&mapList, legacyMaps.arenas[i].name);
-
-    PlayMusicStream(bgm);
 }
 
 /// @brief Draw Button, map list, and preview image (use in screen.c only)
@@ -64,11 +62,9 @@ void menuDrawSingleplayer(void) {
 
 /// @brief Update music, list, and Buttons
 void menuUpdateSingleplayer(void) {
-    UpdateMusicStream(bgm);
-
     listCheck(&mapList);
 
     if (buttonPressed(&backBtn)) {
-        currentMenu = PLAY;
+        menuEnter(PLAY);
     }
 }
