@@ -21,7 +21,7 @@
  * @brief Debugging menu
  */
 
-#ifdef DEBUG
+#ifdef ENABLE_DEBUG
 #ifndef DEBUG_H
 #define DEBUG_H
 
@@ -30,4 +30,4 @@ void menuDrawDebug(void);
 void menuUpdateDebug(void);
 
 #endif // DEBUG_H
-#endif // DEBUG
+#endif // ENABLE_DEBUG

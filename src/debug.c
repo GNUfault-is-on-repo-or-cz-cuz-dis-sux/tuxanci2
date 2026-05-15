@@ -21,7 +21,7 @@
  * @brief Debugging menu
  */
 
-#ifdef DEBUG
+#ifdef ENABLE_DEBUG
 
 #include "raylib.h"
 #include "button.h"
@@ -61,4 +61,4 @@ void menuUpdateDebug(void) {
         infloop_test();
 }
 
-#endif // DEBUG
+#endif // ENABLE_DEBUG

@@ -30,7 +30,9 @@ typedef enum {
     NO_MENU,      ///< No menu
     PLAY,         ///< Play menu
     SINGLEPLAYER, ///< Singleplayer menu
-    DEBUG         ///< Debug menu, shhh!   
+#ifdef ENABLE_DEBUG
+    DEBUG         ///< Debug menu, shhh!
+#endif // ENABLE_DEBUG
 } GameMenu;
 
 void menuUpdate(void);

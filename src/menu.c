@@ -39,9 +39,9 @@ GameMenu currentMenu = NO_MENU;
 void setupMenuScreen(void) {
     menuSetupPlay();
     menuSetupSingleplayer();
-#ifdef DEBUG
+#ifdef ENABLE_DEBUG
     menuSetupDebug();
-#endif // DEBUG
+#endif // ENABLE_DEBUG
 }
 
 /// @brief Update/Tick menu
@@ -111,12 +111,12 @@ void drawMenuScreen(void) {
             menuDrawSingleplayer();
             break;
         }
-#ifdef DEBUG
+#ifdef ENABLE_DEBUG
         case DEBUG: {
             menuDrawDebug();
             break;
         }
-#endif // DEBUG
+#endif // ENABLE_DEBUG
         case NO_MENU:
             break;
     }
@@ -139,11 +139,11 @@ void updateMenuScreen(void) {
             menuUpdateSingleplayer();
             break;
         }
-#ifdef DEBUG
+#ifdef ENABLE_DEBUG
         case DEBUG: {
             menuUpdateDebug();
         }
-#endif // DEBUG
+#endif // ENABLE_DEBUG
         case NO_MENU:
             break;
     }

@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-option(ENABLE_DEBUG "Enable debug menus and stuff" OFF)
-
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
@@ -9,11 +7,9 @@ add_compile_definitions(_POSIX_SOURCE)
 
 project(tuxanci2 LANGUAGES C)
 
-include(ExternalProject)
+option(ENABLE_DEBUG "Enable debug menus and stuff" OFF)
 
-if(ENABLE_DEBUG)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG=1)
-endif()
+include(ExternalProject)
 
 find_program(OBJCOPY_TOOL NAMES objcopy)
 
@@ -109,6 +105,10 @@ include_directories(${ZIP_INCLUDE_DIRS})
 add_subdirectory(raylib)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
+
+if(ENABLE_DEBUG)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE ENABLE_DEBUG=1)
+endif()
 
 add_dependencies(${PROJECT_NAME} raylib)
 
