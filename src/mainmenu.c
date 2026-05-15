@@ -70,6 +70,11 @@ void enterMainMenu(void) {
 
 /// @brief Update music and update Buttons (use in screen.c only)
 void updateMainMenu(void) {
+#ifdef DEBUG
+    if(IsKeyPressed(KEY_D))
+        menuEnter(DEBUG);
+#endif // DEBUG
+
     if (buttonPressed(&playBtn))
         menuEnter(PLAY);
 

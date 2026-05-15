@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
+option(ENABLE_DEBUG "Enable debug menus and stuff" OFF)
+
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
@@ -8,6 +10,10 @@ add_compile_definitions(_POSIX_SOURCE)
 project(tuxanci2 LANGUAGES C)
 
 include(ExternalProject)
+
+if(ENABLE_DEBUG_FEATURE)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG=1)
+endif()
 
 find_program(OBJCOPY_TOOL NAMES objcopy)
 
