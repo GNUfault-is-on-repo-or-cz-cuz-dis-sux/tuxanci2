@@ -11,7 +11,7 @@ project(tuxanci2 LANGUAGES C)
 
 include(ExternalProject)
 
-if(ENABLE_DEBUG_FEATURE)
+if(ENABLE_DEBUG)
     target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG=1)
 endif()
 
