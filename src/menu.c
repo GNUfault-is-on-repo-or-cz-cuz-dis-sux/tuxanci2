@@ -142,6 +142,7 @@ void updateMenuScreen(void) {
 #ifdef ENABLE_DEBUG
         case DEBUG: {
             menuUpdateDebug();
+            break;
         }
 #endif // ENABLE_DEBUG
         case NO_MENU:
