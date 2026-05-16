@@ -33,6 +33,7 @@
 #include "raylib.h"
 #include "screen.h"
 #include "old-arena-ldr.h"
+#include "arena-ldr.h"
 #include "config.h"
 #include "bgm.h"
 
@@ -63,6 +64,7 @@ int main(void) {
 
     addonInit();
 
+    arenaldrInit();
     oldarenaldrInit();
 
     screenEnter(MAINMENU);

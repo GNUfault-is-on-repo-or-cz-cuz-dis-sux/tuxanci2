@@ -97,6 +97,7 @@ find_package(Gettext REQUIRED)
 pkg_check_modules(ZIP REQUIRED libzip)
 pkg_check_modules(LUA REQUIRED lua5.4)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+pkg_check_modules(ZSTD REQUIRED libzstd)
 
 include_directories(${LUA_INCLUDE_DIRS})
 include_directories(${GTK3_INCLUDE_DIRS})
@@ -114,7 +115,7 @@ add_dependencies(${PROJECT_NAME} raylib)
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${LUA_LIBRARIES} ${GTK3_LIBRARIES} ${ZIP_LIBRARIES} raylib)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LUA_LIBRARIES} ${GTK3_LIBRARIES} ${ZIP_LIBRARIES} ${ZSTD_LIBRARIES} raylib)
 
 set(POT_FILE ${CMAKE_SOURCE_DIR}/po/tuxanci2.pot)
 set(PO_DIR ${CMAKE_SOURCE_DIR}/po)

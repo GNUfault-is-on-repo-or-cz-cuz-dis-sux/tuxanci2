@@ -27,6 +27,7 @@
 #include "list.h"
 #include "menu.h"
 #include "old-arena-ldr.h"
+#include "arena-ldr.h"
 #include "raylib.h"
 #include "screen.h"
 
@@ -42,6 +43,9 @@ void menuSetupSingleplayer(void) {
 
     mapList = listCreate(160, 100, 300, 520);
 
+    for (int i = 0; i < t2aMaps.count; i++)
+        listAdd(&mapList, t2aMaps.arenas[i].arenaName);
+
     for (int i = 0; i < legacyMaps.count; i++)
         listAdd(&mapList, legacyMaps.arenas[i].name);
 }
@@ -52,11 +56,23 @@ void menuDrawSingleplayer(void) {
     buttonDraw(&backBtn);
     listDraw(&mapList);
 
-    if (mapList.selectedIndex >= 0 && mapList.selectedIndex < legacyMaps.count) {
-        Texture2D preview = legacyMaps.arenas[mapList.selectedIndex].screen;
-        int previewX = 520;
-        int previewY = 100;
-        DrawTexture(preview, previewX, previewY, WHITE);
+    int idx = mapList.selectedIndex;
+    if (idx >= 0 && idx < (t2aMaps.count + legacyMaps.count)) {
+        Texture2D preview;
+        if (idx < t2aMaps.count) {
+            preview = t2aMaps.arenas[idx].arenaImage;
+        } else {
+            int legacyIdx = idx - t2aMaps.count;
+            preview = legacyMaps.arenas[legacyIdx].screen;
+        }
+
+        Rectangle sourceRec = { 0.0f, 0.0f, (float)preview.width, (float)preview.height };
+        
+        Rectangle destRec = { 520.0f, 100.0f, 320.0f, 240.0f };
+        
+        Vector2 origin = { 0.0f, 0.0f };
+
+        DrawTexturePro(preview, sourceRec, destRec, origin, 0.0f, WHITE);
     }
 }
 
