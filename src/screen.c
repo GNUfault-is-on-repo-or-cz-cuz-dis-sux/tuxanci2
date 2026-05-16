@@ -24,11 +24,12 @@
  * switching between screens.
  */
 
+#include "raylib.h"
 #include "screen.h"
 #include "mainmenu.h"
 #include "menu.h"
 #include "files.h"
-#include "raylib.h"
+#include "gameplay.h"
 
 /// @brief Set starting currentScreen
 GameScreen currentScreen = NO_SCREEN;
@@ -37,15 +38,20 @@ GameScreen currentScreen = NO_SCREEN;
 void screenDraw(void) {
     switch (currentScreen) {
         case MAINMENU: {
-            ClearBackground(BLACK);
             drawMainMenu();
             break;
         }
+
         case MENU: {
-            ClearBackground(BLACK);
             drawMenuScreen();
             break;
         }
+
+        case GAMEPLAY: {
+            drawGameplay();
+            break;
+        }
+
         case NO_SCREEN:
             break;
     }
@@ -58,10 +64,17 @@ void screenDraw3D(void) {
             drawMainMenu3D();
             break;
         }
+
         case MENU: {
             drawMenuScreen();
             break;
         }
+        
+        case GAMEPLAY: {
+            drawGameplay();
+            break;
+        }
+
         case NO_SCREEN:
             break;
     }
@@ -74,12 +87,19 @@ void screenUpdate(void) {
             updateMainMenu();
             break;
         }
+
         case MENU: {
             updateMenuScreen();
             break;
-        case NO_SCREEN:
+        }
+
+        case GAMEPLAY: {
+            updateGameplay();
             break;
         }
+
+        case NO_SCREEN:
+            break;
     }
 }
 
@@ -91,15 +111,20 @@ void screenEnter(GameScreen s) {
 
     // Run the selected screens init code
     switch (s) {
-        case MAINMENU:
+        case MAINMENU: {
             setupMainMenu();
-            enterMainMenu();
             break;
+        }
 
-        case MENU:
+        case MENU: {
             setupMenuScreen();
-            enterMenuScreen();
             break;
+        }
+
+        case GAMEPLAY: {
+            setupGameplay();
+            break;
+        }
 
         case NO_SCREEN:
             break;

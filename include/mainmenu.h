@@ -29,7 +29,6 @@
 void setupMainMenu(void);
 void drawMainMenu(void);
 void drawMainMenu3D(void);
-void enterMainMenu(void);
 void updateMainMenu(void);
 
 #endif // MAINMENU_H

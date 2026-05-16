@@ -17,31 +17,16 @@
  */
 
 /**
- * @file menu.h
- * @brief Menu system
+ * @file gameplay.h
+ * @brief Gameplay related stuff
  */
 
-#ifndef MENU_SCREEN_H
-#define MENU_SCREEN_H
+#ifndef GAMEPLAY_H
+#define GAMEPLAY_H
 
-#include "raylib.h"
+void setupGameplay(void);
+void drawGameplay(void);
+void drawGameplay3D(void);
+void updateGameplay(void);
 
-typedef enum {
-    NO_MENU,      ///< No menu
-    PLAY,         ///< Play menu
-    SINGLEPLAYER, ///< Singleplayer menu
-#ifdef ENABLE_DEBUG
-    DEBUG         ///< Debug menu, shhh!
-#endif // ENABLE_DEBUG
-} GameMenu;
-
-void menuUpdate(void);
-void menuDraw(const char* title);
-void menuEnter(GameMenu m);
-
-void setupMenuScreen(void);
-void drawMenuScreen(void);
-void drawMenuScreen3D(void);
-void updateMenuScreen(void);
-
-#endif // MENU_SCREEN_H
+#endif // GAMEPLAY_H

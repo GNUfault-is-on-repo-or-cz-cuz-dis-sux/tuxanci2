@@ -36,11 +36,15 @@
 #include "arena-ldr.h"
 #include "config.h"
 #include "bgm.h"
+#include "music.h"
 
 #define WINDOW_WIDTH 1024        ///< Window width
 #define WINDOW_HEIGHT 768        ///< Window height
 #define WINDOW_FPS 60            ///< Window FPS
 #define WINDOW_TITLE "Tuxánci 2" ///< Window title
+
+/// @brief 3D Camera
+Camera3D camera = { 0 };
 
 /// @brief Program entry
 int main(void) {
@@ -76,10 +80,12 @@ int main(void) {
         bgmUpdate();
 
         BeginDrawing();
-        ClearBackground(BLACK);
-        screenDraw();
-        screenDraw3D();
-        EndMode3D();
+            ClearBackground(BLACK);
+            screenDraw();
+           
+            BeginMode3D(camera);
+                screenDraw3D();
+            EndMode3D();
         EndDrawing();
     }
 

@@ -28,7 +28,8 @@
 typedef enum {
     NO_SCREEN, ///< Blank screen
     MAINMENU,  ///< Main menu (the inital screen)
-    MENU       ///< Menu (used when a menu window is on the screen)
+    MENU,      ///< Menu (used when a menu window is on the screen)
+    GAMEPLAY   ///< When the game is well.. playing
 } GameScreen;
 
 void screenUpdate(void);

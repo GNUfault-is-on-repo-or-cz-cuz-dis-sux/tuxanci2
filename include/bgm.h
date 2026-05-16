@@ -26,5 +26,6 @@
 
 void bgmPlay(void);
 void bgmUpdate(void);
+void bgmStop(void);
 
 #endif // BGM_H

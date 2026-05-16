@@ -24,10 +24,17 @@
 #include "raylib.h"
 #include "files.h"
 
+/// @brief Play background music 
 void bgmPlay(void) {
     PlayMusicStream(bgm);
 }
 
+/// @brief Update background music (needs to be called every frame, but I already do that in main.c)  
 void bgmUpdate(void) {
     UpdateMusicStream(bgm);
+}
+
+/// @brief Stop the background music
+void bgmStop(void) {
+    StopMusicStream(bgm);
 }

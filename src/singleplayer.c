@@ -94,5 +94,6 @@ void menuUpdateSingleplayer(void) {
     if (buttonPressed(&backBtn))
         menuEnter(PLAY);
 
-    if (buttonPressed(&startBtn));
+    if (buttonPressed(&startBtn))
+        screenEnter(GAMEPLAY);
 }

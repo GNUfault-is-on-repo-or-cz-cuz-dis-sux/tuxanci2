@@ -17,31 +17,14 @@
  */
 
 /**
- * @file menu.h
- * @brief Menu system
+ * @file music.c
+ * @brief Arena music streaming
  */
 
-#ifndef MENU_SCREEN_H
-#define MENU_SCREEN_H
+#ifndef MUSIC_H
+#define MUSIC_H
 
-#include "raylib.h"
+void musicPlay(void);
+void musicUpdate(void);
 
-typedef enum {
-    NO_MENU,      ///< No menu
-    PLAY,         ///< Play menu
-    SINGLEPLAYER, ///< Singleplayer menu
-#ifdef ENABLE_DEBUG
-    DEBUG         ///< Debug menu, shhh!
-#endif // ENABLE_DEBUG
-} GameMenu;
-
-void menuUpdate(void);
-void menuDraw(const char* title);
-void menuEnter(GameMenu m);
-
-void setupMenuScreen(void);
-void drawMenuScreen(void);
-void drawMenuScreen3D(void);
-void updateMenuScreen(void);
-
-#endif // MENU_SCREEN_H
+#endif // MUSIC_H

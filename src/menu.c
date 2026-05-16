@@ -125,9 +125,6 @@ void drawMenuScreen(void) {
 /// @brief Unused
 void drawMenuScreen3D(void) {}
 
-/// @brief Unused
-void enterMenuScreen(void) {}
-
 /// @brief Update menu screen (use only in screen.c)
 void updateMenuScreen(void) {
     switch (currentMenu) {

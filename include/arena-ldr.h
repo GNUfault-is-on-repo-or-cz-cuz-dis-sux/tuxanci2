@@ -17,7 +17,7 @@
  */
 
 /**
- * @file arena-ldr.c
+ * @file arena-ldr.h
  * @brief Arena loader
  *
  * This file contains stuff for loading arenas.
@@ -28,6 +28,7 @@
 
 #include "raylib.h"
 #include <stdbool.h>
+#include <stddef.h>
 
 /// @brief Arena metadata
 typedef struct arenaMetadata {
@@ -42,6 +43,16 @@ typedef struct t2aMapList {
     int count;
 } t2aMapList;
 
+/// @brief Gameplay assets for the selected arena
+typedef struct arenaAssets {
+    Texture2D background;
+    AudioStream musicStream;
+    void *musicPCM;
+    size_t musicPCMSize;
+} arenaAssets;
+
+extern arenaAssets currentArena;
+
 /// @brief Where the arenas are loaded into
 extern t2aMapList t2aMaps;
 
@@ -49,5 +60,7 @@ void arenaldrInit(void);
 void OpenFile(const char *filename);
 bool IsFileValid(void);
 void arenaldrDestroy(void);
+arenaAssets arenaldrGameplay(int index);
+void arenaldrUnloadAssets(arenaAssets *assets);
 
 #endif // ARENA_LDR_H
