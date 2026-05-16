@@ -30,9 +30,13 @@
 #include "arena-ldr.h"
 #include "raylib.h"
 #include "screen.h"
+#include "desc.h"
 
 /// @brief Back Button
 static Button backBtn;
+
+/// @brief Start Button;
+static Button startBtn;
 
 /// @brief Legacy map list
 static List mapList;
@@ -40,6 +44,7 @@ static List mapList;
 /// @brief Setup Button, list, and play music (use in screen.c only)
 void menuSetupSingleplayer(void) {
     backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
+    startBtn = buttonCreate(_("Start"), 734, 650, 150, 50);
 
     mapList = listCreate(160, 100, 300, 520);
 
@@ -54,16 +59,20 @@ void menuSetupSingleplayer(void) {
 void menuDrawSingleplayer(void) {
     menuDraw(_("Singleplayer"));
     buttonDraw(&backBtn);
+    buttonDraw(&startBtn);
     listDraw(&mapList);
 
     int idx = mapList.selectedIndex;
     if (idx >= 0 && idx < (t2aMaps.count + legacyMaps.count)) {
         Texture2D preview;
+        const char *description = NULL;
         if (idx < t2aMaps.count) {
             preview = t2aMaps.arenas[idx].arenaImage;
+            description = t2aMaps.arenas[idx].arenaDesc;
         } else {
             int legacyIdx = idx - t2aMaps.count;
             preview = legacyMaps.arenas[legacyIdx].screen;
+            description = "Legacy arena";
         }
 
         Rectangle sourceRec = { 0.0f, 0.0f, (float)preview.width, (float)preview.height };
@@ -73,6 +82,8 @@ void menuDrawSingleplayer(void) {
         Vector2 origin = { 0.0f, 0.0f };
 
         DrawTexturePro(preview, sourceRec, destRec, origin, 0.0f, WHITE);
+        
+        descDraw(520, 360, 320, 240, description);
     }
 }
 
@@ -80,7 +91,8 @@ void menuDrawSingleplayer(void) {
 void menuUpdateSingleplayer(void) {
     listCheck(&mapList);
 
-    if (buttonPressed(&backBtn)) {
+    if (buttonPressed(&backBtn))
         menuEnter(PLAY);
-    }
+
+    if (buttonPressed(&startBtn));
 }
