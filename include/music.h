@@ -26,5 +26,6 @@
 
 void musicPlay(void);
 void musicUpdate(void);
+void musicStop(void);
 
 #endif // MUSIC_H

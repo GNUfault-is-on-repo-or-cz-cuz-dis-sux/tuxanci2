@@ -30,6 +30,7 @@
 #include "menu.h"
 #include "files.h"
 #include "gameplay.h"
+#include "music.h"
 
 /// @brief Set starting currentScreen
 GameScreen currentScreen = NO_SCREEN;
@@ -100,6 +101,17 @@ void screenUpdate(void) {
 
         case NO_SCREEN:
             break;
+    }
+
+    if (IsKeyPressed(KEY_ESCAPE)) {
+        if (currentScreen == MAINMENU) {
+            CloseWindow();
+        } else {
+            menuEnter(NO_MENU);
+            screenEnter(MAINMENU);
+            musicStop();
+            EnableCursor();
+        }
     }
 }
 

@@ -58,6 +58,8 @@ int main(void) {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(WINDOW_FPS);
 
+    SetExitKey(KEY_NULL);
+
     InitAudioDevice();
     
     if (access(configFile, F_OK) != 0) {

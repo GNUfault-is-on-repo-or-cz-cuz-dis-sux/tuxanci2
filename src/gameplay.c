@@ -33,6 +33,8 @@ void setupGameplay(void) {
   
     currentArena = arenaldrGameplay(0);
   
+    DisableCursor();
+
     musicPlay();
 }
 
@@ -50,6 +52,7 @@ void drawGameplay(void) {
     }
 }
 
-// Both unused for now (both will be used later)
 void drawGameplay3D(void) {}
+
+/// @brief Update gameplay (use in screen.c only) 
 void updateGameplay(void) {}
