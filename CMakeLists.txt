@@ -13,7 +13,7 @@ include(ExternalProject)
 
 find_program(OBJCOPY_TOOL NAMES objcopy)
 
-file(GLOB_RECURSE SOURCES "src/*.c" "src/*.cpp")
+file(GLOB_RECURSE SOURCES "src/*.c")
 
 # raylib
 set(CMAKE_BUILD_TYPE Release)
@@ -95,11 +95,9 @@ add_compile_options(-Oz -Wall -Wextra -pedantic -pipe)
 find_package(PkgConfig REQUIRED)
 find_package(Gettext REQUIRED)
 pkg_check_modules(ZIP REQUIRED libzip)
-pkg_check_modules(LUA REQUIRED lua5.4)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 pkg_check_modules(ZSTD REQUIRED libzstd)
 
-include_directories(${LUA_INCLUDE_DIRS})
 include_directories(${GTK3_INCLUDE_DIRS})
 include_directories(${ZIP_INCLUDE_DIRS})
 
@@ -115,7 +113,7 @@ add_dependencies(${PROJECT_NAME} raylib)
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${LUA_LIBRARIES} ${GTK3_LIBRARIES} ${ZIP_LIBRARIES} ${ZSTD_LIBRARIES} raylib)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${GTK3_LIBRARIES} ${ZIP_LIBRARIES} ${ZSTD_LIBRARIES} raylib)
 
 set(POT_FILE ${CMAKE_SOURCE_DIR}/po/tuxanci2.pot)
 set(PO_DIR ${CMAKE_SOURCE_DIR}/po)

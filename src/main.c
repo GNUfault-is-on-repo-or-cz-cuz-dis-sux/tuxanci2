@@ -26,7 +26,6 @@
  */
 
 #include <unistd.h>
-#include "addon.h"
 #include "files.h"
 #include "i18n.h"
 #include "menu.h"
@@ -67,8 +66,6 @@ int main(void) {
     }
 
     commonLoad();
-
-    addonInit();
 
     arenaldrInit();
     oldarenaldrInit();

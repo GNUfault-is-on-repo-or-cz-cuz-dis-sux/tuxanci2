@@ -25,7 +25,6 @@
  * music, background, etc.
  */
 
-#include "addon.h"
 #include "button.h"
 #include "files.h"
 #include "i18n.h"
@@ -37,17 +36,13 @@
 /// @brief Play Button
 static Button playBtn;
 
-/// @brief Add-on Button
-static Button addonBtn;
-
 /// @brief Quit Button
 static Button quitBtn;
 
 /// @brief Setup Buttons and play music (use in screen.c only)
 void setupMainMenu(void) {
     playBtn = buttonCreate(_("Play"), 200, 300, 150, 50);
-    addonBtn = buttonCreate(_("Add-ons"), 200, 360, 150, 50);
-    quitBtn = buttonCreate(_("Quit"), 200, 420, 150, 50);
+    quitBtn = buttonCreate(_("Quit"), 200, 360, 150, 50);
 
     bgmPlay();
 }
@@ -58,7 +53,6 @@ void drawMainMenu(void) {
     DrawTextureEx(bg, (Vector2){0, 0}, 0.0f, scale, WHITE);
 
     buttonDraw(&playBtn);
-    buttonDraw(&addonBtn);
     buttonDraw(&quitBtn);
 }
 
@@ -74,9 +68,6 @@ void updateMainMenu(void) {
 
     if (buttonPressed(&playBtn))
         menuEnter(PLAY);
-
-    if (buttonPressed(&addonBtn))
-        addonPick();
 
     // FIXME: This just does a segfault for some reason.
     if (buttonPressed(&quitBtn))
