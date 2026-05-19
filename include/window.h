@@ -17,21 +17,21 @@
  */
 
 /**
- * @file i18n.h
- * @brief Internationalization
+ * @file window.c
+ * @brief Get window width and height
  */
 
-#ifndef I18N_H
-#define I18N_H
+#ifndef WINDOW_H
+#define WINDOW_H
 
-#include <libintl.h>
+extern int windowWidth;
+extern int windowHeight;
+extern int windowMonitor;
+extern int windowFPS;
 
-/// @brief Mark strings for translation
-#define _(String) gettext(String)
+void windowUpdate(void);
+void windowInit(const char *title);
+float Ux(float percent);
+float Uy(float percent);
 
-/// @brief Mark strings for translation that are not immediately needed
-#define N_(String) (String)
-
-void i18nInit(void);
-
-#endif // I18N_H
+#endif // WINDOW_H

@@ -1,3 +1,4 @@
+
 /*
  * Tuxánci 2 - Successor to Tuxánci
  * Copyright (C) 2026  Connor Thomson
@@ -17,21 +18,13 @@
  */
 
 /**
- * @file i18n.h
- * @brief Internationalization
+ * @file bg.h
+ * @brief Draw the background
  */
 
-#ifndef I18N_H
-#define I18N_H
+#ifndef BG_H
+#define BG_H
 
-#include <libintl.h>
+void bgDraw(void);
 
-/// @brief Mark strings for translation
-#define _(String) gettext(String)
-
-/// @brief Mark strings for translation that are not immediately needed
-#define N_(String) (String)
-
-void i18nInit(void);
-
-#endif // I18N_H
+#endif // BG_H

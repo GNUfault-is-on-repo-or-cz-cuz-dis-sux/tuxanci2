@@ -17,21 +17,30 @@
  */
 
 /**
- * @file i18n.h
- * @brief Internationalization
+ * @file camera.c
+ * @brief Camera related stuff
  */
 
-#ifndef I18N_H
-#define I18N_H
+#include "raylib.h"
 
-#include <libintl.h>
+/// @brief Where you define the camera
+Camera camera;
 
-/// @brief Mark strings for translation
-#define _(String) gettext(String)
+/// @brief Camera mode (like first person)
+int cameraMode;
 
-/// @brief Mark strings for translation that are not immediately needed
-#define N_(String) (String)
+/// @brief Initialize the camera 
+void cameraInit(void) {
+    camera = (Camera){0};
+    camera.position = (Vector3){ 0.0f, 2.0f, 4.0f };
+    camera.target = (Vector3){ 0.0f, 2.0f, 0.0f };
+    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+    camera.fovy = 100.0f;
+    camera.projection = CAMERA_PERSPECTIVE;
+    cameraMode = CAMERA_FIRST_PERSON;
+}
 
-void i18nInit(void);
-
-#endif // I18N_H
+/// @brief Update the camera 
+void cameraUpdate(void) {
+    UpdateCamera(&camera, cameraMode);
+}

@@ -1,3 +1,4 @@
+
 /*
  * Tuxánci 2 - Successor to Tuxánci
  * Copyright (C) 2026  Connor Thomson
@@ -17,21 +18,18 @@
  */
 
 /**
- * @file i18n.h
- * @brief Internationalization
+ * @file bg.c
+ * @brief Draw the background
  */
 
-#ifndef I18N_H
-#define I18N_H
+#include "raylib.h"
+#include "window.h"
+#include "files.h"
 
-#include <libintl.h>
-
-/// @brief Mark strings for translation
-#define _(String) gettext(String)
-
-/// @brief Mark strings for translation that are not immediately needed
-#define N_(String) (String)
-
-void i18nInit(void);
-
-#endif // I18N_H
+/// @brief Draw the background  
+void bgDraw(void) {
+    Rectangle sourceRec = { 0.0f, 0.0f, (float)bg.width, (float)bg.height };
+    Rectangle destRec = { 0.0f, 0.0f, (float)windowWidth, (float)windowHeight };
+    Vector2 origin = { 0.0f, 0.0f };
+    DrawTexturePro(bg, sourceRec, destRec, origin, 0.0f, WHITE);
+}

@@ -17,21 +17,17 @@
  */
 
 /**
- * @file i18n.h
- * @brief Internationalization
+ * @file camera.c
+ * @brief Camera related stuff
  */
 
-#ifndef I18N_H
-#define I18N_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
-#include <libintl.h>
+extern Camera camera;
+extern int cameraMode;
 
-/// @brief Mark strings for translation
-#define _(String) gettext(String)
+void cameraInit(void);
+void cameraUpdate(void);
 
-/// @brief Mark strings for translation that are not immediately needed
-#define N_(String) (String)
-
-void i18nInit(void);
-
-#endif // I18N_H
+#endif // CAMERA_H

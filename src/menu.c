@@ -31,6 +31,8 @@
 #include "screen.h"
 #include "singleplayer.h"
 #include "debug.h"
+#include "window.h"
+#include "bg.h"
 
 /// @brief Set the starting menu
 GameMenu currentMenu = NO_MENU;
@@ -61,16 +63,13 @@ void menuUpdate(void) {
  * @param title Title of the menu window
  */
 void menuDraw(const char* title) {
-    int screenWidth = GetScreenWidth();
-    int screenHeight = GetScreenHeight();
-
     int rectWidth = 800;
     int rectHeight = 600;
 
     Color color = WHITE;
 
-    int posX = (screenWidth - rectWidth) / 2;
-    int posY = (screenHeight - rectHeight) / 2;
+    int posX = (windowWidth - rectWidth) / 2;
+    int posY = (windowHeight - rectHeight) / 2;
 
     int size = 40;
     int spacing = 5;
@@ -94,12 +93,9 @@ void menuEnter(GameMenu m) {
 
 /// @brief Draw menu screen (use only in screen.c)
 void drawMenuScreen(void) {
-    int width = GetScreenWidth();
-    int height = GetScreenHeight();
+    bgDraw();
 
-    DrawTexture(bg, 0, 0, WHITE);
-
-    DrawRectangleGradientV(0, 0, width, height, Fade(BLACK, 0.5f),
+    DrawRectangleGradientV(0, 0, windowWidth, windowHeight, Fade(BLACK, 0.5f),
                            Fade(BLACK, 1.0f));
 
     switch (currentMenu) {

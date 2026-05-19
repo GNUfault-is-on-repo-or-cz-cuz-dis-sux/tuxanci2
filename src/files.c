@@ -56,7 +56,7 @@ void commonLoad(void) {
      * I know it doesn’t adhear to the conventions to
      * do this but just look at how clean it looks!!!
      */
-    bg            = LoadTexture("data/common/images/main.jpg");
+    bg            = LoadTexture("data/common/images/menu.png");
     font          = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 20, 0, 0);
     fontHeader    = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 40, 0, 0);
     fontSubheader = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 24, 0, 0);

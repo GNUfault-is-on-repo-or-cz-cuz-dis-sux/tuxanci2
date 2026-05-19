@@ -31,6 +31,7 @@
 #include "raylib.h"
 #include "screen.h"
 #include "desc.h"
+#include "window.h"
 
 /// @brief Back Button
 static Button backBtn;
@@ -43,10 +44,10 @@ static List mapList;
 
 /// @brief Setup Button, list, and play music (use in screen.c only)
 void menuSetupSingleplayer(void) {
-    backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
-    startBtn = buttonCreate(_("Start"), 734, 650, 150, 50);
+    backBtn = buttonCreate(_("Back"), Ux(0.303f), Uy(0.75f), Uy(0.14f), Uy(0.047f));
+    startBtn = buttonCreate(_("Start"), Ux(0.618f), Uy(0.75f), Uy(0.14f), Uy(0.047f));
 
-    mapList = listCreate(160, 100, 300, 520);
+    mapList = listCreate(Ux(0.31f), Uy(0.235f), Uy(0.25f), Uy(0.5f));
 
     for (int i = 0; i < t2aMaps.count; i++)
         listAdd(&mapList, t2aMaps.arenas[i].arenaName);
@@ -77,13 +78,13 @@ void menuDrawSingleplayer(void) {
 
         Rectangle sourceRec = { 0.0f, 0.0f, (float)preview.width, (float)preview.height };
         
-        Rectangle destRec = { 520.0f, 100.0f, 320.0f, 240.0f };
+        Rectangle destRec = { Ux(0.49f), Uy(0.24f), 320.0f, 240.0f };
         
         Vector2 origin = { 0.0f, 0.0f };
 
         DrawTexturePro(preview, sourceRec, destRec, origin, 0.0f, WHITE);
         
-        descDraw(520, 360, 320, 240, description);
+        descDraw(Ux(0.465f), Uy(0.48f), Uy(0.4f), Uy(0.25f), description);
     }
 }
 

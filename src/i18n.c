@@ -17,21 +17,16 @@
  */
 
 /**
- * @file i18n.h
+ * @file i18n.c
  * @brief Internationalization
  */
 
-#ifndef I18N_H
-#define I18N_H
-
 #include <libintl.h>
+#include <locale.h>
 
-/// @brief Mark strings for translation
-#define _(String) gettext(String)
-
-/// @brief Mark strings for translation that are not immediately needed
-#define N_(String) (String)
-
-void i18nInit(void);
-
-#endif // I18N_H
+/// @brief Initialize gettext
+void i18nInit(void) {
+    setlocale(LC_ALL, "");
+    bindtextdomain("tuxanci2", "locale");
+    textdomain("tuxanci2");
+}

@@ -36,26 +36,21 @@
 #include "config.h"
 #include "bgm.h"
 #include "music.h"
+#include "window.h"
+#include "camera.h"
 
-#define WINDOW_WIDTH 1024        ///< Window width
-#define WINDOW_HEIGHT 768        ///< Window height
-#define WINDOW_FPS 60            ///< Window FPS
 #define WINDOW_TITLE "Tuxánci 2" ///< Window title
-
-/// @brief 3D Camera
-Camera3D camera = { 0 };
 
 /// @brief Program entry
 int main(void) {
-    // Internationalization setup
-    setlocale(LC_ALL, "");
-    bindtextdomain("tuxanci2", "locale");
-    textdomain("tuxanci2");
+    i18nInit();
 
     SetTraceLogLevel(LOG_WARNING);
 
-    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
-    SetTargetFPS(WINDOW_FPS);
+    windowInit(WINDOW_TITLE);
+    
+    // Update once before we need to display anything
+    windowUpdate();
 
     SetExitKey(KEY_NULL);
 
@@ -72,11 +67,15 @@ int main(void) {
 
     screenEnter(MAINMENU);
 
+    cameraInit();
+
     // Main loop
     while (!WindowShouldClose()) {
+        windowUpdate();
         screenUpdate();
         menuUpdate();
         bgmUpdate();
+        cameraUpdate();
 
         BeginDrawing();
             ClearBackground(BLACK);

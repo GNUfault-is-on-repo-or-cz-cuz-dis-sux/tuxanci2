@@ -27,6 +27,7 @@
 #include "menu.h"
 #include "raylib.h"
 #include "screen.h"
+#include "window.h"
 
 /// @brief Back Button
 static Button backBtn;
@@ -36,15 +37,15 @@ static Button singleplayerBtn;
 
 /// @brief Setup Button and play music (use in screen.c only)
 void menuSetupPlay(void) {
-    backBtn = buttonCreate(_("Back"), 140, 650, 150, 50);
-    singleplayerBtn = buttonCreate(_("Singleplayer"), 400, 250, 200, 200);
+    backBtn = buttonCreate(_("Back"), Ux(0.303f), Uy(0.75f), Uy(0.14f), Uy(0.047f));
+    singleplayerBtn = buttonCreate(_("Singleplayer"), Ux(0.45f), Uy(0.4f), Uy(0.15f), Uy(0.15f));
 }
 
 /// @brief Draw Button (use in screen.c only)
 void menuDrawPlay(void) {
     menuDraw(_("Play"));
     
-    Vector2 pos = (Vector2){130, 100};
+    Vector2 pos = (Vector2){Ux(0.3f), Uy(0.235f)};
     DrawTextEx(fontSubheader, _("Select the the mode you want to play:"), pos, 24, 0, BLACK);
 
     buttonDraw(&backBtn);

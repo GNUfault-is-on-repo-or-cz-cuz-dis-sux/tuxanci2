@@ -32,6 +32,8 @@
 #include "raylib.h"
 #include "screen.h"
 #include "bgm.h"
+#include "window.h"
+#include "bg.h"
 
 /// @brief Play Button
 static Button playBtn;
@@ -39,18 +41,19 @@ static Button playBtn;
 /// @brief Quit Button
 static Button quitBtn;
 
+#include <stdio.h>
+
 /// @brief Setup Buttons and play music (use in screen.c only)
 void setupMainMenu(void) {
-    playBtn = buttonCreate(_("Play"), 200, 300, 150, 50);
-    quitBtn = buttonCreate(_("Quit"), 200, 360, 150, 50);
+    playBtn = buttonCreate(_("Play"), Ux(0.15f), Uy(0.5f), Uy(0.14f), Uy(0.047f));
+    quitBtn = buttonCreate(_("Quit"), Ux(0.15f), Uy(0.56f), Uy(0.14f), Uy(0.047f));
 
     bgmPlay();
 }
 
 /// @brief Draw background and Buttons (use in screen.c only)
 void drawMainMenu(void) {
-    float scale = (float)GetScreenWidth() / bg.width;
-    DrawTextureEx(bg, (Vector2){0, 0}, 0.0f, scale, WHITE);
+    bgDraw();
 
     buttonDraw(&playBtn);
     buttonDraw(&quitBtn);

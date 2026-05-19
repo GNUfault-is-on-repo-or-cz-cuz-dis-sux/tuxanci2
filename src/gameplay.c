@@ -31,7 +31,7 @@
 void setupGameplay(void) {
     bgmStop();
   
-    currentArena = arenaldrGameplay(0);
+//    currentArena = arenaldrGameplay(0);
   
     DisableCursor();
 
@@ -40,6 +40,7 @@ void setupGameplay(void) {
 
 /// @brief Draw gameplay (use in screen.c only) 
 void drawGameplay(void) {
+/*
     if (currentArena.background.id != 0) {
         DrawTexturePro(
             currentArena.background,
@@ -50,6 +51,7 @@ void drawGameplay(void) {
             WHITE
         );
     }
+*/
 }
 
 void drawGameplay3D(void) {}
