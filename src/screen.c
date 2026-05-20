@@ -30,7 +30,6 @@
 #include "menu.h"
 #include "files.h"
 #include "gameplay.h"
-#include "music.h"
 
 /// @brief Set starting currentScreen
 GameScreen currentScreen = NO_SCREEN;
@@ -67,12 +66,12 @@ void screenDraw3D(void) {
         }
 
         case MENU: {
-            drawMenuScreen();
+            drawMenuScreen3D();
             break;
         }
         
         case GAMEPLAY: {
-            drawGameplay();
+            drawGameplay3D();
             break;
         }
 
@@ -109,7 +108,6 @@ void screenUpdate(void) {
         } else {
             menuEnter(NO_MENU);
             screenEnter(MAINMENU);
-            musicStop();
             EnableCursor();
         }
     }

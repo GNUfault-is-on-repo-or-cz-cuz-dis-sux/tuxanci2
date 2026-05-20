@@ -31,11 +31,8 @@
 #include "menu.h"
 #include "raylib.h"
 #include "screen.h"
-#include "old-arena-ldr.h"
-#include "arena-ldr.h"
 #include "config.h"
 #include "bgm.h"
-#include "music.h"
 #include "window.h"
 #include "camera.h"
 
@@ -61,9 +58,6 @@ int main(void) {
     }
 
     commonLoad();
-
-    arenaldrInit();
-    oldarenaldrInit();
 
     screenEnter(MAINMENU);
 

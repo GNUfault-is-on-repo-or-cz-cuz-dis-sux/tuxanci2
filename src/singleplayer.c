@@ -26,8 +26,6 @@
 #include "i18n.h"
 #include "list.h"
 #include "menu.h"
-#include "old-arena-ldr.h"
-#include "arena-ldr.h"
 #include "raylib.h"
 #include "screen.h"
 #include "desc.h"
@@ -49,11 +47,13 @@ void menuSetupSingleplayer(void) {
 
     mapList = listCreate(Ux(0.31f), Uy(0.235f), Uy(0.25f), Uy(0.5f));
 
+/* 
     for (int i = 0; i < t2aMaps.count; i++)
         listAdd(&mapList, t2aMaps.arenas[i].arenaName);
 
     for (int i = 0; i < legacyMaps.count; i++)
         listAdd(&mapList, legacyMaps.arenas[i].name);
+ */  
 }
 
 /// @brief Draw Button, map list, and preview image (use in screen.c only)
@@ -63,6 +63,7 @@ void menuDrawSingleplayer(void) {
     buttonDraw(&startBtn);
     listDraw(&mapList);
 
+/*    
     int idx = mapList.selectedIndex;
     if (idx >= 0 && idx < (t2aMaps.count + legacyMaps.count)) {
         Texture2D preview;
@@ -86,6 +87,7 @@ void menuDrawSingleplayer(void) {
         
         descDraw(Ux(0.465f), Uy(0.48f), Uy(0.4f), Uy(0.25f), description);
     }
+ */
 }
 
 /// @brief Update music, list, and Buttons

@@ -22,39 +22,88 @@
  */
 
 #include "raylib.h"
+#include "raymath.h"
 #include "screen.h"
 #include "bgm.h"
-#include "arena-ldr.h"
-#include "music.h"
+#include "camera.h"
+#include "files.h"
+#include "window.h"
 
-/// @brief Start gameplay (use in screen.c only) 
+static float yaw = 0.0f;
+static float pitch = 0.0f;
+static Vector3 lookDir = { 0.0f, 0.0f, -1.0f };
+static float playerY = 1.8f;
+static float velocityY = 0.0f;
+static const float gravity = -0.4f;
+static const float jumpStrength = 0.15f;
+
 void setupGameplay(void) {
     bgmStop();
-  
-//    currentArena = arenaldrGameplay(0);
-  
     DisableCursor();
-
-    musicPlay();
 }
 
-/// @brief Draw gameplay (use in screen.c only) 
 void drawGameplay(void) {
-/*
-    if (currentArena.background.id != 0) {
-        DrawTexturePro(
-            currentArena.background,
-            (Rectangle){ 0, 0, currentArena.background.width, currentArena.background.height },
-            (Rectangle){ 0, 0, GetScreenWidth(), GetScreenHeight() },
-            (Vector2){ 0, 0 },
-            0.0f,
-            WHITE
-        );
-    }
-*/
+    ClearBackground(SKYBLUE);
 }
 
-void drawGameplay3D(void) {}
+void drawGameplay3D(void) {
+    DrawPlane((Vector3){0,0,0}, (Vector2){128,128}, GRAY);
+    DrawModel(tux, (Vector3){0,0,0}, 0.061f, WHITE);
+}
 
-/// @brief Update gameplay (use in screen.c only) 
-void updateGameplay(void) {}
+void updateGameplay(void) {
+    float speed = 0.2f;
+
+    Vector2 mouse = GetMouseDelta();
+    yaw -= mouse.x * 0.003f;
+    pitch -= mouse.y * 0.003f;
+
+    if (pitch > 1.5f) pitch = 1.5f;
+    if (pitch < -1.5f) pitch = -1.5f;
+
+    lookDir.x = cosf(pitch) * sinf(yaw);
+    lookDir.y = sinf(pitch);
+    lookDir.z = cosf(pitch) * cosf(yaw);
+    lookDir = Vector3Normalize(lookDir);
+
+    Vector3 forward = lookDir;
+    forward.y = 0;
+    forward = Vector3Normalize(forward);
+
+    Vector3 right = Vector3Normalize(Vector3CrossProduct(forward, camera.up));
+
+    Vector3 move = (Vector3){0};
+
+    if (IsKeyDown(KEY_W)) move = Vector3Add(move, forward);
+    if (IsKeyDown(KEY_S)) move = Vector3Subtract(move, forward);
+    if (IsKeyDown(KEY_A)) move = Vector3Subtract(move, right);
+    if (IsKeyDown(KEY_D)) move = Vector3Add(move, right);
+
+    if (Vector3Length(move) > 0.01f)
+        move = Vector3Scale(Vector3Normalize(move), speed);
+
+    camera.position.x += move.x;
+    camera.position.z += move.z;
+
+    if (IsKeyPressed(KEY_SPACE) && playerY <= 1.8f + 0.001f)
+        velocityY = jumpStrength;
+
+    velocityY += gravity * GetFrameTime();
+    playerY += velocityY;
+
+    if (playerY < 1.8f) {
+        playerY = 1.8f;
+        velocityY = 0.0f;
+    }
+
+    camera.position.y = playerY;
+
+    float half = 64.0f;
+
+    if (camera.position.x < -half) camera.position.x = -half;
+    if (camera.position.x > half) camera.position.x = half;
+    if (camera.position.z < -half) camera.position.z = -half;
+    if (camera.position.z > half) camera.position.z = half;
+
+    camera.target = Vector3Add(camera.position, lookDir);
+}

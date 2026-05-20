@@ -37,6 +37,9 @@ extern Sound menuopen;
 extern Sound menuclose;
 extern Sound select;
 extern Texture2D explosions;
+extern Model tux;
+extern ModelAnimation *tuxanims;
+extern unsigned int tuxanimCount;
 
 void commonLoad(void);
 void commonDestroy(void);
