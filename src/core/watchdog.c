@@ -9,11 +9,11 @@
 #   include <backtrace.h>
 #endif // ENABLE_DEBUG
 
-#ifndef SERVER
+#ifndef ENABLE_SERVER
 #   include "game/main.h"
 #else
 #   include "server/main.h"
-#endif // SERVER
+#endif // ENABLE_SERVER
 
 static _Atomic int watchdogHeartbeat = 0;
 static atomic_bool watchdogRunning = true;
@@ -51,7 +51,7 @@ static void *watchdogThread(void *arg) {
             fprintf(stderr, "\n!!! Tuxánci 2 (client) has crashed !!!\n");
 #else
             fprintf(stderr, "\n!!! Tuxánci 2 (server) has crashed !!!\n");
-#endif // SERVER
+#endif // ENABLE_SERVER
             pthread_kill(mainThread, SIGUSR1);
             break;
         }
