@@ -1,6 +1,6 @@
 [submodule "raylib"]
 	path = raylib
-	url = https://github.com/raysan5/raylib.git
+	url = git://repo.or.cz/raylib.git
 [submodule "t2a-compiler"]
 	path = t2a-compiler
 	url = git://repo.or.cz/t2a-compiler.git
