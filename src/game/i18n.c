@@ -29,6 +29,6 @@
 void i18nInit(void) {
     TraceLog(LOG_INFO, "Initializing localization");
     setlocale(LC_ALL, "");
-    bindtextdomain("tuxanci2", "locale");
+    bindtextdomain("tuxanci2", "data/locale");
     textdomain("tuxanci2");
 }

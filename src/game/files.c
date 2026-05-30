@@ -47,21 +47,6 @@ Font fontSubheader;
 /// @brief The background music
 Music bgm;
 
-/// @brief Menu hover Sound
-Sound hover;
-
-/// @brief Menu back Sound
-Sound back;
-
-/// @brief Menu menuopen Sound
-Sound menuopen;
-
-/// @brief Menu menuclose Sound
-Sound menuclose;
-
-/// @brief Menu select Sound
-Sound select;
-
 /// @brief The image used on the header bar on the menus
 Texture2D explosions;
 
@@ -95,11 +80,6 @@ void commonLoad(void) {
     fontHeader = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 40, 0, 0);
     fontSubheader = LoadFontEx("/usr/share/fonts/dejavu/DejaVuSans.ttf", 24, 0, 0);
     bgm = LoadMusicStream("data/common/music/menu.ogg");
-    hover = LoadSound("data/common/sounds/hover.wav");
-    back = LoadSound("data/common/sounds/back.wav");
-    menuopen = LoadSound("data/common/sounds/open.wav");
-    menuclose = LoadSound("data/common/sounds/close.wav");
-    select = LoadSound("data/common/sounds/select.wav");
     explosions = LoadTexture("data/menu/images/explosions.jpg");
     tux = LoadModel("data/gameplay/models/tux.glb");
     tuxanims = LoadModelAnimations("data/gameplay/models/tux.glb", &tuxanimCount);
@@ -118,11 +98,6 @@ void commonDestroy(void) {
     UnloadFont(fontHeader);
     UnloadFont(fontSubheader);
     UnloadMusicStream(bgm);
-    UnloadSound(hover);
-    UnloadSound(back);
-    UnloadSound(menuopen);
-    UnloadSound(menuclose);
-    UnloadSound(select);
     UnloadTexture(explosions);
     UnloadModel(tux);
     //UnloadModelAnimations(tuxanims);

@@ -152,7 +152,7 @@ if(NOT ENABLE_SERVER)
     foreach(LANG ${LANGUAGES})
         set(PO_FILE ${PO_DIR}/${LANG}.po)
 
-        set(MO_DIR ${CMAKE_BINARY_DIR}/locale/${LANG}/LC_MESSAGES)
+        set(MO_DIR ${CMAKE_BINARY_DIR}/data/locale/${LANG}/LC_MESSAGES)
         set(MO_FILE ${MO_DIR}/tuxanci2.mo)
 
         add_custom_command(
@@ -160,7 +160,7 @@ if(NOT ENABLE_SERVER)
             COMMAND ${CMAKE_COMMAND} -E make_directory ${MO_DIR}
             COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${MO_FILE} ${PO_FILE}
             DEPENDS ${PO_FILE}
-            COMMENT "Compiling ${LANG}.po to build/locale/${LANG}/LC_MESSAGES/tuxanci2.mo"
+            COMMENT "Compiling ${LANG}.po to build/data/locale/${LANG}/LC_MESSAGES/tuxanci2.mo"
         )
 
         add_custom_target(mo-${LANG} ALL DEPENDS ${MO_FILE})
