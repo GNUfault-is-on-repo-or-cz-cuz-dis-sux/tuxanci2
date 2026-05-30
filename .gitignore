@@ -1,4 +1,5 @@
 build/
+build_server/
 html/
 latex/
 po/tuxanci2.pot

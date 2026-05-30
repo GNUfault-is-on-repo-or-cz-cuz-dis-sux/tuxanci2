@@ -40,7 +40,6 @@ static Button storymodeBtn;
 
 /// @brief Setup Button and play music (use in screen.c only)
 void menuSetupPlay(void) {
-    for(;;);
     backBtn = buttonCreate(_("Back"), Ux(0.303f), Uy(0.75f), Uy(0.14f), Uy(0.047f));
     singleplayerBtn = buttonCreate(_("Singleplayer"), Ux(0.45f), Uy(0.4f), Uy(0.15f), Uy(0.15f));
     storymodeBtn = buttonCreate(_("Story Mode"), Ux(0.5f), Uy(0.4f), Uy(0.15f), Uy(0.15f));

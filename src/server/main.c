@@ -1,17 +1,20 @@
 #include "core/arguments.h"
 #include "core/watchdog.h"
+#include "server/server.h"
 #include <stdlib.h>
 
 static void mainInit(const char *argv1) {
     watchdogInit(argv1);
+    serverInit(2201);
 }
 
 static void mainUpdate(void) {
     watchdogUpdate();
-    for(;;);
+    serverUpdate();
 }
 
 void mainDestroy(void) {
+    serverDestroy();
     exit(0);
 }
 
