@@ -28,9 +28,10 @@
 
 /// @brief All GameMenus you can switch between
 typedef enum {
-    NO_MENU,      ///< No menu
-    PLAY,         ///< Play menu
-    SINGLEPLAYER  ///< Singleplayer menu
+    NO_MENU, ///< No menu
+    PLAY,    ///< Play menu
+    HOST,    ///< Host menu
+    JOIN     ///< Join menu
 } GameMenu;
 
 void menuUpdate(void);

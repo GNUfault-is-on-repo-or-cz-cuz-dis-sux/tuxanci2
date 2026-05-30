@@ -21,6 +21,7 @@
  * @brief Gameplay related stuff
  */
 
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include <arpa/inet.h>
@@ -39,53 +40,66 @@
 #include "core/network.h"
 #include "core/server.h"
 
-#define SERVER_HOST "127.0.0.1"
-#define SERVER_PORT 2201
+typedef struct {
+    uint32_t client_id;
+    float x, y, z;
+    float yaw, pitch;
+    int active;
+} RemotePlayer;
+
+static RemotePlayer g_remotePlayers[MAX_CLIENTS];
+
+static char g_serverHost[64] = "127.0.0.1";
+static int g_serverPort = 2201;
+static int g_isHost = 1;
+
+void gameplaySetServer(const char *host, int port) {
+    strncpy(g_serverHost, host, sizeof(g_serverHost) - 1);
+    g_serverPort = port;
+    g_isHost = 0;
+}
 
 static float yaw = 0.0f;
 static float pitch = 0.0f;
 static Vector3 lookDir = { 0.0f, 0.0f, -1.0f };
 static float playerY = 1.8f;
 static float velocityY = 0.0f;
+static float lastYaw = 0.0f;
+static float lastPitch = 0.0f;
 static const float gravity = -0.4f;
 static const float jumpStrength = 0.15f;
 
 static int g_sock = -1;
 static uint32_t g_clientId = 0;
 static struct sockaddr_in g_server;
-
 static sem_t g_serverReady;
 
-static void* serverThread(void* arg) {
-    serverInit(SERVER_PORT);
+static void *serverThread(void *arg) {
+    (void)arg;
+    serverInit(g_serverPort);
     sem_post(&g_serverReady);
-
-    while (1)
-        serverUpdate();
-
+    while (1) serverUpdate();
     serverDestroy();
     return NULL;
 }
 
 static void netConnect(void) {
     g_sock = socket(AF_INET, SOCK_DGRAM, 0);
-    if (g_sock < 0) {
-        perror("socket");
-        return;
-    }
+    if (g_sock < 0) { perror("socket"); return; }
 
     memset(&g_server, 0, sizeof(g_server));
     g_server.sin_family = AF_INET;
-    g_server.sin_port = htons(SERVER_PORT);
-    inet_pton(AF_INET, SERVER_HOST, &g_server.sin_addr);
+    g_server.sin_port = htons(g_serverPort);
+    inet_pton(AF_INET, g_serverHost, &g_server.sin_addr);
 
-    sem_wait(&g_serverReady);
+    if (g_isHost)
+        sem_wait(&g_serverReady);
 
     struct ConnectPacket pkt = { .magic = CONNECT_MAGIC };
     sendto(g_sock, &pkt, sizeof(pkt), 0,
            (struct sockaddr*)&g_server, sizeof(g_server));
 
-    struct timeval tv = { .tv_sec = 0, .tv_usec = 500000 };
+    struct timeval tv = { .tv_sec = 2, .tv_usec = 0 };
     setsockopt(g_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 
     uint8_t buf[64];
@@ -96,20 +110,22 @@ static void netConnect(void) {
             g_clientId = reply->client_id;
         }
     }
-
-    tv.tv_usec = 0;
+    
+    tv.tv_sec = tv.tv_usec = 0;
     setsockopt(g_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 }
 
-static void netSendMove(float x, float y, float z) {
+static void netSendMove(float x, float y, float z, float yw, float pt) {
     if (g_sock < 0 || g_clientId == 0) return;
 
     struct MovePacket pkt = {
         .magic = MOVE_MAGIC,
         .client_id = g_clientId,
-        .x = x, .y = y, .z = z
+        .x = x, .y = y, .z = z,
+        .yaw = yw, .pitch = pt
     };
-    sendto(g_sock, &pkt, sizeof(pkt), 0, (struct sockaddr*)&g_server, sizeof(g_server));
+    sendto(g_sock, &pkt, sizeof(pkt), 0,
+           (struct sockaddr*)&g_server, sizeof(g_server));
 }
 
 static void netPoll(void) {
@@ -118,9 +134,40 @@ static void netPoll(void) {
     uint8_t buf[256];
     ssize_t n;
     while ((n = recv(g_sock, buf, sizeof(buf), MSG_DONTWAIT)) > 0) {
+
         if (n == (ssize_t)sizeof(struct MoveAckPacket)) {
-            // Server-authoritative position reconciliation goes here later.
-            // For now, just silently accept the ack.
+            // reconciliation stub
+        }
+
+        if (n == (ssize_t)sizeof(struct PlayerStatePacket)) {
+            struct PlayerStatePacket *s = (struct PlayerStatePacket*)buf;
+            if (s->magic != PLAYER_STATE_MAGIC) continue;
+
+            RemotePlayer *slot = NULL;
+            for (int i = 0; i < MAX_CLIENTS; i++) {
+                if (g_remotePlayers[i].active &&
+                    g_remotePlayers[i].client_id == s->client_id) {
+                    slot = &g_remotePlayers[i];
+                    break;
+                }
+            }
+            if (!slot) {
+                for (int i = 0; i < MAX_CLIENTS; i++) {
+                    if (!g_remotePlayers[i].active) {
+                        slot = &g_remotePlayers[i];
+                        slot->active = 1;
+                        slot->client_id = s->client_id;
+                        break;
+                    }
+                }
+            }
+            if (slot) {
+                slot->x = s->x;
+                slot->y = s->y;
+                slot->z = s->z;
+                slot->yaw = s->yaw;
+                slot->pitch = s->pitch;
+            }
         }
     }
 }
@@ -134,14 +181,19 @@ static void netDisconnect(void) {
 }
 
 void setupGameplay(void) {
-    pthread_t server;
+    memset(g_remotePlayers, 0, sizeof(g_remotePlayers));
 
     bgmStop();
     DisableCursor();
     cameraMode = CAMERA_FIRST_PERSON;
-    
-    pthread_create(&server, NULL, serverThread, NULL);
-    
+
+    if (g_isHost) {
+        sem_init(&g_serverReady, 0, 0);
+        pthread_t server;
+        pthread_create(&server, NULL, serverThread, NULL);
+        pthread_detach(server);
+    }
+
     netConnect();
 }
 
@@ -151,7 +203,27 @@ void drawGameplay(void) {
 
 void drawGameplay3D(void) {
     DrawPlane((Vector3){0,0,0}, (Vector2){128,128}, GRAY);
-    DrawModel(tux, (Vector3){0,0,0}, 0.061f, WHITE);
+
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        if (!g_remotePlayers[i].active) continue;
+
+        RemotePlayer *p = &g_remotePlayers[i];
+        Vector3 pos = { p->x, p->y - 1.8f, p->z };
+
+        DrawModelEx(tux, pos,
+                    (Vector3){0, 1, 0},
+                    p->yaw * RAD2DEG,
+                    (Vector3){0.061f, 0.061f, 0.061f},
+                    WHITE);
+
+        Vector2 screenPos = GetWorldToScreen(
+            (Vector3){p->x, p->y + 0.4f, p->z}, camera);
+        DrawText(TextFormat("id=%u\nx=%.1f y=%.1f z=%.1f\nyaw=%.2f pitch=%.2f",
+                            p->client_id,
+                            p->x, p->y, p->z,
+                            p->yaw, p->pitch),
+                 (int)screenPos.x, (int)screenPos.y, 10, WHITE);
+    }
 }
 
 void updateGameplay(void) {
@@ -169,14 +241,11 @@ void updateGameplay(void) {
     lookDir.z = cosf(pitch) * cosf(yaw);
     lookDir = Vector3Normalize(lookDir);
 
-    Vector3 forward = lookDir;
-    forward.y = 0;
+    Vector3 forward = lookDir; forward.y = 0;
     forward = Vector3Normalize(forward);
-
     Vector3 right = Vector3Normalize(Vector3CrossProduct(forward, camera.up));
 
-    Vector3 move = (Vector3){0};
-
+    Vector3 move = {0};
     if (IsKeyDown(KEY_W)) move = Vector3Add(move, forward);
     if (IsKeyDown(KEY_S)) move = Vector3Subtract(move, forward);
     if (IsKeyDown(KEY_A)) move = Vector3Subtract(move, right);
@@ -195,10 +264,7 @@ void updateGameplay(void) {
     velocityY += gravity * GetFrameTime();
     playerY += velocityY;
 
-    if (playerY < 1.8f) {
-        playerY = 1.8f;
-        velocityY = 0.0f;
-    }
+    if (playerY < 1.8f) { playerY = 1.8f; velocityY = 0.0f; }
 
     camera.position.y = playerY;
 
@@ -210,13 +276,23 @@ void updateGameplay(void) {
 
     camera.target = Vector3Add(camera.position, lookDir);
 
-    if (hasMoved || velocityY != 0.0f)
-        netSendMove(camera.position.x, camera.position.y, camera.position.z);
+    bool hasRotated = fabsf(yaw - lastYaw) > 0.001f ||
+                      fabsf(pitch - lastPitch) > 0.001f;
+    lastYaw = yaw;
+    lastPitch = pitch;
+
+    if (hasMoved || velocityY != 0.0f || hasRotated)
+        netSendMove(camera.position.x, camera.position.y, camera.position.z,
+                    yaw, pitch);
 
     netPoll();
 }
 
 void destroyGameplay(void) {
     netDisconnect();
+    if (g_isHost) sem_destroy(&g_serverReady);
+    g_isHost = 1;
+    strncpy(g_serverHost, "127.0.0.1", sizeof(g_serverHost));
+    g_serverPort = 2201;
     EnableCursor();
 }

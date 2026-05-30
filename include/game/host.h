@@ -17,15 +17,15 @@
  */
 
 /**
- * @file singleplayer.h
- * @brief File containing the stuff for the singleplayer menu
+ * @file host.h
+ * @brief File containing the stuff for the host menu
  */
 
-#ifndef SINGLEPLAYER_H
-#define SINGLEPLAYER_H
+#ifndef HOST_H
+#define HOST_H
 
-void menuSetupSingleplayer(void);
-void menuDrawSingleplayer(void);
-void menuUpdateSingleplayer(void);
+void menuSetupHost(void);
+void menuDrawHost(void);
+void menuUpdateHost(void);
 
-#endif // SINGLEPLAYER_H
+#endif // HOST_H

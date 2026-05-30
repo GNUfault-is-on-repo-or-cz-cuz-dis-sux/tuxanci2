@@ -17,8 +17,8 @@
  */
 
 /**
- * @file singleplayer.c
- * @brief File containing the stuff for the singleplayer menu
+ * @file host.c
+ * @brief File containing the stuff for the host menu
  */
 
 #include "raylib.h"
@@ -43,7 +43,7 @@ static Button startBtn;
 static List mapList;
 
 /// @brief Setup Button, list, and play music (use in screen.c only)
-void menuSetupSingleplayer(void) {
+void menuSetupHost(void) {
     backBtn = buttonCreate(_("Back"), Ux(0.303f), Uy(0.75f), Uy(0.14f), Uy(0.047f));
     startBtn = buttonCreate(_("Start"), Ux(0.618f), Uy(0.75f), Uy(0.14f), Uy(0.047f));
 
@@ -59,8 +59,8 @@ void menuSetupSingleplayer(void) {
 }
 
 /// @brief Draw Button, map list, and preview image (use in screen.c only)
-void menuDrawSingleplayer(void) {
-    menuDraw(_("Singleplayer"));
+void menuDrawHost(void) {
+    menuDraw(_("Host Server"));
     buttonDraw(&backBtn);
     buttonDraw(&startBtn);
     listDraw(&mapList);
@@ -93,7 +93,7 @@ void menuDrawSingleplayer(void) {
 }
 
 /// @brief Update music, list, and Buttons
-void menuUpdateSingleplayer(void) {
+void menuUpdateHost(void) {
     listCheck(&mapList);
 
     if (buttonPressed(&backBtn))

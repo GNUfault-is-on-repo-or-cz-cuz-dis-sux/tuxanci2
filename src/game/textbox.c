@@ -69,11 +69,6 @@ void textBoxDraw(TextBox *t) {
     Color bg = t->focused ? t->focusColor : t->baseColor;
     DrawRectangleRec(t->rect, bg);
 
-    Color border = t->focused
-        ? (Color){160, 160, 160, 255}
-        : (Color){180, 180, 180, 180};
-    DrawRectangleLinesEx(t->rect, 1, border);
-
     int textY = (int)(t->rect.y
                     + (t->rect.height - t->fontSize) / 2.0f);
 

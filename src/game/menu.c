@@ -29,9 +29,10 @@
 #include "game/mainmenu.h"
 #include "game/play.h"
 #include "game/screen.h"
-#include "game/singleplayer.h"
+#include "game/host.h"
 #include "game/window.h"
 #include "game/bg.h"
+#include "game/join.h"
 
 /// @brief Set the starting menu
 GameMenu currentMenu = NO_MENU;
@@ -39,7 +40,8 @@ GameMenu currentMenu = NO_MENU;
 /// @brief Setup menu screen (only use in screen.h)
 void setupMenuScreen(void) {
     menuSetupPlay();
-    menuSetupSingleplayer();
+    menuSetupHost();
+    menuSetupJoin();
 }
 
 /// @brief Update/Tick menu
@@ -100,8 +102,12 @@ void drawMenuScreen(void) {
             menuDrawPlay();
             break;
         }
-        case SINGLEPLAYER: {
-            menuDrawSingleplayer();
+        case HOST: {
+            menuDrawHost();
+            break;
+        }
+        case JOIN: {
+            menuDrawJoin();
             break;
         }
         case NO_MENU:
@@ -119,8 +125,12 @@ void updateMenuScreen(void) {
             menuUpdatePlay();
             break;
         }
-        case SINGLEPLAYER: {
-            menuUpdateSingleplayer();
+        case HOST: {
+            menuUpdateHost();
+            break;
+        }
+        case JOIN: {
+            menuUpdateJoin();
             break;
         }
         case NO_MENU:

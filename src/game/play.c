@@ -32,17 +32,21 @@
 /// @brief Back Button
 static Button backBtn;
 
-/// @brief Singleplayer Button
-static Button singleplayerBtn;
+/// @brief Host Button
+static Button hostBtn;
 
 /// @brief Story mode Button;
 static Button storymodeBtn;
 
+/// @brief Join Button;
+static Button joinBtn;
+
 /// @brief Setup Button and play music (use in screen.c only)
 void menuSetupPlay(void) {
     backBtn = buttonCreate(_("Back"), Ux(0.303f), Uy(0.75f), Uy(0.14f), Uy(0.047f));
-    singleplayerBtn = buttonCreate(_("Singleplayer"), Ux(0.45f), Uy(0.4f), Uy(0.15f), Uy(0.15f));
-    storymodeBtn = buttonCreate(_("Story Mode"), Ux(0.5f), Uy(0.4f), Uy(0.15f), Uy(0.15f));
+    hostBtn = buttonCreate(_("Host Server"), Ux(0.35f), Uy(0.4f), Uy(0.15f), Uy(0.15f));
+    joinBtn = buttonCreate(_("Join Game"), Ux(0.45f), Uy(0.4f), Uy(0.15f), Uy(0.15f));
+    storymodeBtn = buttonCreate(_("Story Mode"), Ux(0.55f), Uy(0.4f), Uy(0.15f), Uy(0.15f));
 }
 
 /// @brief Draw Button (use in screen.c only)
@@ -53,8 +57,9 @@ void menuDrawPlay(void) {
     DrawTextEx(fontSubheader, _("Select the the mode you want to play:"), pos, 24, 0, BLACK);
 
     buttonDraw(&backBtn);
-    buttonDraw(&singleplayerBtn);
+    buttonDraw(&hostBtn);
     buttonDraw(&storymodeBtn);
+    buttonDraw(&joinBtn);
 }
 
 /// @brief Update music and update Buttons
@@ -64,8 +69,11 @@ void menuUpdatePlay(void) {
         screenEnter(MAINMENU);
     }
 
-    if (buttonPressed(&singleplayerBtn))
-        menuEnter(SINGLEPLAYER);
+    if (buttonPressed(&hostBtn))
+        menuEnter(HOST);
+
+    if (buttonPressed(&joinBtn))
+        menuEnter(JOIN);
 
     if (buttonPressed(&storymodeBtn))
         screenEnter(STORY);

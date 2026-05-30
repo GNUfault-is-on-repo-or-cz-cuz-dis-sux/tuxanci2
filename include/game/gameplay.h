@@ -28,5 +28,6 @@ void setupGameplay(void);
 void drawGameplay(void);
 void drawGameplay3D(void);
 void updateGameplay(void);
+void gameplaySetServer(const char *host, int port);
 
 #endif // GAMEPLAY_H
