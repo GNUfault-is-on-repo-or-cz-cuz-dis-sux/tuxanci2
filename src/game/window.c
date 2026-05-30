@@ -42,6 +42,7 @@ int windowFPS;
 /// @param title Title of the window
 void windowInit() {
     TraceLog(LOG_INFO, "Initializing window");
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(1, 1, WINDOW_TITLE);
     ToggleFullscreen();
     SetExitKey(KEY_NULL);
