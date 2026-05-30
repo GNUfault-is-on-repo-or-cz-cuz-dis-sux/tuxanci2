@@ -21,6 +21,18 @@ file(GLOB SERVER_SOURCES "${CMAKE_SOURCE_DIR}/src/server/*.c")
 if(ENABLE_DEBUG)
     message(STATUS "ENABLE_DEBUG is ON")
     add_compile_options(-Oz -g -Wall -Wextra -pedantic -pipe)
+    target_compile_definitions(${TARGET_NAME} PRIVATE ENABLE_DEBUG=1)
+
+    execute_process(
+        COMMAND ${CMAKE_C_COMPILER} -print-file-name=libbacktrace.a
+        OUTPUT_VARIABLE LIBBACKTRACE_PATH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    execute_process(
+        COMMAND ${CMAKE_C_COMPILER} -print-file-name=include
+        OUTPUT_VARIABLE GCC_INCLUDE_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 else()
     message(STATUS "ENABLE_DEBUG is OFF")
     add_compile_options(-Oz -Wall -Wextra -pedantic -pipe)
@@ -113,21 +125,6 @@ if(NOT ENABLE_SERVER)
 else()
     set(TARGET_NAME ${PROJECT_NAME}_server)
     add_executable(${TARGET_NAME} ${CORE_SOURCES} ${SERVER_SOURCES})
-endif()
-
-if(ENABLE_DEBUG)
-    target_compile_definitions(${TARGET_NAME} PRIVATE ENABLE_DEBUG=1)
-
-    execute_process(
-        COMMAND ${CMAKE_C_COMPILER} -print-file-name=libbacktrace.a
-        OUTPUT_VARIABLE LIBBACKTRACE_PATH
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    execute_process(
-        COMMAND ${CMAKE_C_COMPILER} -print-file-name=include
-        OUTPUT_VARIABLE GCC_INCLUDE_DIR
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
 endif()
 
 if(NOT ENABLE_SERVER)
