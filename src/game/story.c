@@ -17,7 +17,7 @@
  */
 
 /**
- * @file singleplayer.c
+ * @file story.c
  * @brief Story mode
  */
 

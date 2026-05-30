@@ -48,14 +48,6 @@ void menuSetupHost(void) {
     startBtn = buttonCreate(_("Start"), Ux(0.618f), Uy(0.75f), Uy(0.14f), Uy(0.047f));
 
     mapList = listCreate(Ux(0.31f), Uy(0.235f), Uy(0.25f), Uy(0.5f));
-
-/* 
-    for (int i = 0; i < t2aMaps.count; i++)
-        listAdd(&mapList, t2aMaps.arenas[i].arenaName);
-
-    for (int i = 0; i < legacyMaps.count; i++)
-        listAdd(&mapList, legacyMaps.arenas[i].name);
- */  
 }
 
 /// @brief Draw Button, map list, and preview image (use in screen.c only)
@@ -64,32 +56,6 @@ void menuDrawHost(void) {
     buttonDraw(&backBtn);
     buttonDraw(&startBtn);
     listDraw(&mapList);
-
-/*    
-    int idx = mapList.selectedIndex;
-    if (idx >= 0 && idx < (t2aMaps.count + legacyMaps.count)) {
-        Texture2D preview;
-        const char *description = NULL;
-        if (idx < t2aMaps.count) {
-            preview = t2aMaps.arenas[idx].arenaImage;
-            description = t2aMaps.arenas[idx].arenaDesc;
-        } else {
-            int legacyIdx = idx - t2aMaps.count;
-            preview = legacyMaps.arenas[legacyIdx].screen;
-            description = "Legacy arena";
-        }
-
-        Rectangle sourceRec = { 0.0f, 0.0f, (float)preview.width, (float)preview.height };
-        
-        Rectangle destRec = { Ux(0.49f), Uy(0.24f), 320.0f, 240.0f };
-        
-        Vector2 origin = { 0.0f, 0.0f };
-
-        DrawTexturePro(preview, sourceRec, destRec, origin, 0.0f, WHITE);
-        
-        descDraw(Ux(0.465f), Uy(0.48f), Uy(0.4f), Uy(0.25f), description);
-    }
- */
 }
 
 /// @brief Update music, list, and Buttons

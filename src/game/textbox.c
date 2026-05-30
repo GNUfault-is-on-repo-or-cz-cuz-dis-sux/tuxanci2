@@ -92,7 +92,7 @@ void textBoxUpdate(TextBox *t) {
             GetMousePosition(), t->rect);
 
         if (t->focused) {
-            t->cursorTimer   = 0.0f;
+            t->cursorTimer = 0.0f;
             t->cursorVisible = true;
         }
     }
@@ -103,14 +103,14 @@ void textBoxUpdate(TextBox *t) {
 
     t->cursorTimer += GetFrameTime();
     if (t->cursorTimer >= CURSOR_BLINK_RATE) {
-        t->cursorTimer   = 0.0f;
+        t->cursorTimer = 0.0f;
         t->cursorVisible = !t->cursorVisible;
     }
 
     if ((IsKeyPressed(KEY_BACKSPACE) || IsKeyPressedRepeat(KEY_BACKSPACE))
             && t->length > 0) {
         t->buffer[--t->length] = '\0';
-        t->cursorTimer   = 0.0f;
+        t->cursorTimer = 0.0f;
         t->cursorVisible = true;
         return;
     }
@@ -121,8 +121,8 @@ void textBoxUpdate(TextBox *t) {
             break;
         }
         t->buffer[t->length++] = (char)ch;
-        t->buffer[t->length]   = '\0';
-        t->cursorTimer   = 0.0f;
+        t->buffer[t->length] = '\0';
+        t->cursorTimer = 0.0f;
         t->cursorVisible = true;
     }
 }
