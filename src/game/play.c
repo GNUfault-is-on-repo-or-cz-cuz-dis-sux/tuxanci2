@@ -63,10 +63,10 @@ void menuUpdatePlay(void) {
         menuEnter(NO_MENU);
         screenEnter(MAINMENU);
     }
-    if (buttonPressed(&singleplayerBtn)) {
+
+    if (buttonPressed(&singleplayerBtn))
         menuEnter(SINGLEPLAYER);
-    }
-    if (buttonPressed(&storymodeBtn)) {
+
+    if (buttonPressed(&storymodeBtn))
         screenEnter(STORY);
-    }
 }

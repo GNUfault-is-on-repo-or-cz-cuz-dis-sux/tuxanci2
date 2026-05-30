@@ -37,7 +37,6 @@
 #include "game/camera.h"
 #include "core/arguments.h"
 #include "core/watchdog.h"
-#include "game/client.h"
 #include <stdlib.h>
 
 static void mainInit(int argc, char *argv[]) {
@@ -64,12 +63,8 @@ static void mainInit(int argc, char *argv[]) {
     screenEnter(MAINMENU);
 
     cameraInit();
-
-    clientInit();
-
+    
     watchdogInit(argv[0]);
-
-    clientConnect("127.0.0.1", 2201);
 }
 
 static void mainUpdate(void) {
@@ -95,7 +90,6 @@ void mainDestroy(void) {
     TraceLog(LOG_INFO, "Exiting");
     configDestroy();
     commonDestroy();
-    clientDestroy();
     CloseWindow();
     exit(0);
 }

@@ -36,7 +36,7 @@ extern Sound hover;
 extern Sound back;
 extern Sound menuopen;
 extern Sound menuclose;
-extern Sound select;
+//extern Sound select;
 extern Texture2D explosions;
 extern Model tux;
 extern ModelAnimation *tuxanims;

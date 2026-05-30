@@ -30,6 +30,8 @@
 #include "game/screen.h"
 #include "game/desc.h"
 #include "game/window.h"
+#include "core/server.h"
+#include "game/bg.h"
 
 /// @brief Back Button
 static Button backBtn;

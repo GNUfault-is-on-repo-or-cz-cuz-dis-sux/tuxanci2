@@ -44,7 +44,7 @@ static void *watchdogThread(void *arg) {
     int lastHeartbeat = 0;
 
     while (atomic_load(&watchdogRunning)) {
-        usleep(100000); // 100ms
+        usleep(1000000);
         int current = atomic_load(&watchdogHeartbeat);
         if (current == lastHeartbeat) {
 #ifndef ENABLE_SERVER

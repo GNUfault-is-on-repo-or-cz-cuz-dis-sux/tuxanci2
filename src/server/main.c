@@ -1,6 +1,6 @@
 #include "core/arguments.h"
 #include "core/watchdog.h"
-#include "server/server.h"
+#include "core/server.h"
 #include <stdlib.h>
 
 static void mainInit(const char *argv1) {

@@ -29,8 +29,7 @@ void serverUpdate(void) {
     struct sockaddr_in client;
     socklen_t len = sizeof(client);
 
-    int n = recvfrom(g_serverSock, buffer, sizeof(buffer), MSG_DONTWAIT,
-                     (struct sockaddr*)&client, &len);
+    int n = recvfrom(g_serverSock, buffer, sizeof(buffer), MSG_DONTWAIT, (struct sockaddr*)&client, &len);
 
     if (n <= 0)
         return;
@@ -39,23 +38,33 @@ void serverUpdate(void) {
         struct ConnectPacket *pkt = (struct ConnectPacket*)buffer;
 
         if (pkt->magic == CONNECT_MAGIC) {
-            printf("Client connected from %s:%d\n",
-                   inet_ntoa(client.sin_addr),
-                   ntohs(client.sin_port));
-
             struct ConnectedPacket w = {
                 .magic = CONNECTED_MAGIC,
                 .client_id = g_nextClientId++
             };
 
-            sendto(g_serverSock, &w, sizeof(w), 0,
-                   (struct sockaddr*)&client, len);
-
+            sendto(g_serverSock, &w, sizeof(w), 0, (struct sockaddr*)&client, len);
             return;
         }
     }
 
-    // TODO: handle gameplay packets later
+    if (n == sizeof(struct MovePacket)) {
+        struct MovePacket *pkt = (struct MovePacket*)buffer;
+
+        if (pkt->magic == MOVE_MAGIC) {
+            struct MoveAckPacket ack = {
+                .magic = MOVE_ACK_MAGIC,
+                .client_id = pkt->client_id,
+                .x = pkt->x,
+                .y = pkt->y,
+                .z = pkt->z,
+                .sequence = 0
+            };
+
+            sendto(g_serverSock, &ack, sizeof(ack), 0, (struct sockaddr*)&client, len);
+            return;
+        }
+    }
 }
 
 void serverDestroy(void) {

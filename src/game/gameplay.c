@@ -21,6 +21,14 @@
  * @brief Gameplay related stuff
  */
 
+#include <stdio.h>
+#include <string.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <semaphore.h>
 #include "raylib.h"
 #include "raymath.h"
 #include "game/screen.h"
@@ -28,6 +36,11 @@
 #include "game/camera.h"
 #include "game/files.h"
 #include "game/window.h"
+#include "core/network.h"
+#include "core/server.h"
+
+#define SERVER_HOST "127.0.0.1"
+#define SERVER_PORT 2201
 
 static float yaw = 0.0f;
 static float pitch = 0.0f;
@@ -37,10 +50,99 @@ static float velocityY = 0.0f;
 static const float gravity = -0.4f;
 static const float jumpStrength = 0.15f;
 
+static int g_sock = -1;
+static uint32_t g_clientId = 0;
+static struct sockaddr_in g_server;
+
+static sem_t g_serverReady;
+
+static void* serverThread(void* arg) {
+    serverInit(SERVER_PORT);
+    sem_post(&g_serverReady);
+
+    while (1)
+        serverUpdate();
+
+    serverDestroy();
+    return NULL;
+}
+
+static void netConnect(void) {
+    g_sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (g_sock < 0) {
+        perror("socket");
+        return;
+    }
+
+    memset(&g_server, 0, sizeof(g_server));
+    g_server.sin_family = AF_INET;
+    g_server.sin_port = htons(SERVER_PORT);
+    inet_pton(AF_INET, SERVER_HOST, &g_server.sin_addr);
+
+    sem_wait(&g_serverReady);
+
+    struct ConnectPacket pkt = { .magic = CONNECT_MAGIC };
+    sendto(g_sock, &pkt, sizeof(pkt), 0,
+           (struct sockaddr*)&g_server, sizeof(g_server));
+
+    struct timeval tv = { .tv_sec = 0, .tv_usec = 500000 };
+    setsockopt(g_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+
+    uint8_t buf[64];
+    ssize_t n = recv(g_sock, buf, sizeof(buf), 0);
+    if (n == (ssize_t)sizeof(struct ConnectedPacket)) {
+        struct ConnectedPacket *reply = (struct ConnectedPacket*)buf;
+        if (reply->magic == CONNECTED_MAGIC) {
+            g_clientId = reply->client_id;
+        }
+    }
+
+    tv.tv_usec = 0;
+    setsockopt(g_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+}
+
+static void netSendMove(float x, float y, float z) {
+    if (g_sock < 0 || g_clientId == 0) return;
+
+    struct MovePacket pkt = {
+        .magic = MOVE_MAGIC,
+        .client_id = g_clientId,
+        .x = x, .y = y, .z = z
+    };
+    sendto(g_sock, &pkt, sizeof(pkt), 0, (struct sockaddr*)&g_server, sizeof(g_server));
+}
+
+static void netPoll(void) {
+    if (g_sock < 0) return;
+
+    uint8_t buf[256];
+    ssize_t n;
+    while ((n = recv(g_sock, buf, sizeof(buf), MSG_DONTWAIT)) > 0) {
+        if (n == (ssize_t)sizeof(struct MoveAckPacket)) {
+            // Server-authoritative position reconciliation goes here later.
+            // For now, just silently accept the ack.
+        }
+    }
+}
+
+static void netDisconnect(void) {
+    if (g_sock >= 0) {
+        close(g_sock);
+        g_sock = -1;
+        g_clientId = 0;
+    }
+}
+
 void setupGameplay(void) {
+    pthread_t server;
+
     bgmStop();
     DisableCursor();
     cameraMode = CAMERA_FIRST_PERSON;
+    
+    pthread_create(&server, NULL, serverThread, NULL);
+    
+    netConnect();
 }
 
 void drawGameplay(void) {
@@ -80,7 +182,8 @@ void updateGameplay(void) {
     if (IsKeyDown(KEY_A)) move = Vector3Subtract(move, right);
     if (IsKeyDown(KEY_D)) move = Vector3Add(move, right);
 
-    if (Vector3Length(move) > 0.01f)
+    bool hasMoved = Vector3Length(move) > 0.01f;
+    if (hasMoved)
         move = Vector3Scale(Vector3Normalize(move), speed);
 
     camera.position.x += move.x;
@@ -100,11 +203,20 @@ void updateGameplay(void) {
     camera.position.y = playerY;
 
     float half = 64.0f;
-
     if (camera.position.x < -half) camera.position.x = -half;
     if (camera.position.x > half) camera.position.x = half;
     if (camera.position.z < -half) camera.position.z = -half;
     if (camera.position.z > half) camera.position.z = half;
 
     camera.target = Vector3Add(camera.position, lookDir);
+
+    if (hasMoved || velocityY != 0.0f)
+        netSendMove(camera.position.x, camera.position.y, camera.position.z);
+
+    netPoll();
+}
+
+void destroyGameplay(void) {
+    netDisconnect();
+    EnableCursor();
 }
