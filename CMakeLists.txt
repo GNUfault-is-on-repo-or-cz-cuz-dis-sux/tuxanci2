@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
-add_compile_definitions(_BSD_SOURCE)
+add_compile_definitions(_DEFAULT_SOURCE)
 
 project(tuxanci2 LANGUAGES C)
 
 option(ENABLE_DEBUG "Enable debug menus and stuff" OFF)
 option(ENABLE_SERVER "Enable building server" OFF)
+option(ENABLE_TESTS "Enable building tests" ON)
 
 include(ExternalProject)
 
@@ -37,12 +38,29 @@ else()
     add_compile_options(-Oz -Wall -Wextra -pedantic -pipe)
 endif()
 
+if(ENABLE_TESTS)
+    message(STATUS "ENABLE_TESTS is ON")
+    
+    enable_testing()
+
+    add_executable(tuxanci2-test src/tests/test.c)
+    add_test(NAME tuxanci2-test COMMAND tuxanci2-test)
+else()
+    message(STATUS "ENABLE_TESTS is OFF")
+endif()
+
 if(NOT ENABLE_SERVER)
     # raylib
     set(CMAKE_BUILD_TYPE Release)
     set(CUSTOMIZE_BUILD ON)
     set(USE_EXTERNAL_GLFW OFF)
-    set(PLATFORM Desktop)
+    
+    if(EMSCRIPTEN)
+        set(PLATFORM Web)
+    else()
+        set(PLATFORM Desktop)
+    endif()
+
     set(OPENGL_VERSION 2.1)
     set(BUILD_EXAMPLES OFF)
     set(GLFW_BUILD_WAYLAND ON)
