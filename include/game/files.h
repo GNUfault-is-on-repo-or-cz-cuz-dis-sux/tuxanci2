@@ -40,6 +40,8 @@ extern Sound tuxtalk;
 extern Sound sting;
 extern Model nolok;
 extern Sound noloktalk;
+extern Model sky;
+extern Texture2D ground;
 
 void commonLoad(void);
 void commonDestroy(void);

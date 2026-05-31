@@ -58,13 +58,13 @@ static void mainInit(int argc, char *argv[]) {
     
     commonLoad();
 
-    configInit();
-
-    screenEnter(MAINMENU);
-
     cameraInit();
     
+    configInit();
+
     watchdogInit(argv[0]);
+    
+    screenEnter(MAINMENU);
 }
 
 static void mainUpdate(void) {
@@ -77,7 +77,6 @@ static void mainUpdate(void) {
 }
 
 static void mainDraw(void) {
-    ClearBackground(BLACK);
     screenDraw();
 }
 
@@ -102,11 +101,13 @@ int main(int argc, char *argv[]) {
         mainUpdate();
 
         BeginDrawing();
-            mainDraw();
-           
+            ClearBackground(BLACK);
+            
             BeginMode3D(camera);
                 mainDraw3D();
-            EndMode3D();
+            EndMode3D();    
+        
+            mainDraw();
         EndDrawing();
     }
 

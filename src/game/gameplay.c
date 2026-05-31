@@ -32,6 +32,7 @@
 #include <semaphore.h>
 #include "raylib.h"
 #include "raymath.h"
+#include "rlgl.h"
 #include "game/screen.h"
 #include "game/bgm.h"
 #include "game/camera.h"
@@ -74,6 +75,8 @@ static uint32_t g_clientId = 0;
 static struct sockaddr_in g_server;
 static sem_t g_serverReady;
 
+Model plane;
+
 static void *serverThread(void *arg) {
     (void)arg;
     serverInit(g_serverPort);
@@ -110,7 +113,7 @@ static void netConnect(void) {
             g_clientId = reply->client_id;
         }
     }
-    
+
     tv.tv_sec = tv.tv_usec = 0;
     setsockopt(g_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 }
@@ -187,6 +190,16 @@ void setupGameplay(void) {
     DisableCursor();
     cameraMode = CAMERA_FIRST_PERSON;
 
+    Mesh mesh = GenMeshPlane(128.0f, 128.0f, 1, 1);
+    plane = LoadModelFromMesh(mesh);
+
+    Image img = LoadImageFromTexture(ground);
+    ImageMipmaps(&img);
+    Texture2D ground2 = LoadTextureFromImage(img);
+    UnloadImage(img);
+
+    plane.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = ground2;
+
     if (g_isHost) {
         sem_init(&g_serverReady, 0, 0);
         pthread_t server;
@@ -197,12 +210,29 @@ void setupGameplay(void) {
     netConnect();
 }
 
+/// @brief Unused
 void drawGameplay(void) {
-    ClearBackground(SKYBLUE);
+    int size = 24;
+
+    DrawLine(Ux(0.5f) - size, Uy(0.5f), Ux(0.5f) - size / 4, Uy(0.5f), RED);
+    DrawLine(Ux(0.5f) + size / 4, Uy(0.5f), Ux(0.5f) + size, Uy(0.5f), RED);
+    DrawLine(Ux(0.5f), Uy(0.5f) - size, Ux(0.5f), Uy(0.5f) - size / 4, RED);
+    DrawLine(Ux(0.5f), Uy(0.5f) + size / 4, Ux(0.5f), Uy(0.5f) + size, RED);
 }
 
 void drawGameplay3D(void) {
-    DrawPlane((Vector3){0,0,0}, (Vector2){128,128}, GRAY);
+    rlDisableBackfaceCulling();
+        DrawModelEx(
+            sky,
+            (Vector3){0, 0, 0},
+            (Vector3){1, 0, 0},
+            90.0f,
+            (Vector3){256.0f, 256.0f, 256.0f},
+            WHITE
+        );
+    rlEnableBackfaceCulling();
+
+    DrawModel(plane, (Vector3){0, 0, 0}, 1.0f, WHITE);
 
     for (int i = 0; i < MAX_CLIENTS; i++) {
         if (!g_remotePlayers[i].active) continue;

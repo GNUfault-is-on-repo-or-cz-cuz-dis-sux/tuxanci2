@@ -71,6 +71,12 @@ Model nolok;
 /// @brief Nolok talking sound
 Sound noloktalk;
 
+/// @brief The sky
+Model sky;
+
+/// @brief The ground
+Texture2D ground;
+
 /// @brief Load files into RAM
 void commonLoad(void) {    
     TraceLog(LOG_INFO, "Loading all assets");
@@ -87,6 +93,8 @@ void commonLoad(void) {
     sting = LoadSound("data/story/sounds/sting.wav");
     nolok = LoadModel("data/gameplay/models/nolok.glb");
     noloktalk = LoadSound("data/story/sounds/nolok.wav");
+    sky = LoadModel("data/gameplay/models/sky.glb");
+    ground = LoadTexture("data/gameplay/images/ground.png");
 }
 
 /// @brief Free files in RAM
@@ -105,4 +113,6 @@ void commonDestroy(void) {
     UnloadSound(sting);
     UnloadModel(nolok);
     UnloadSound(noloktalk);
+    UnloadModel(sky);
+    UnloadTexture(ground);
 }
